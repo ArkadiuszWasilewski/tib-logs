@@ -1,5 +1,6 @@
 {
   "name": "react-app",
+  "homepage": "http://despire.pl/pokedex-tailwind/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
