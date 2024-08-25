@@ -4,7 +4,7 @@ import "./output.css";
 
 function App() {
   return (
-    <div className="bg-gray-600 flex justify-center">
+    <div className="bg-gray-700 flex justify-center">
       <Header />
       <div className="pt-[100px] text-white max-w-screen-lg">
         <PokemonCardContainer />
