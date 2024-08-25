@@ -1,6 +1,8 @@
 export default {
-  purge: ['./*.html', './src/**/*.{vue,js,ts,jsx,tsx,css}'],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './*.html', './src/**/*.{vue,js,ts,jsx,tsx,css}',
+    './public/index.html',
+  ],
   theme: {
     extend: {},
   },
