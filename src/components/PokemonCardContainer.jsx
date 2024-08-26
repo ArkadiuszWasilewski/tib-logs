@@ -4,11 +4,10 @@ import useFetch from "../hooks/useFetch";
 import SearchPokemon from "./SearchPokemon";
 
 const PokemonCardContainer = () => {
-  // TODO: parse data every offset~=20 to save memory/better performance
   const [offset, setOffset] = useState(0);
   const [detailedPokemonList, setDetailedPokemonList] = useState([]);
-  const limit = 9;
-  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
+  const limit = 4;
+  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1302`;
 
   const { data: fetchedPokemonData, loading, error } = useFetch(pokemonUrl);
 
@@ -20,17 +19,19 @@ const PokemonCardContainer = () => {
     const fetchDetailedPokemon = async () => {
       if (fetchedPokemonData) {
         const detailedData = await Promise.all(
-          fetchedPokemonData.results.map(async (pokemon) => {
-            const response = await fetch(pokemon.url);
-            return response.json();
-          })
+          fetchedPokemonData.results
+            .slice(offset, offset + limit)
+            .map(async (pokemon) => {
+              const response = await fetch(pokemon.url);
+              return response.json();
+            })
         );
         setDetailedPokemonList(detailedData);
       }
     };
 
     fetchDetailedPokemon();
-  }, [fetchedPokemonData]);
+  }, [fetchedPokemonData, offset]);
 
   console.log("Detailed data: ", detailedPokemonList);
 
@@ -49,7 +50,7 @@ const PokemonCardContainer = () => {
       </div>
       <div className="flex flex-wrap justify-center max-w-[700px]">
         {detailedPokemonList.map((pokemon) => (
-          <PokemonInfo pokemonInfo={pokemon} />
+          <PokemonInfo key={pokemon.name} pokemonInfo={pokemon} />
         ))}
       </div>
       <button
