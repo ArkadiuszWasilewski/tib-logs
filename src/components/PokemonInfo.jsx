@@ -27,7 +27,7 @@ const PokemonInfo = ({ pokemonInfo }) => {
     : typeColors.default;
   return pokemonInfo ? (
     <div
-      className="min-w-[200px] max-h-[550px] rounded-[25px] mx-2 my-2 text-xs px-2 py-2"
+      className="flex flex-col justify-center w-[200px] h-[330px] rounded-[25px] mx-2 my-2 text-xs px-2 py-2"
       style={{
         backgroundImage: `linear-gradient(120deg, ${backgroundColorClass}, transparent)`,
       }}
@@ -35,7 +35,7 @@ const PokemonInfo = ({ pokemonInfo }) => {
       <img
         src={pokemonInfo.sprites.other["official-artwork"].front_default}
         alt={`${pokemonInfo.name} front default sprite`}
-        className="w-[100px]"
+        className="max-w-[100px] m-auto"
       />
       <h2 className="capitalize font-bold">{pokemonInfo.name}</h2>
       <p>ID: {pokemonInfo.id}</p>

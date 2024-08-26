@@ -8,27 +8,19 @@ const SearchPokemon = ({ data }) => {
   const findPokemon = (input) => {
     const lowercasedInput = input.toLowerCase();
     if (isNaN(lowercasedInput)) {
-      return (
-        flattenedPokemonData.find((item) => item.name === lowercasedInput) ||
-        null
-      );
+      return data.find((item) => item.name === lowercasedInput) || null;
     } else {
-      return flattenedPokemonData[Number(lowercasedInput) - 1] || null;
+      return data[Number(lowercasedInput) - 1] || null;
     }
   };
 
   // Handle search button click
   const handleSearch = async () => {
-    if (flattenedPokemonData.length === 0) return;
-    const pokemon = findPokemon(searchInput);
-    if (pokemon) {
-      const pokemonUrl = `${pokemon.url}`;
-      const res = await fetch(pokemonUrl);
-      const data = await res.json();
-      console.log(pokemon.url);
+    if (data) {
+      const pokemon = findPokemon(searchInput);
+      console.log("I find: ", pokemon);
     }
   };
-
   // Handle enter key press
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -37,7 +29,7 @@ const SearchPokemon = ({ data }) => {
   };
 
   return (
-    <div className="w-72 h-10 flex ">
+    <div className="flex w-72 h-10 ">
       <div className="relative w-full min-w-[200px] h-10">
         <input
           className="bg-white w-full text-black peer h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"

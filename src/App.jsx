@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="bg-gray-700 flex justify-center">
       <Header />
-      <div className="pt-[100px] text-white max-w-screen-lg">
+      <div className="pt-[90px] text-white max-w-[800px]">
         <PokemonCardContainer />
       </div>
     </div>
