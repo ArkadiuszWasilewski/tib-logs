@@ -7,7 +7,7 @@ import ButtonType from "./ButtonType";
 
 const PokemonCardContainer = () => {
   const limit = 9;
-  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1302`;
+  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=500`; //temp limit
   const { data: fetchedPokemonData, loading, error } = useFetch(pokemonUrl);
 
   const [selectedType, setSelectedType] = useState(null);
@@ -25,7 +25,10 @@ const PokemonCardContainer = () => {
   return (
     <>
       <div className="flex items-center justify-around">
-        <ButtonType setSelectedType={setSelectedType} />
+        <ButtonType
+          selectedHighlight={selectedType}
+          setSelectedType={setSelectedType}
+        />
         <SearchPokemon data={fetchedPokemonData.results} />
       </div>
       <div className="flex flex-wrap justify-center max-w-screen float-left">

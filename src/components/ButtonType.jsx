@@ -19,7 +19,7 @@ import psychicIcon from "../assets/types/psychic.svg";
 import rockIcon from "../assets/types/rock.svg";
 import steelIcon from "../assets/types/steel.svg";
 
-const ButtonType = ({ setSelectedType }) => {
+const ButtonType = ({ setSelectedType, selectedHighlight }) => {
   const pokemonTypeIcon = {
     fire: fireIcon,
     water: waterIcon,
@@ -48,7 +48,11 @@ const ButtonType = ({ setSelectedType }) => {
           <li className="inline-block" key={type}>
             <button onClick={() => setSelectedType(type)}>
               <img
-                className="w-[30px] h-[30px]"
+                className={` ${
+                  selectedHighlight === type
+                    ? "w-[50px] h-[50px]"
+                    : "w-[30px] h-[30px]"
+                }`}
                 title={type}
                 src={pokemonTypeIcon[type]}
                 alt={`${type} icon`}
