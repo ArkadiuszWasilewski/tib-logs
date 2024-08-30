@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 const usePokemonDetails = (fetchedPokemonData, limit, selectedType) => {
-
     const [offset, setOffset] = useState(0);
     const [detailedPokemonList, setDetailedPokemonList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,9 +10,9 @@ const usePokemonDetails = (fetchedPokemonData, limit, selectedType) => {
           setLoading(true);
           try {
             if(fetchedPokemonData){
-              let filteredResults = fetchedPokemonData.results;
-              let tempList = []
+              
               if (selectedType === null) {
+                const filteredResults = fetchedPokemonData.results;
                 const detailedData = await Promise.all(
                   filteredResults
                     .slice(offset, offset + limit)
@@ -24,25 +23,23 @@ const usePokemonDetails = (fetchedPokemonData, limit, selectedType) => {
                 );
                 setDetailedPokemonList(detailedData);
               } else {
-                for (let i = 0; i<filteredResults.length; i++) {
-                  const pokemon = filteredResults[i];
-                  const response = await fetch(pokemon.url);
-                  const data = await response.json();
-                  if (data.types.some(typeInfo => typeInfo.type.name === selectedType)) {
-                    tempList.push(data);
-                  }
-  
-                }
-                setDetailedPokemonList(tempList);
+                const filteredResults = fetchedPokemonData.pokemon;
+                const detailedData = await Promise.all(
+                  filteredResults
+                    .slice(offset, offset + limit)
+                    .map(async ({pokemon}) => {
+                      const response = await fetch(pokemon.url);
+                      return response.json();
+                    })
+                ); 
+                setDetailedPokemonList(detailedData);
               }
             }
-          } catch {
+          } catch (err) {
             console.log("Error during loading...", err);
           } finally {
             setLoading(false);
           }
-
-          loading ? console.log("loading...") : console.log("Loaded");
         };
         fetchDetailedPokemon();
   }, [fetchedPokemonData, offset, limit, selectedType]);
@@ -58,6 +55,7 @@ const usePokemonDetails = (fetchedPokemonData, limit, selectedType) => {
   return {
     detailedPokemonList,
     offset,
+    loading,
     handleNextPage,
     handlePreviousPage,
   }

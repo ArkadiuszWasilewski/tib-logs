@@ -18,8 +18,9 @@ import poisonIcon from "../assets/types/poison.svg";
 import psychicIcon from "../assets/types/psychic.svg";
 import rockIcon from "../assets/types/rock.svg";
 import steelIcon from "../assets/types/steel.svg";
+import Button from "./Button";
 
-const ButtonType = ({ setSelectedType, selectedHighlight }) => {
+const TypeFilter = ({ setSelectedType, selectedHighlight }) => {
   const pokemonTypeIcon = {
     fire: fireIcon,
     water: waterIcon,
@@ -42,35 +43,29 @@ const ButtonType = ({ setSelectedType, selectedHighlight }) => {
   };
 
   return (
-    <div className="max-w-[300px] max-h-[120px] max-sm:float-left">
-      <ul>
-        {Object.keys(pokemonTypeIcon).map((type) => (
-          <li className="inline-block" key={type}>
-            <button onClick={() => setSelectedType(type)}>
-              <img
-                className={` ${
-                  selectedHighlight === type
-                    ? "w-[50px] h-[50px]"
-                    : "w-[30px] h-[30px]"
-                }`}
-                title={type}
-                src={pokemonTypeIcon[type]}
-                alt={`${type} icon`}
-              />
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div className="flex justify-center">
-        <button
-          onClick={() => setSelectedType(null)}
-          className="m-2 bg-red-500 text-white py-1 px-2 rounded"
-        >
-          Clear Filter
+    <div className="w-[650px] flex">
+      {Object.keys(pokemonTypeIcon).map((type) => (
+        <button onClick={() => setSelectedType(type)} key={type}>
+          <img
+            className={` ${
+              selectedHighlight === type
+                ? "w-[34px] h-[34px] m-[2px]"
+                : "w-[24px] h-[24px] m-[4px]"
+            }`}
+            title={type}
+            src={pokemonTypeIcon[type]}
+            alt={`${type} icon`}
+          />
         </button>
-      </div>
+      ))}
+      <Button
+        onClick={() => setSelectedType(null)}
+        custom="bg-red-500 hover:bg-red-700 max-w-[80px]"
+      >
+        Clear
+      </Button>
     </div>
   );
 };
 
-export default ButtonType;
+export default TypeFilter;

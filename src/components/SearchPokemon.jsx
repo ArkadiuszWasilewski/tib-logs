@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Button from "./Button";
 
 const SearchPokemon = ({ data }) => {
   const [flattenedPokemonData, setFlattenedPokemonData] = useState([]);
@@ -29,7 +30,7 @@ const SearchPokemon = ({ data }) => {
   };
 
   return (
-    <div className="flex w-72 h-10 ">
+    <div className="flex h-10 items-center justify-end gap-2">
       <div className="relative w-full min-w-[200px] h-10">
         <input
           className="bg-white w-full text-black peer h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
@@ -44,12 +45,7 @@ const SearchPokemon = ({ data }) => {
           Enter Pokémon name or ID
         </label>
       </div>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-        onClick={handleSearch}
-      >
-        Search
-      </button>
+      <Button onClick={handleSearch}> Search</Button>
     </div>
   );
 };
