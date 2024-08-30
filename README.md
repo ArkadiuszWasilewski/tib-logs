@@ -1,5 +1,4 @@
 # Pokedex Web Application
-https://github.com/ArkadiuszWasilewski/pokedex-app/blob/main/image.png?raw=true
 
 ## Frontend
 - **React**
@@ -12,3 +11,5 @@ https://github.com/ArkadiuszWasilewski/pokedex-app/blob/main/image.png?raw=true
 - **Express.js**
 - **NeDB**
 - **API Integration**
+
+![snapshot](https://github.com/ArkadiuszWasilewski/pokedex-app/blob/main/image.png?raw=true)
