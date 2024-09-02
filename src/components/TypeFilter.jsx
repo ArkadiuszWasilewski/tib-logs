@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import fireIcon from "../assets/types/fire.svg";
 import waterIcon from "../assets/types/water.svg";
 import bugIcon from "../assets/types/bug.svg";
@@ -18,7 +17,7 @@ import poisonIcon from "../assets/types/poison.svg";
 import psychicIcon from "../assets/types/psychic.svg";
 import rockIcon from "../assets/types/rock.svg";
 import steelIcon from "../assets/types/steel.svg";
-import Button from "./Button";
+import Button from "./ui/Button";
 
 const TypeFilter = ({ setSelectedType, selectedHighlight }) => {
   const pokemonTypeIcon = {

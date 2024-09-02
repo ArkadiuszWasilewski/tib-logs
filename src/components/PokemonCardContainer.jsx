@@ -4,15 +4,14 @@ import useFetch from "../hooks/useFetch";
 import SearchPokemon from "./SearchPokemon";
 import usePokemonDetails from "../hooks/usePokemonDetails";
 import TypeFilter from "./TypeFilter";
-import Button from "./Button";
+import Button from "./ui/Button";
 
 const PokemonCardContainer = () => {
-  const limit = 6;
-  const [offset, setOffset] = useState(0);
+  const limit = 9;
   const [selectedType, setSelectedType] = useState(null);
   const [fullListOfPokemons, setFullListOfPokemons] = useState([]);
 
-  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=1302`; //temp limit
+  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1302`; //temp limit
   const pokemonTypeUrl = `https://pokeapi.co/api/v2/type/`;
 
   const dynamicPokemonUrl = selectedType
@@ -32,15 +31,12 @@ const PokemonCardContainer = () => {
     }
   }, [fetchedPokemonData]); // Only run when fetchedPokemonData changes
 
-  // Reset offset when selectedType changes
-  useEffect(() => {
-    setOffset(0);
-  }, [selectedType]);
-
   const { detailedPokemonList, handleNextPage, handlePreviousPage } =
     usePokemonDetails(fetchedPokemonData, limit, selectedType);
 
-  if (loading) return <p>Loading Data...</p>;
+  if (loading) {
+    return console.log("Loading...");
+  }
   // if (error) return <p>Error loading data...</p>;
 
   return (

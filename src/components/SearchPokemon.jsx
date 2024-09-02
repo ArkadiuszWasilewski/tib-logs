@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Button from "./Button";
+import React, { useState } from "react";
+import Button from "./ui/Button";
 
 const SearchPokemon = ({ data }) => {
-  const [flattenedPokemonData, setFlattenedPokemonData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
   //Find Pokemon by name or ID
