@@ -1,15 +1,9 @@
 # Pokedex Web Application
 
 ## Frontend
-- **React**
+
+- **React + Vite**
 - **Tailwind**
-- **Flowbite**
+- **Flowbite** components (form/header)
 - **API Integration** - PokeAPI
-
-## Backend
-- **Node.js**
-- **Express.js**
-- **NeDB**
-- **API Integration**
-
-![snapshot](https://github.com/ArkadiuszWasilewski/pokedex-app/blob/main/image.png?raw=true)
+- **Firebase** - authentication

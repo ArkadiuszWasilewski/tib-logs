@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "./ui/Button";
+import Button from "../../ui/Button";
 
 const SearchPokemon = ({ data }) => {
   const [searchInput, setSearchInput] = useState("");

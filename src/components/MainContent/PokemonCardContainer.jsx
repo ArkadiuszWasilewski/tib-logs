@@ -1,10 +1,10 @@
-import PokemonInfo from "./PokemonInfo";
+import PokemonInfo from "./CardContainer/PokemonInfo";
 import React, { useState, useEffect } from "react";
-import useFetch from "../hooks/useFetch";
-import SearchPokemon from "./SearchPokemon";
-import usePokemonDetails from "../hooks/usePokemonDetails";
-import TypeFilter from "./TypeFilter";
-import Button from "./ui/Button";
+import useFetch from "../../hooks/useFetch";
+import SearchPokemon from "./CardContainer/SearchPokemon";
+import usePokemonDetails from "../../hooks/usePokemonDetails";
+import TypeFilter from "./CardContainer/TypeFilter";
+import Button from "../ui/Button";
 
 const PokemonCardContainer = () => {
   const limit = 9;
