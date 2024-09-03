@@ -5,13 +5,15 @@ import SearchPokemon from "./CardContainer/SearchPokemon";
 import usePokemonDetails from "../../hooks/usePokemonDetails";
 import TypeFilter from "./CardContainer/TypeFilter";
 import Button from "../ui/Button";
+import Spinner from "../ui/Spinner";
+import Tabs from "./CardContainer/Tabs";
 
 const PokemonCardContainer = () => {
-  const limit = 9;
+  const limit = 6;
   const [selectedType, setSelectedType] = useState(null);
   const [fullListOfPokemons, setFullListOfPokemons] = useState([]);
 
-  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1302`; //temp limit
+  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1302`; // Temporary limit
   const pokemonTypeUrl = `https://pokeapi.co/api/v2/type/`;
 
   const dynamicPokemonUrl = selectedType
@@ -34,25 +36,38 @@ const PokemonCardContainer = () => {
   const { detailedPokemonList, handleNextPage, handlePreviousPage } =
     usePokemonDetails(fetchedPokemonData, limit, selectedType);
 
+  // Display loading placeholder
   if (loading) {
-    return console.log("Loading...");
+    return (
+      <div className="mx-auto min-h-[1060px] flex items-center justify-center">
+        <p>Loading...</p>
+        <Spinner />
+      </div>
+    );
   }
-  // if (error) return <p>Error loading data...</p>;
+
+  if (error) {
+    return <p>Error loading data...</p>;
+  }
 
   return (
-    <div className="mx-auto">
-      <TypeFilter
-        selectedHighlight={selectedType}
-        setSelectedType={setSelectedType}
-      />
-      <div className="mt-2 w-[300px] mx-auto">
-        <SearchPokemon data={fullListOfPokemons} />
-        <div className="flex w-[300px] space-x-1 mt-2">
-          <Button onClick={handlePreviousPage}>Previous</Button>
-          <Button onClick={handleNextPage}>Next</Button>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-2 w-[650px]">
+    <div className="mx-auto mt-[100px]">
+      {!loading && (
+        <>
+          <TypeFilter
+            selectedHighlight={selectedType}
+            setSelectedType={setSelectedType}
+          />
+          <div className="mt-2 w-[300px] mx-auto">
+            <SearchPokemon data={fullListOfPokemons} />
+            <div className="flex w-[300px] space-x-1 mt-2">
+              <Button onClick={handlePreviousPage}>Previous</Button>
+              <Button onClick={handleNextPage}>Next</Button>
+            </div>
+          </div>
+        </>
+      )}
+      <div className="grid grid-cols-3 gap-2 mt-10">
         {detailedPokemonList.map((pokemon) => (
           <PokemonInfo key={pokemon.name} pokemonInfo={pokemon} />
         ))}

@@ -35,7 +35,6 @@ export default function UpdateProfile() {
 
             <div>
               <LabelDashboard>Email: {currentUser.email}</LabelDashboard>
-
               <LabelDashboard>Name: </LabelDashboard>
             </div>
             <Link to="/pokedex-tailwind/update-profile">

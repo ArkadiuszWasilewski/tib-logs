@@ -1,7 +1,5 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import HeroSection from "./components/MainContent/HeroSection";
-import PokemonCardContainer from "./components/MainContent/PokemonCardContainer";
 import { AuthProvider } from "./context/AuthContext";
 import "./output.css";
 import {
@@ -12,7 +10,7 @@ import {
 } from "react-router-dom";
 import Login from "./components/LoginForm/Login";
 import Signup from "./components/LoginForm/Signup";
-import MainContent from "./components/MainContent/MainContent";
+import MainContent from "./components/MainContent";
 import ForgotPassword from "./components/LoginForm/ForgotPassword";
 import UpdateProfile from "./components/LoginForm/UpdateProfile";
 import PrivateRoute from "./components/LoginForm/PrivateRoute";
@@ -20,7 +18,7 @@ import Dashboard from "./components/LoginForm/Dashboard";
 
 function App() {
   return (
-    <div className="flex flex-col bg-gray-600 text-white min-h-screen">
+    <div className="flex flex-col bg-gray-200 dark:bg-gray-700 text-white dark:text-white min-h-screen">
       <Router>
         <AuthProvider>
           <Header />
