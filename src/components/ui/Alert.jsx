@@ -3,10 +3,14 @@ import React from "react";
 export default function Alert({ children }) {
   return (
     <div
-      className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+      className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
       role="alert"
     >
-      <span className="font-medium">Danger alert!</span> {children}
+      <strong className="font-bold">Danger! </strong>
+      <span className="block sm:inline">{children}</span>
+      <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <title>Close</title>
+      </span>
     </div>
   );
 }

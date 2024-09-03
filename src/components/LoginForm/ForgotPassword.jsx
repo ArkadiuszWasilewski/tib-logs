@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import Alert from "../ui/Alert";
 import LinkSpan from "../ui/LinkSpan";
+import AlertInfo from "../ui/AlertInfo";
+import Alert from "../ui/Alert";
 
 export default function ForgotPassword() {
   const emailRef = useRef();
@@ -36,7 +37,7 @@ export default function ForgotPassword() {
               Reseting Password
             </h1>
             {error && <Alert>{error}</Alert>}
-            {message && <Alert variant="success">{message}</Alert>}
+            {message && <AlertInfo variant="success">{message}</AlertInfo>}
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label

@@ -17,7 +17,6 @@ import ForgotPassword from "./components/LoginForm/ForgotPassword";
 import UpdateProfile from "./components/LoginForm/UpdateProfile";
 import PrivateRoute from "./components/LoginForm/PrivateRoute";
 import Dashboard from "./components/LoginForm/Dashboard";
-import { useAuth } from "./context/AuthContext";
 
 function App() {
   return (

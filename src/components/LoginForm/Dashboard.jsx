@@ -3,6 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../ui/Alert";
 import LinkSpan from "../ui/LinkSpan";
+import LabelDashboard from "../ui/LabelDashboard";
+import Button from "../ui/Button";
 
 export default function UpdateProfile() {
   const [error, setError] = useState("");
@@ -17,7 +19,7 @@ export default function UpdateProfile() {
       await logout();
       navigate("/pokedex-tailwind/");
     } catch (err) {
-      console.log("Error during logging out: ", err);
+      console.log("Error during logging out:  ", err);
       setError("Error during logging out");
     }
   };
@@ -32,24 +34,14 @@ export default function UpdateProfile() {
             {error && <Alert>{error}</Alert>}
 
             <div>
-              <label
-                htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Email:
-              </label>
-              <strong> {currentUser.email}</strong>
+              <LabelDashboard>Email: {currentUser.email}</LabelDashboard>
+
+              <LabelDashboard>Name: </LabelDashboard>
             </div>
             <Link to="/pokedex-tailwind/update-profile">
               <LinkSpan>Update your profile</LinkSpan>
             </Link>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              Logout
-            </button>
+            <Button onClick={handleLogout}>Logout</Button>
           </div>
         </div>
       </div>

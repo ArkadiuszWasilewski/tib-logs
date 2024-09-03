@@ -93,25 +93,6 @@ export default function Login() {
                 />
               </div>
               <div className="flex items-center justify-between">
-                {/*<div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      for="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>*/}
                 <Link to="/pokedex-tailwind/forgot-password">
                   <LinkSpan>Forgot password?</LinkSpan>
                 </Link>
@@ -124,9 +105,9 @@ export default function Login() {
                 Sign in
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Do not have an account yet?{" "}
-                <Link to="/pokedex-tailwind/signup">
-                  <LinkSpan>Sign up!</LinkSpan>
+                Already have an account?{" "}
+                <Link to="/pokedex-tailwind/login">
+                  <LinkSpan>Log In</LinkSpan>
                 </Link>
               </p>
             </form>

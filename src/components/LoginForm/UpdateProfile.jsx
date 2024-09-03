@@ -3,13 +3,15 @@ import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../ui/Alert";
 import LinkSpan from "../ui/LinkSpan";
+import LabelDashboard from "../ui/LabelDashboard";
+import AlertSuccess from "../ui/AlertSuccess";
 
 export default function UpdateProfile() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const { currentUser, updateEmail, updatePassword } = useAuth();
+  const newPasswordConfirmRef = useRef();
+  const newPasswordRef = useRef();
+  const { currentUser, handleUpdatePassword } = useAuth();
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -17,23 +19,22 @@ export default function UpdateProfile() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      setError("Passwords do not match");
+    setMessage("");
+    if (newPasswordRef.current.value !== newPasswordConfirmRef.current.value) {
+      setError("New password do not match");
       setLoading(false);
       return;
     }
 
     const promises = [];
-    if (emailRef.current.value !== currentUser.email) {
-      promises.push(updateEmail(emailRef.current.value));
-    }
-    if (passwordRef.current.value) {
-      promises.push(updatePassword(passwordRef.current.value));
+    if (newPasswordRef.current.value) {
+      promises.push(handleUpdatePassword(newPasswordRef.current.value));
     }
 
     try {
       await Promise.all(promises);
-      navigate("/");
+      navigate("/pokedex-tailwind/update-profile");
+      setMessage("You updated your password successfully");
     } catch {
       setError("Failed to update account");
     } finally {
@@ -49,56 +50,43 @@ export default function UpdateProfile() {
               Update your profile
             </h1>
             {error && <Alert>{error}</Alert>}
+            {message && <AlertSuccess>{message}</AlertSuccess>}
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
+                <LabelDashboard>Email: {currentUser.email} </LabelDashboard>
+              </div>
+              <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="newPassword"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  New Password
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  ref={emailRef}
+                  type="password"
+                  name="newPassword"
+                  id="newPassword"
+                  ref={newPasswordRef}
+                  placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  required=""
+                  required
                 />
               </div>
               <div>
                 <label
-                  htmlFor="password"
+                  htmlFor="newPasswordConfirm"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  New password confirm
                 </label>
                 <input
                   type="password"
-                  name="password"
-                  id="password"
-                  ref={passwordRef}
+                  name="newPasswordConfirm"
+                  id="newPasswordConfirm"
+                  ref={newPasswordConfirmRef}
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Confirm password
-                </label>
-                <input
-                  type="password"
-                  name="passwordConfirm"
-                  id="passwordConfirm"
-                  ref={passwordConfirmRef}
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
+                  required
                 />
               </div>
 
