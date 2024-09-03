@@ -18,7 +18,7 @@ import Dashboard from "./components/LoginForm/Dashboard";
 
 function App() {
   return (
-    <div className="flex flex-col bg-gray-200 dark:bg-gray-700 text-white dark:text-white min-h-screen">
+    <div className="flex flex-col bg-gray-300 dark:bg-gray-700 text-white dark:text-white min-h-screen">
       <Router>
         <AuthProvider>
           <Header />

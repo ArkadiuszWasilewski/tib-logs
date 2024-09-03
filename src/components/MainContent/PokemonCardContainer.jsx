@@ -9,7 +9,7 @@ import Spinner from "../ui/Spinner";
 import Tabs from "./CardContainer/Tabs";
 
 const PokemonCardContainer = () => {
-  const limit = 6;
+  const limit = 9;
   const [selectedType, setSelectedType] = useState(null);
   const [fullListOfPokemons, setFullListOfPokemons] = useState([]);
 
@@ -67,7 +67,7 @@ const PokemonCardContainer = () => {
           </div>
         </>
       )}
-      <div className="grid grid-cols-3 gap-2 mt-10">
+      <div className="grid grid-cols-3 gap-2 mt-10 max-w-[1000px]">
         {detailedPokemonList.map((pokemon) => (
           <PokemonInfo key={pokemon.name} pokemonInfo={pokemon} />
         ))}

@@ -27,30 +27,28 @@ const PokemonInfo = ({ pokemonInfo }) => {
     : typeColors.default;
   return pokemonInfo ? (
     <div
-      className={`flex flex-col justify-center text-gray-800 dark:text-white rounded-[25px]`}
+      className={`flex flex-col justify-center text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4`}
       style={{
         backgroundImage: `linear-gradient(180deg, ${backgroundColorClass}, gray)`,
       }}
     >
       <div className="px-2 py-2">
+        <div className="capitalize font-bold text-4xl m-3 mt-4 text-center">
+          {pokemonInfo.name}
+        </div>
+        <div className="flex">
+          <span className="font-bold text-2xl ml-auto">
+            #{Number(pokemonInfo.id).toString().padStart(3, "0")}
+          </span>
+        </div>
         <img
           src={pokemonInfo.sprites.other["official-artwork"].front_default}
           alt={`${pokemonInfo.name} front default sprite`}
-          className="max-w-[100px] m-auto"
+          className="m-auto relative bottom-[-20px]"
         />
-        <h2 className="capitalize font-bold">{pokemonInfo.name}</h2>
-        <p>ID: {pokemonInfo.id}</p>
-        <p>Weight: {pokemonInfo.weight}</p>
-        <p>Height: {pokemonInfo.height}</p>
-        <div>
-          Types:
-          {pokemonInfo.types.map((type) => (
-            <span key={type.type.name}> {type.type.name} </span>
-          ))}
-        </div>
       </div>
-      <div className="dark:bg-gray-800 dark:border-gray-600 dark:border-[2px] bg-white rounded-[25px] py-2 px-2 min-h-[250px]">
-        <Tabs stats={pokemonInfo.stats} />
+      <div className="dark:bg-gray-800/[.3] bg-white/[.5] rounded-[25px] py-2 px-2 min-h-[230px]">
+        <Tabs stats={pokemonInfo.stats} pokemon={pokemonInfo} />
       </div>
     </div>
   ) : (

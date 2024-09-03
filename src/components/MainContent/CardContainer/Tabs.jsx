@@ -1,6 +1,46 @@
 import React, { useState } from "react";
+import ButtonTabs from "../../ui/ButtonTabs";
+import fireIcon from "../../../assets/types/fire.svg";
+import waterIcon from "../../../assets/types/water.svg";
+import bugIcon from "../../../assets/types/bug.svg";
+import darkIcon from "../../../assets/types/dark.svg";
+import dragonIcon from "../../../assets/types/dragon.svg";
+import electricIcon from "../../../assets/types/electric.svg";
+import fairyIcon from "../../../assets/types/fairy.svg";
+import fightingIcon from "../../../assets/types/fighting.svg";
+import flyingIcon from "../../../assets/types/flying.svg";
+import ghostIcon from "../../../assets/types/ghost.svg";
+import grassIcon from "../../../assets/types/grass.svg";
+import groundIcon from "../../../assets/types/ground.svg";
+import iceIcon from "../../../assets/types/ice.svg";
+import normalIcon from "../../../assets/types/normal.svg";
+import poisonIcon from "../../../assets/types/poison.svg";
+import psychicIcon from "../../../assets/types/psychic.svg";
+import rockIcon from "../../../assets/types/rock.svg";
+import steelIcon from "../../../assets/types/steel.svg";
 
-export default function Tabs({ stats = [] }) {
+const pokemonTypeIcon = {
+  fire: fireIcon,
+  water: waterIcon,
+  bug: bugIcon,
+  dark: darkIcon,
+  dragon: dragonIcon,
+  electric: electricIcon,
+  fairy: fairyIcon,
+  fighting: fightingIcon,
+  flying: flyingIcon,
+  ghost: ghostIcon,
+  grass: grassIcon,
+  ground: groundIcon,
+  ice: iceIcon,
+  normal: normalIcon,
+  poison: poisonIcon,
+  psychic: psychicIcon,
+  rock: rockIcon,
+  steel: steelIcon,
+};
+
+export default function Tabs({ stats = [], pokemon }) {
   const [currentTab, setCurrentTab] = useState("about");
   const statsLabels = [
     { key: "hp", label: "HP" },
@@ -14,7 +54,24 @@ export default function Tabs({ stats = [] }) {
   const renderTabContent = () => {
     switch (currentTab) {
       case "about":
-        return <div>About content here</div>;
+        return (
+          <div>
+            <p>Weight: {pokemon.weight / 10} kg</p>
+            <p>Height: {pokemon.height / 10} m</p>
+            <p>Types:</p>
+            {pokemon.types.map((type) => (
+              <div className="inline">
+                {/* <span key={type.type.name}> {type.type.name} </span> */}
+                <img
+                  className="max-w-[50px] inline p-1"
+                  title={type.type.name}
+                  src={pokemonTypeIcon[type.type.name]}
+                  alt={`${type.type.name} icon`}
+                />
+              </div>
+            ))}
+          </div>
+        );
       case "stats":
         return (
           <div>
@@ -33,64 +90,21 @@ export default function Tabs({ stats = [] }) {
             </table>
           </div>
         );
-      case "strong":
-        return <div>Strong content</div>;
-      case "weak":
-        return <div>Weak content</div>;
     }
   };
 
   return (
-    <div className="text-gray-600">
+    <div className="text-gray-600 dark:text-gray-100">
       <ul className="flex">
-        <li className="me-2">
-          <button
-            onClick={() => setCurrentTab("about")}
-            className={`inline-block p-4 ${
-              currentTab === "about"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300"
-            } rounded-t-lg font-bold`}
-          >
-            About
-          </button>
-        </li>
-        <li className="me-2">
-          <button
-            onClick={() => setCurrentTab("stats")}
-            className={`inline-block p-4 ${
-              currentTab === "stats"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300"
-            } rounded-t-lg font-bold`}
-          >
-            Stats
-          </button>
-        </li>
-        <li className="me-2">
-          <button
-            onClick={() => setCurrentTab("strong")}
-            className={`inline-block p-4 ${
-              currentTab === "strong"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300"
-            } rounded-t-lg font-bold`}
-          >
-            Strong
-          </button>
-        </li>
-        <li className="me-2">
-          <button
-            onClick={() => setCurrentTab("weak")}
-            className={`inline-block p-4 ${
-              currentTab === "weak"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300"
-            } rounded-t-lg font-bold`}
-          >
-            Strong
-          </button>
-        </li>
+        {["about", "stats"].map((tab) => (
+          <li key={tab} className="m-auto">
+            <ButtonTabs
+              label={tab.charAt(0).toUpperCase() + tab.slice(1)} // Capitalize first letter
+              isActive={currentTab === tab}
+              onClick={() => setCurrentTab(tab)}
+            />
+          </li>
+        ))}
       </ul>
       <div>{renderTabContent()}</div>
     </div>
