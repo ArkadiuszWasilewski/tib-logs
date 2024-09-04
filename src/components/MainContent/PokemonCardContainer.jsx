@@ -94,7 +94,7 @@ const PokemonCardContainer = () => {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-3 gap-2 mt-10 max-w-[1000px]">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1gap-2 mt-10 max-w-[1000px] ">
         {detailedPokemonList.map((pokemon) => (
           <PokemonInfo
             key={pokemon.name}

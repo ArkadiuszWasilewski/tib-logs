@@ -48,7 +48,7 @@ const PokemonInfo = ({ pokemonInfo, onClick }) => {
           <img
             src={pokemonInfo.sprites.other["official-artwork"].front_default}
             alt={`${pokemonInfo.name} front default sprite`}
-            className="m-auto relative bottom-[-20px]"
+            className="mx-auto relative bottom-[-20px]"
           />
         </button>
       </div>
