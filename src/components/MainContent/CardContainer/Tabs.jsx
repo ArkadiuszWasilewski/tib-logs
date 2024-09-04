@@ -60,7 +60,7 @@ export default function Tabs({ stats = [], pokemon }) {
             <p>Height: {pokemon.height / 10} m</p>
             <p>Types:</p>
             {pokemon.types.map((type) => (
-              <div className="inline">
+              <div key={type.type.name} className="inline">
                 {/* <span key={type.type.name}> {type.type.name} </span> */}
                 <img
                   className="max-w-[50px] inline p-1"

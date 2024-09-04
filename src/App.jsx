@@ -22,6 +22,7 @@ function App() {
       <Router>
         <AuthProvider>
           <Header />
+
           <Routes>
             <Route
               path="/pokedex-tailwind/dashboard"

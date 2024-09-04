@@ -42,26 +42,28 @@ const TypeFilter = ({ setSelectedType, selectedHighlight }) => {
   };
 
   return (
-    <div className="w-[650px] flex">
-      {Object.keys(pokemonTypeIcon).map((type) => (
-        <button onClick={() => setSelectedType(type)} key={type}>
-          <img
-            className={` ${
-              selectedHighlight === type
-                ? "w-[34px] h-[34px] m-[2px]"
-                : "w-[24px] h-[24px] m-[4px]"
-            }`}
-            title={type}
-            src={pokemonTypeIcon[type]}
-            alt={`${type} icon`}
-          />
-        </button>
-      ))}
+    <div className="inline max-w-[700px]">
+      <div className="flex items-center flex-wrap">
+        {Object.keys(pokemonTypeIcon).map((type) => (
+          <button onClick={() => setSelectedType(type)} key={type}>
+            <img
+              className={` ${
+                selectedHighlight === type
+                  ? "min-w-[50px] min-h-[50px] m-[2px]"
+                  : "min-w-[40px] min-h-[40px] m-[6px]"
+              }`}
+              title={type}
+              src={pokemonTypeIcon[type]}
+              alt={`${type} icon`}
+            />
+          </button>
+        ))}
+      </div>
       <Button
         onClick={() => setSelectedType(null)}
-        custom="bg-red-500 hover:bg-red-700 max-w-[80px]"
+        custom="max-w-[80px] max-h-[50px]"
       >
-        Clear
+        Clear type
       </Button>
     </div>
   );

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useFetch from "../../../hooks/useFetch";
 import Button from "../../ui/Button";
 
-const SearchPokemon = ({ data }) => {
+const SearchPokemon = ({ data, onSearchResult }) => {
   const [searchInput, setSearchInput] = useState("");
+  const [searchedPokemon, setSearchedPokemon] = useState(null);
+  const [searchedPokemonUrl, setSearchedPokemonUrl] = useState(null);
 
   //Find Pokemon by name or ID
   const findPokemon = (input) => {
@@ -14,11 +17,35 @@ const SearchPokemon = ({ data }) => {
     }
   };
 
+  useEffect(() => {
+    if (searchedPokemon) {
+      setSearchedPokemonUrl(searchedPokemon.url);
+    }
+  }, [searchedPokemon]);
+
+  const {
+    data: fetchedSearchedPokemon,
+    loading,
+    error,
+  } = useFetch(searchedPokemonUrl);
+
+  useEffect(() => {
+    if (fetchedSearchedPokemon) {
+      if (onSearchResult) {
+        onSearchResult(fetchedSearchedPokemon);
+      }
+    }
+  }, [fetchedSearchedPokemon]);
+
   // Handle search button click
   const handleSearch = async () => {
     if (data) {
       const pokemon = findPokemon(searchInput);
-      console.log("I find: ", pokemon);
+      if (pokemon) {
+        setSearchedPokemon(pokemon);
+      } else {
+        onSearchResult(null); // Handle Pokémon not found
+      }
     }
   };
   // Handle enter key press

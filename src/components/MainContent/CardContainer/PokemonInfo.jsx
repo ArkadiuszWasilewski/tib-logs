@@ -1,6 +1,7 @@
 import Tabs from "./Tabs";
+import React from "react";
 
-const PokemonInfo = ({ pokemonInfo }) => {
+const PokemonInfo = ({ pokemonInfo, onClick }) => {
   const typeColors = {
     fire: "#f97316",
     water: "#38bdf8",
@@ -25,6 +26,7 @@ const PokemonInfo = ({ pokemonInfo }) => {
   const backgroundColorClass = pokemonInfo
     ? typeColors[pokemonInfo.types[0].type.name]
     : typeColors.default;
+
   return pokemonInfo ? (
     <div
       className={`flex flex-col justify-center text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4`}
@@ -33,19 +35,22 @@ const PokemonInfo = ({ pokemonInfo }) => {
       }}
     >
       <div className="px-2 py-2">
-        <div className="capitalize font-bold text-4xl m-3 mt-4 text-center">
-          {pokemonInfo.name}
-        </div>
-        <div className="flex">
-          <span className="font-bold text-2xl ml-auto">
-            #{Number(pokemonInfo.id).toString().padStart(3, "0")}
-          </span>
-        </div>
-        <img
-          src={pokemonInfo.sprites.other["official-artwork"].front_default}
-          alt={`${pokemonInfo.name} front default sprite`}
-          className="m-auto relative bottom-[-20px]"
-        />
+        <button onClick={onClick}>
+          <div className="capitalize font-bold text-4xl m-3 mt-4 text-center">
+            {pokemonInfo.name}
+          </div>
+          <div className="flex">
+            <span className="font-bold text-2xl ml-auto">
+              #{Number(pokemonInfo.id).toString().padStart(3, "0")}
+            </span>
+          </div>
+
+          <img
+            src={pokemonInfo.sprites.other["official-artwork"].front_default}
+            alt={`${pokemonInfo.name} front default sprite`}
+            className="m-auto relative bottom-[-20px]"
+          />
+        </button>
       </div>
       <div className="dark:bg-gray-800/[.3] bg-white/[.5] rounded-[25px] py-2 px-2 min-h-[230px]">
         <Tabs stats={pokemonInfo.stats} pokemon={pokemonInfo} />
