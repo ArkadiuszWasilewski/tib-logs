@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "./ui/Button";
 import DropdownNavbar from "./ui/DropdownNavbar";
+import ToggleDarkMode from "./ui/ToggleDarkMode";
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
@@ -30,7 +31,9 @@ const Header = () => {
           <img src={PokemonLogo} className="h-10" alt="Pokemon Logo" />
         </Link>
         <DropdownNavbar />
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+
+        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-x-3">
+          <ToggleDarkMode />
           {currentUser ? (
             <Link to="/pokedex-tailwind/login">
               <Button onClick={handleLogout}>Logout</Button>

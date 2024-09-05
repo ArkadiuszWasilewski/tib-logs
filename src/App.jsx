@@ -15,45 +15,50 @@ import ForgotPassword from "./components/LoginForm/ForgotPassword";
 import UpdateProfile from "./components/LoginForm/UpdateProfile";
 import PrivateRoute from "./components/LoginForm/PrivateRoute";
 import Dashboard from "./components/LoginForm/Dashboard";
+import { DarkModeProvider } from "./context/DarkModeContext";
 
 function App() {
   return (
-    <div className="flex flex-col bg-gray-300 dark:bg-gray-700 text-white dark:text-white min-h-screen">
-      <Router>
-        <AuthProvider>
-          <Header />
-
-          <Routes>
-            <Route
-              path="/pokedex-tailwind/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/pokedex-tailwind/update-profile"
-              element={
-                <PrivateRoute>
-                  <UpdateProfile />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/pokedex-tailwind/" element={<MainContent />} />
-            <Route path="/pokedex-tailwind/login" element={<Login />}></Route>
-            <Route path="/pokedex-tailwind/signup" element={<Signup />}></Route>
-            <Route
-              path="/pokedex-tailwind/forgot-password"
-              element={<ForgotPassword />}
-            ></Route>
-            {/* Catch-all route for 404 errors */}
-            <Route path="*" element={<Navigate to="/pokedex-tailwind/" />} />
-          </Routes>
-          <Footer />
-        </AuthProvider>
-      </Router>
-    </div>
+    <DarkModeProvider>
+      <div className="flex flex-col bg-gray-300 dark:bg-gray-700 text-white dark:text-white min-h-screen">
+        <Router>
+          <AuthProvider>
+            <Header />
+            <Routes>
+              <Route
+                path="/pokedex-tailwind/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/pokedex-tailwind/update-profile"
+                element={
+                  <PrivateRoute>
+                    <UpdateProfile />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/pokedex-tailwind/" element={<MainContent />} />
+              <Route path="/pokedex-tailwind/login" element={<Login />}></Route>
+              <Route
+                path="/pokedex-tailwind/signup"
+                element={<Signup />}
+              ></Route>
+              <Route
+                path="/pokedex-tailwind/forgot-password"
+                element={<ForgotPassword />}
+              ></Route>
+              {/* Catch-all route for 404 errors */}
+              <Route path="*" element={<Navigate to="/pokedex-tailwind/" />} />
+            </Routes>
+            <Footer />
+          </AuthProvider>
+        </Router>
+      </div>
+    </DarkModeProvider>
   );
 }
 
