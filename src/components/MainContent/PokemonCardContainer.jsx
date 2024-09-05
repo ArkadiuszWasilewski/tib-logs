@@ -75,7 +75,7 @@ const PokemonCardContainer = () => {
   };
 
   return (
-    <div className="m-auto mt-[150px]">
+    <div className="m-auto md:mt-[140px] mt-[240px]">
       {!loading && (
         <div className="flex">
           <TypeFilter

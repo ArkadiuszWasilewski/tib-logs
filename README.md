@@ -12,6 +12,7 @@ This is a simple Pokédex web application built with React and Vite. The app fet
 
 ## Demo
 
+Currently I'm hosting my own server on Raspberry Pi, so if demo is not available for you then sorry :(
 http://despire.pl/pokedex-tailwind
 
 ## Getting started
