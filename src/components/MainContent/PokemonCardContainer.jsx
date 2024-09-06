@@ -7,6 +7,7 @@ import TypeFilter from "./CardContainer/TypeFilter";
 import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import ModalCard from "../ui/ModalCard";
+import Pagination from "../ui/PaginationTab/Pagination";
 
 const PokemonCardContainer = () => {
   const limit = 9;
@@ -94,6 +95,7 @@ const PokemonCardContainer = () => {
           </div>
         </div>
       )}
+      <Pagination />
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1gap-2 mt-10 max-w-[1000px] ">
         {detailedPokemonList.map((pokemon) => (
           <PokemonInfo

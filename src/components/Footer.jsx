@@ -20,6 +20,7 @@ const Footer = () => {
           <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <a
               href="https://www.linkedin.com/in/arkadiusz-wasilewski-29b38a14b/"
+              target="_blank"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
@@ -38,6 +39,7 @@ const Footer = () => {
             </a>
             <a
               href="https://github.com/ArkadiuszWasilewski"
+              target="_blank"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg

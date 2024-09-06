@@ -48,7 +48,7 @@ export default function DropdownNavbar() {
             {/* Navigation Links */}
             <li>
               <ButtonNavigation>
-                <Link to="/pokedex-tailwind">Home</Link>
+                <Link to="/pokedex-tailwind/">Home</Link>
               </ButtonNavigation>
             </li>
             {/* Dropdown Menu */}
