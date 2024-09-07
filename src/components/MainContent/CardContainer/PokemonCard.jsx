@@ -23,7 +23,11 @@ const PokemonCard = ({ pokemon }) => {
   }, [fetchedPokemonData]);
 
   if (loadingPokemon) {
-    return <PokemonCardSkeleton />;
+    return (
+      <div>
+        <PokemonCardSkeleton />
+      </div>
+    );
   }
 
   if (errorPokemon) {
@@ -39,18 +43,19 @@ const PokemonCard = ({ pokemon }) => {
     : typeColors.default;
 
   const handleOpenModal = () => {
+    console.log(pokemon);
     setSelectedPokemon(pokemon); // Set the current Pokémon data
     setOpenModal(true); // Open the modal
   };
 
   return (
     <div
-      className={`flex flex-col justify-between h-full text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4 md:min-h-[687px]`}
+      className={`flex flex-col justify-center text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4`}
       style={{
         backgroundImage: `linear-gradient(180deg, ${backgroundColorClass}, gray)`,
       }}
     >
-      <div className="flex flex-col justify-center px-2 py-2">
+      <div className="px-2 py-2">
         <div className="flex capitalize font-bold text-4xl m-3 mt-4 text-center items-center">
           {currentPokemonData.name}
         </div>
@@ -69,7 +74,7 @@ const PokemonCard = ({ pokemon }) => {
           />
         </button>
       </div>
-      <div className="dark:bg-gray-800/[.3] bg-white/[.5] rounded-[25px] md:h-[250px]">
+      <div className="rel dark:bg-gray-800/[.3] bg-white/[.5] rounded-[25px]">
         <Tabs stats={currentPokemonData.stats} pokemon={currentPokemonData} />
       </div>
     </div>

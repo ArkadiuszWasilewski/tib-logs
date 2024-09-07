@@ -41,7 +41,7 @@ const CardContainerContext = () => {
       <div className="flex justify-center items-center">
         {/* Inner grid container for displaying Pokémon cards */}
         <div
-          className={`grid ${gridColumnsClass} lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 max-w-[1000px] m-auto`}
+          className={`grid ${gridColumnsClass} lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 max-w-[1000px] m-auto min-h-[641px]`}
         >
           {paginatedPokemon.length > 0 ? (
             paginatedPokemon.map((pokemon) => (
