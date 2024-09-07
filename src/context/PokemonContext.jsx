@@ -20,7 +20,9 @@ export const PokemonContextProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [allPokemonType, setAllPokemonType] = useState([]);
   const [countResults, setCountResults] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
 
   const {
     data: fetchedAllPokemonData,
@@ -54,6 +56,7 @@ export const PokemonContextProvider = ({ children }) => {
         // Add more filter conditions here if needed
       );
       setCurrentPage(1);
+      setSelectedType(null);
       setFilteredPokemon(filtered);
       setCountResults(filtered.length);
     } else {
@@ -76,6 +79,7 @@ export const PokemonContextProvider = ({ children }) => {
       }));
       setFilteredPokemon(pokemonData);
       setCountResults(pokemonData.length);
+      setCurrentPage(1);
     } else if (!selectedType) {
       // Reset to show all Pokémon when type is cleared
       setFilteredPokemon(allPokemon);
@@ -116,8 +120,11 @@ export const PokemonContextProvider = ({ children }) => {
     searchTerm,
     setSearchTerm,
     countResults,
-    showModal,
-    setShowModal,
+    selectedPokemon,
+    setSelectedPokemon,
+    openModal,
+    setOpenModal,
+    closeModal,
   };
 
   return (

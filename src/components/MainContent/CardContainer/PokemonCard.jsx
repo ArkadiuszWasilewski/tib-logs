@@ -7,7 +7,8 @@ import { usePokemonContext } from "../../../context/PokemonContext";
 
 const PokemonCard = ({ pokemon }) => {
   const [currentPokemonData, setCurrentPokemonData] = useState(null);
-  const { showModal, setShowModal } = usePokemonContext();
+  const { setOpenModal, setSelectedPokemon } = usePokemonContext();
+
   const {
     data: fetchedPokemonData,
     loading: loadingPokemon,
@@ -41,6 +42,12 @@ const PokemonCard = ({ pokemon }) => {
     ? typeColors[currentPokemonData.types[0].type.name]
     : typeColors.default;
 
+  const handleOpenModal = () => {
+    console.log(pokemon);
+    setSelectedPokemon(pokemon); // Set the current Pokémon data
+    setOpenModal(true); // Open the modal
+  };
+
   return (
     <div
       className={`flex flex-col justify-center text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4`}
@@ -57,7 +64,7 @@ const PokemonCard = ({ pokemon }) => {
             #{Number(currentPokemonData.id).toString().padStart(3, "0")}
           </span>
         </div>
-        <button onClick={() => setShowModal(true)}>
+        <button onClick={handleOpenModal}>
           <img
             src={
               currentPokemonData.sprites.other["official-artwork"].front_default

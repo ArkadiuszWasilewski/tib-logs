@@ -7,7 +7,6 @@ export default function MainContent() {
   return (
     <>
       {/* <HeroSection /> */}
-      {/* <PokemonCardContainer /> */}
       <PokemonContextProvider>
         <CardContainerContext />
       </PokemonContextProvider>
