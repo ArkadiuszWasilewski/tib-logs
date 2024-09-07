@@ -6,7 +6,6 @@ import ButtonNavigation from "./ButtonNavigation";
 
 export default function DropdownNavbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { currentUser, logout } = useAuth();
   const [error, setError] = React.useState("");

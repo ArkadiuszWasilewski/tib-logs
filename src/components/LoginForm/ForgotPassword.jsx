@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import LinkSpan from "../ui/LinkSpan";
-import AlertInfo from "../ui/AlertInfo";
-import Alert from "../ui/Alert";
+import AlertInfo from "../ui/Alerts/AlertInfo";
+import Alert from "../ui/Alerts/Alert";
 
 export default function ForgotPassword() {
   const emailRef = useRef();

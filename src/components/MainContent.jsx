@@ -1,13 +1,16 @@
 import React from "react";
 import HeroSection from "./MainContent/HeroSection";
-import PokemonCardContainer from "./MainContent/PokemonCardContainer";
-import Spinner from "./ui/Spinner";
+import CardContainerContext from "./MainContent/CardContainerContext";
+import { PokemonContextProvider } from "../context/PokemonContext";
 
 export default function MainContent() {
   return (
     <>
       {/* <HeroSection /> */}
-      <PokemonCardContainer />
+      {/* <PokemonCardContainer /> */}
+      <PokemonContextProvider>
+        <CardContainerContext />
+      </PokemonContextProvider>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import Alert from "../ui/Alert";
+import Alert from "../ui/Alerts/Alert";
 import LinkSpan from "../ui/LinkSpan";
 import LabelDashboard from "../ui/LabelDashboard";
 import Button from "../ui/Button";

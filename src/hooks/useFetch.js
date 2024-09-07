@@ -7,12 +7,24 @@ const useFetch = (url) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!url) {
+        // If URL is null or empty, set loading to false and exit
+        setLoading(false);
+        return;
+      }
       setLoading(true);
+      setError(null); // Reset error before starting new fetch
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Expected JSON response but got something else.");
+        }
+
         const result = await response.json();
         setData(result);
       } catch (err) {

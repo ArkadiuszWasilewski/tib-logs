@@ -1,44 +1,6 @@
 import React, { useState } from "react";
 import ButtonTabs from "../../ui/ButtonTabs";
-import fireIcon from "../../../assets/types/fire.svg";
-import waterIcon from "../../../assets/types/water.svg";
-import bugIcon from "../../../assets/types/bug.svg";
-import darkIcon from "../../../assets/types/dark.svg";
-import dragonIcon from "../../../assets/types/dragon.svg";
-import electricIcon from "../../../assets/types/electric.svg";
-import fairyIcon from "../../../assets/types/fairy.svg";
-import fightingIcon from "../../../assets/types/fighting.svg";
-import flyingIcon from "../../../assets/types/flying.svg";
-import ghostIcon from "../../../assets/types/ghost.svg";
-import grassIcon from "../../../assets/types/grass.svg";
-import groundIcon from "../../../assets/types/ground.svg";
-import iceIcon from "../../../assets/types/ice.svg";
-import normalIcon from "../../../assets/types/normal.svg";
-import poisonIcon from "../../../assets/types/poison.svg";
-import psychicIcon from "../../../assets/types/psychic.svg";
-import rockIcon from "../../../assets/types/rock.svg";
-import steelIcon from "../../../assets/types/steel.svg";
-
-const pokemonTypeIcon = {
-  fire: fireIcon,
-  water: waterIcon,
-  bug: bugIcon,
-  dark: darkIcon,
-  dragon: dragonIcon,
-  electric: electricIcon,
-  fairy: fairyIcon,
-  fighting: fightingIcon,
-  flying: flyingIcon,
-  ghost: ghostIcon,
-  grass: grassIcon,
-  ground: groundIcon,
-  ice: iceIcon,
-  normal: normalIcon,
-  poison: poisonIcon,
-  psychic: psychicIcon,
-  rock: rockIcon,
-  steel: steelIcon,
-};
+import icons from "../../../assets/types/icons";
 
 export default function Tabs({ stats = [], pokemon }) {
   const [currentTab, setCurrentTab] = useState("about");
@@ -65,7 +27,7 @@ export default function Tabs({ stats = [], pokemon }) {
                 <img
                   className="max-w-[50px] inline p-1"
                   title={type.type.name}
-                  src={pokemonTypeIcon[type.type.name]}
+                  src={icons[type.type.name]}
                   alt={`${type.type.name} icon`}
                 />
               </div>
