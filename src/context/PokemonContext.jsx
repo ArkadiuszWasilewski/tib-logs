@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-import Spinner from "../components/ui/Spinner";
 
 const PokemonContext = React.createContext();
 
@@ -89,13 +88,7 @@ export const PokemonContextProvider = ({ children }) => {
   }, [fetchedAllPokemonTypeData, selectedType, allPokemon]);
 
   if (loadingPokemon || loadingType) {
-    console.log("Loading...");
-    return (
-      <div className="mt-[200px]">
-        <Spinner />
-        <p>Loading...</p>
-      </div>
-    );
+    return console.log("Loading...");
   }
 
   if (errorPokemon || errorType) {

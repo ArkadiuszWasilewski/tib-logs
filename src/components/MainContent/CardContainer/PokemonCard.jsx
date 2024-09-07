@@ -4,6 +4,7 @@ import { typeColors } from "./typeColors";
 import Spinner from "../../ui/Spinner";
 import Tabs from "./Tabs";
 import { usePokemonContext } from "../../../context/PokemonContext";
+import PokemonCardSkeleton from "./PokemonCardSkeleton";
 
 const PokemonCard = ({ pokemon }) => {
   const [currentPokemonData, setCurrentPokemonData] = useState(null);
@@ -22,20 +23,15 @@ const PokemonCard = ({ pokemon }) => {
   }, [fetchedPokemonData]);
 
   if (loadingPokemon) {
-    return (
-      <div>
-        <p>Loading...</p>
-        <Spinner />
-      </div>
-    );
+    return <PokemonCardSkeleton />;
   }
 
   if (errorPokemon) {
-    return <p>Error loading Pokémon data.</p>;
+    return console.log("Error loading Pokémon data.");
   }
 
   if (!currentPokemonData) {
-    return <p>No data available</p>;
+    return console.log("No data available");
   }
 
   const backgroundColorClass = currentPokemonData
@@ -43,20 +39,19 @@ const PokemonCard = ({ pokemon }) => {
     : typeColors.default;
 
   const handleOpenModal = () => {
-    console.log(pokemon);
     setSelectedPokemon(pokemon); // Set the current Pokémon data
     setOpenModal(true); // Open the modal
   };
 
   return (
     <div
-      className={`flex flex-col justify-center text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4`}
+      className={`flex flex-col justify-between h-full text-gray-800 dark:text-white rounded-[25px] shadow-xl mx-2 my-4 md:min-h-[687px]`}
       style={{
         backgroundImage: `linear-gradient(180deg, ${backgroundColorClass}, gray)`,
       }}
     >
-      <div className="px-2 py-2">
-        <div className="capitalize font-bold text-4xl m-3 mt-4 text-center">
+      <div className="flex flex-col justify-center px-2 py-2">
+        <div className="flex capitalize font-bold text-4xl m-3 mt-4 text-center items-center">
           {currentPokemonData.name}
         </div>
         <div className="flex">
@@ -74,7 +69,7 @@ const PokemonCard = ({ pokemon }) => {
           />
         </button>
       </div>
-      <div className="dark:bg-gray-800/[.3] bg-white/[.5] rounded-[25px] py-2 px-2 min-h-[230px]">
+      <div className="dark:bg-gray-800/[.3] bg-white/[.5] rounded-[25px] md:h-[250px]">
         <Tabs stats={currentPokemonData.stats} pokemon={currentPokemonData} />
       </div>
     </div>
