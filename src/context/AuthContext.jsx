@@ -8,6 +8,7 @@ import {
   signOut,
   updateEmail,
   updatePassword,
+  getAuth,
 } from "firebase/auth";
 
 const AuthContext = React.createContext();
@@ -52,6 +53,31 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function sendTokenToServer() {
+    if (auth.currentUser) {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL;
+        const idToken = await auth.currentUser.getIdToken(true);
+        const response = await fetch(`${API_URL}/verify-token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to verify token with server");
+        }
+
+        console.log("Token successfully verified with server");
+      } catch (error) {
+        console.error("Error fetching ID token or sending to server:", error);
+      }
+    } else {
+      console.error("No user is currently logged in");
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -68,6 +94,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     handleUpdateEmail,
     handleUpdatePassword,
+    sendTokenToServer,
   };
 
   return (
