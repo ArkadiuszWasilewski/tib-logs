@@ -20,7 +20,7 @@ export default function Login() {
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
       await sendTokenToServer();
-      navigate("/pokedex-tailwind/dashboard");
+      navigate("/pokedex-tailwind/");
     } catch (err) {
       console.error("Error signing in:", err);
       setError("Failed to sign in");

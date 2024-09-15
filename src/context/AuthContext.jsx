@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
       try {
         const API_URL = import.meta.env.VITE_API_URL;
         const idToken = await auth.currentUser.getIdToken(true);
-        const response = await fetch(`${API_URL}/verify-token`, {
+        const response = await fetch(`${API_URL}/api/auth/verify-token`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

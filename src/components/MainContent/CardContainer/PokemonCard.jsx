@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { typeColors } from "./typeColors";
-import Spinner from "../../ui/Spinner";
 import Tabs from "./Tabs";
 import { usePokemonContext } from "../../../context/PokemonContext";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
@@ -23,19 +22,13 @@ const PokemonCard = ({ pokemon }) => {
   }, [fetchedPokemonData]);
 
   if (loadingPokemon) {
-    return (
-      <div>
-        <PokemonCardSkeleton />
-      </div>
-    );
+    return <PokemonCardSkeleton />;
   }
-
+  if (!currentPokemonData) {
+    return <PokemonCardSkeleton />;
+  }
   if (errorPokemon) {
     return console.log("Error loading Pokémon data.");
-  }
-
-  if (!currentPokemonData) {
-    return console.log("No data available");
   }
 
   const backgroundColorClass = currentPokemonData

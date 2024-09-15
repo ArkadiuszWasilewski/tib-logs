@@ -7,9 +7,6 @@ export const usePokemonContext = () => {
   return useContext(PokemonContext);
 };
 
-const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1302`;
-const pokemonTypeUrl = `https://pokeapi.co/api/v2/type/`;
-
 export const PokemonContextProvider = ({ children }) => {
   const [allPokemon, setAllPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
@@ -22,6 +19,9 @@ export const PokemonContextProvider = ({ children }) => {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
+
+  const pokemonUrl = import.meta.env.VITE_POKEMON_API_URL;
+  const pokemonTypeUrl = import.meta.env.VITE_POKEMON_TYPE_API_URL;
 
   const {
     data: fetchedAllPokemonData,
@@ -88,7 +88,7 @@ export const PokemonContextProvider = ({ children }) => {
   }, [fetchedAllPokemonTypeData, selectedType, allPokemon]);
 
   if (loadingPokemon || loadingType) {
-    return console.log("Loading...");
+    return;
   }
 
   if (errorPokemon || errorType) {
