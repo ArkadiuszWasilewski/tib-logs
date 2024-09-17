@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useUserContext } from "../../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../ui/Alerts/Alert";
 import LinkSpan from "../ui/LinkSpan";
@@ -9,6 +10,7 @@ import Button from "../ui/Button";
 export default function UpdateProfile() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
+  const { userName, userCreatedAt } = useUserContext();
   const navigate = useNavigate();
 
   const handleLogout = async (e) => {
@@ -35,7 +37,8 @@ export default function UpdateProfile() {
 
             <div>
               <LabelDashboard>Email: {currentUser.email}</LabelDashboard>
-              <LabelDashboard>Name: </LabelDashboard>
+              <LabelDashboard>Name: {userName}</LabelDashboard>
+              <LabelDashboard>Created at: {userCreatedAt}</LabelDashboard>
             </div>
             <Link to="/pokedex-tailwind/update-profile">
               <LinkSpan>Update your profile</LinkSpan>
