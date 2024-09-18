@@ -23,8 +23,8 @@ function App() {
     <DarkModeProvider>
       <div className="flex flex-col bg-gray-300 dark:bg-gray-700 text-white dark:text-white min-h-screen">
         <Router>
-          <AuthProvider>
-            <UserContextProvider>
+          <UserContextProvider>
+            <AuthProvider>
               <Header />
               <Routes>
                 <Route
@@ -63,8 +63,8 @@ function App() {
                 />
               </Routes>
               <Footer />
-            </UserContextProvider>
-          </AuthProvider>
+            </AuthProvider>
+          </UserContextProvider>
         </Router>
       </div>
     </DarkModeProvider>

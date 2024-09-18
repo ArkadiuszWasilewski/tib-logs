@@ -10,6 +10,7 @@ import {
   updatePassword,
   getAuth,
 } from "firebase/auth";
+import { useUserContext } from "./UserContext";
 
 const AuthContext = React.createContext();
 
@@ -20,6 +21,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const { setUserData } = useUserContext();
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -30,7 +32,9 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
-    return signOut(auth);
+    return signOut(auth).then(() => {
+      setUserData(null); // Clear user data from context
+    });
   }
 
   function resetPassword(email) {
@@ -58,6 +62,8 @@ export function AuthProvider({ children }) {
       try {
         const API_URL = import.meta.env.VITE_API_URL;
         const idToken = await auth.currentUser.getIdToken(true);
+
+        // Send token to backend for verification and fetching user data
         const response = await fetch(`${API_URL}/api/auth/verify-token`, {
           method: "POST",
           headers: {
@@ -68,8 +74,10 @@ export function AuthProvider({ children }) {
         if (!response.ok) {
           throw new Error("Failed to verify token with server");
         }
-
+        const data = await response.json();
+        setUserData(data.userData); // Pass the fetched user data to UserContext
         console.log("Token successfully verified with server");
+        console.log(data.userData);
       } catch (error) {
         console.error("Error fetching ID token or sending to server:", error);
       }

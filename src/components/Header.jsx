@@ -5,11 +5,13 @@ import { useAuth } from "../context/AuthContext";
 import Button from "./ui/Button";
 import DropdownNavbar from "./ui/DropdownNavbar";
 import ToggleDarkMode from "./ui/ToggleDarkMode";
+import { useUserContext } from "../context/UserContext";
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = React.useState("");
+  const { setUserData } = useUserContext();
 
   const handleLogout = async (e) => {
     setError("");
@@ -17,6 +19,7 @@ const Header = () => {
 
     try {
       await logout();
+      setUserData(null); // Clear user data from context
       navigate("/pokedex-tailwind/");
     } catch (err) {
       console.log("Error during logging out from header ", err);

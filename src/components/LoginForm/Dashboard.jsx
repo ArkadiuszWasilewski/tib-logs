@@ -10,13 +10,12 @@ import Button from "../ui/Button";
 export default function UpdateProfile() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
-  const { userName, userCreatedAt } = useUserContext();
+  const { userData } = useUserContext();
   const navigate = useNavigate();
 
   const handleLogout = async (e) => {
     setError("");
     e.preventDefault();
-
     try {
       await logout();
       navigate("/pokedex-tailwind/");
@@ -36,9 +35,15 @@ export default function UpdateProfile() {
             {error && <Alert>{error}</Alert>}
 
             <div>
-              <LabelDashboard>Email: {currentUser.email}</LabelDashboard>
-              <LabelDashboard>Name: {userName}</LabelDashboard>
-              <LabelDashboard>Created at: {userCreatedAt}</LabelDashboard>
+              <LabelDashboard>Email: {userData.email}</LabelDashboard>
+              {userData.name ? (
+                <LabelDashboard>Name: {userData.name}</LabelDashboard>
+              ) : (
+                ""
+              )}
+              <LabelDashboard>
+                Created at: {userData.firebaseCreationTime}
+              </LabelDashboard>
             </div>
             <Link to="/pokedex-tailwind/update-profile">
               <LinkSpan>Update your profile</LinkSpan>
