@@ -18,7 +18,7 @@ export default function DropdownNavbar() {
 
     try {
       await logout();
-      navigate("/pokedex-tailwind/");
+      navigate("/tibialogs/");
     } catch (err) {
       console.log("Error during logging out from header ", err);
       setError("Error during logging out from header");
@@ -47,7 +47,7 @@ export default function DropdownNavbar() {
             {/* Navigation Links */}
             <li>
               <ButtonNavigation>
-                <Link to="/pokedex-tailwind/">Home</Link>
+                <Link to="/tibialogs/">Home</Link>
               </ButtonNavigation>
             </li>
             {/* Dropdown Menu */}
@@ -79,14 +79,14 @@ export default function DropdownNavbar() {
                 >
                   <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
                     <li>
-                      <Link to="pokedex-tailwind/dashboard">
+                      <Link to="tibialogs/dashboard">
                         <button className="w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                           Dashboard
                         </button>
                       </Link>
                     </li>
                     <li>
-                      <Link to="pokedex-tailwind/update-profile">
+                      <Link to="tibialogs/update-profile">
                         <button className="w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                           Settings
                         </button>
