@@ -18,7 +18,7 @@ export default function UpdateProfile() {
     e.preventDefault();
     try {
       await logout();
-      navigate("/pokedex-tailwind/");
+      navigate("/tibialogs/");
     } catch (err) {
       console.log("Error during logging out:  ", err);
       setError("Error during logging out");
@@ -45,7 +45,7 @@ export default function UpdateProfile() {
                 Created at: {userData.firebaseCreationTime}
               </LabelDashboard>
             </div>
-            <Link to="/pokedex-tailwind/update-profile">
+            <Link to="/tibialogs/update-profile">
               <LinkSpan>Update your profile</LinkSpan>
             </Link>
             <Button onClick={handleLogout}>Logout</Button>

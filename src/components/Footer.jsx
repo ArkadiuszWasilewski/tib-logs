@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="mx-auto max-w-screen-xl">
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2024 Arkadiusz Wasilewski - MIT License
+            © 2025 Arkadiusz Wasilewski - MIT License
           </span>
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
             Contact me:{" "}

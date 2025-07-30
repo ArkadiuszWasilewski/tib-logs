@@ -33,7 +33,7 @@ export default function UpdateProfile() {
 
     try {
       await Promise.all(promises);
-      navigate("/pokedex-tailwind/update-profile");
+      navigate("/tibialogs/update-profile");
       setMessage("You updated your password successfully");
     } catch {
       setError("Failed to update account");
@@ -97,7 +97,7 @@ export default function UpdateProfile() {
               >
                 Update
               </button>
-              <Link to="/pokedex-tailwind/dashboard">
+              <Link to="/tibialogs/dashboard">
                 <LinkSpan>Cancel</LinkSpan> updating your profile
               </Link>
             </form>

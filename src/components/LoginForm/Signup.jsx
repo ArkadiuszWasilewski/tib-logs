@@ -93,7 +93,7 @@ export default function Login() {
                 />
               </div>
               <div className="flex items-center justify-between">
-                <Link to="/pokedex-tailwind/forgot-password">
+                <Link to="/tibialogs/forgot-password">
                   <LinkSpan>Forgot password?</LinkSpan>
                 </Link>
               </div>
@@ -106,7 +106,7 @@ export default function Login() {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
-                <Link to="/pokedex-tailwind/login">
+                <Link to="/tibialogs/login">
                   <LinkSpan>Log In</LinkSpan>
                 </Link>
               </p>

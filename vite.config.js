@@ -15,5 +15,5 @@ export default defineConfig({
       ],
     },
   },
-  base: "/pokedex-tailwind/",
+  base: "/tibialogs/",
 });

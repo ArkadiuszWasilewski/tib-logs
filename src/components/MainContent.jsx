@@ -1,15 +1,11 @@
 import React from "react";
-import HeroSection from "./MainContent/HeroSection";
-import CardContainerContext from "./MainContent/CardContainerContext";
-import { PokemonContextProvider } from "../context/PokemonContext";
+import InputData from "./DataForm/InputData";
 
-export default function MainContent() {
+const MainContent = () => {
   return (
-    <>
-      {/* <HeroSection /> */}
-      <PokemonContextProvider>
-        <CardContainerContext />
-      </PokemonContextProvider>
-    </>
+    <div className="flex flex-wrap items-center my-24 mx-auto text-gray-700 dark:text-white">
+      <InputData />
+    </div>
   );
-}
+};
+export default MainContent;

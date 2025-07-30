@@ -10,13 +10,13 @@ import {
 } from "react-router-dom";
 import Login from "./components/LoginForm/Login";
 import Signup from "./components/LoginForm/Signup";
-import MainContent from "./components/MainContent";
 import ForgotPassword from "./components/LoginForm/ForgotPassword";
 import UpdateProfile from "./components/LoginForm/UpdateProfile";
 import PrivateRoute from "./components/LoginForm/PrivateRoute";
 import Dashboard from "./components/LoginForm/Dashboard";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { UserContextProvider } from "./context/UserContext";
+import MainContent from "./components/MainContent";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
               <Header />
               <Routes>
                 <Route
-                  path="/pokedex-tailwind/dashboard"
+                  path="/tibialogs/dashboard"
                   element={
                     <PrivateRoute>
                       <Dashboard />
@@ -36,31 +36,22 @@ function App() {
                   }
                 />
                 <Route
-                  path="/pokedex-tailwind/update-profile"
+                  path="/tibialogs/update-profile"
                   element={
                     <PrivateRoute>
                       <UpdateProfile />
                     </PrivateRoute>
                   }
                 />
-                <Route path="/pokedex-tailwind/" element={<MainContent />} />
+                <Route path="/tibialogs/" element={<MainContent />} />
+                <Route path="/tibialogs/login" element={<Login />}></Route>
+                <Route path="/tibialogs/signup" element={<Signup />}></Route>
                 <Route
-                  path="/pokedex-tailwind/login"
-                  element={<Login />}
-                ></Route>
-                <Route
-                  path="/pokedex-tailwind/signup"
-                  element={<Signup />}
-                ></Route>
-                <Route
-                  path="/pokedex-tailwind/forgot-password"
+                  path="/tibialogs/forgot-password"
                   element={<ForgotPassword />}
                 ></Route>
                 {/* Catch-all route for 404 errors */}
-                <Route
-                  path="*"
-                  element={<Navigate to="/pokedex-tailwind/" />}
-                />
+                <Route path="*" element={<Navigate to="/tibialogs/" />} />
               </Routes>
               <Footer />
             </AuthProvider>
