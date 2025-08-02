@@ -9,7 +9,7 @@ const InputData = () => {
 
   //state
   const [form, setForm] = React.useState({
-    dataSource: "file",
+    dataSource: "text",
     selectedFile: "",
     reportDescription: "",
     characterVocation: "",
@@ -30,28 +30,116 @@ const InputData = () => {
     setSuccess(null);
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // Get the first file
+    setForm((prevForm) => ({
+      ...prevForm,
+      selectedFile: file || null, // Store the File object or null if no file is selected
+    }));
+    setError(null);
+    setSuccess(null);
+  };
+
   //validation
   const validate = () => {
     if (form.dataSource === "file" && !form.selectedFile)
       return "No JSON file selected";
-    else if (form.dataSource === "text" && !form.reportDescription)
+    else if (form.dataSource === "text" && !form.tempTextInput)
       return "No session data provided";
     else if (!form.characterVocation) return "Character vocation is required";
     else if (!form.characterLevel) return "Character level is required";
     else if (!form.characterGear) return "Character gear is required";
     else if (!form.currentSpawn) return "Current spawn is required";
+    return null;
   };
 
-  //submit handler
-  const handleSubmit = () => {
+  //parse data and prapare to save
+  const parseData = async () => {
+    return new Promise((resolve, reject) => {
+      if (form.dataSource === "file" && form.selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            const saveData = {
+              sessionData: data,
+              reportDescription: form.reportDescription,
+              characterVocation: form.characterVocation,
+              characterLevel: parseInt(form.characterLevel),
+              characterGear: form.characterGear,
+              currentSpawn: form.currentSpawn,
+            };
+            const existingReports = localStorage.getItem("reports")
+              ? JSON.parse(localStorage.getItem("reports"))
+              : [];
+            existingReports.push(saveData);
+            localStorage.setItem("reports", JSON.stringify(existingReports));
+            setForm((prevForm) => ({
+              ...prevForm,
+              tempTextInput: "",
+            }));
+            setError(null);
+            setSuccess(
+              "Session data from JSON file and additional fields saved."
+            );
+            resolve();
+          } catch (err) {
+            setError("Error parsing JSON file.");
+            reject(err);
+          }
+        };
+        reader.onerror = () => {
+          setError("Error reading file.");
+          reject(new Error("Error reading file."));
+        };
+        reader.readAsText(form.selectedFile);
+      } else if (form.dataSource === "text" && form.tempTextInput) {
+        try {
+          const data = JSON.parse(form.tempTextInput);
+          const saveData = {
+            sessionData: data,
+            reportDescription: form.reportDescription,
+            characterVocation: form.characterVocation,
+            characterLevel: parseInt(form.characterLevel),
+            characterGear: form.characterGear,
+            currentSpawn: form.currentSpawn,
+          };
+          const existingReports = localStorage.getItem("reports")
+            ? JSON.parse(localStorage.getItem("reports"))
+            : [];
+          existingReports.push(saveData);
+          localStorage.setItem("reports", JSON.stringify(existingReports));
+          setForm((prevForm) => ({
+            ...prevForm,
+            tempTextInput: "",
+          }));
+          setError(null);
+          setSuccess(
+            "Session data from text field and additional fields saved."
+          );
+          resolve();
+        } catch (err) {
+          setError("Error parsing JSON.");
+          reject(err);
+        }
+      } else {
+        setError("Invalid data source or missing input.");
+        reject(new Error("Invalid data source or missing input."));
+      }
+    });
+  };
+
+  const handleSubmit = async () => {
     const validationError = validate();
     if (validationError) {
       setError(validationError);
       console.log("Validation error:", validationError);
-      {
-        validationError && <Alert>{validationError}</Alert>;
-      }
       return;
+    }
+    try {
+      await parseData();
+    } catch (err) {
+      console.error("Submission error:", err);
     }
   };
 
@@ -72,6 +160,18 @@ const InputData = () => {
                     Data Source
                   </label>
                   <div className="flex gap-4">
+                    <label className="flex items-center gap-2 text-gray-900 dark:text-white ">
+                      <input
+                        className="form-check-input defaultChecked"
+                        type="radio"
+                        name="dataSource"
+                        id="textSource"
+                        value="text"
+                        checked={form.dataSource === "text"}
+                        onChange={handleFormChange}
+                      />
+                      Paste session data
+                    </label>
                     <label className="flex items-center gap-2 text-gray-900 dark:text-white">
                       <input
                         className="form-check-input"
@@ -83,18 +183,6 @@ const InputData = () => {
                         onChange={handleFormChange}
                       />
                       JSON File
-                    </label>
-                    <label className="flex items-center gap-2 text-gray-900 dark:text-white">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="dataSource"
-                        id="textSource"
-                        value="text"
-                        checked={form.dataSource === "text"}
-                        onChange={handleFormChange}
-                      />
-                      Paste session data
                     </label>
                   </div>
                 </div>
@@ -109,7 +197,7 @@ const InputData = () => {
                       accept=".json"
                       className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 p-2"
                       name="selectedFile"
-                      onChange={handleFormChange}
+                      onChange={handleFileChange}
                       disabled={form.dataSource !== "file"}
                     />
                   </div>
@@ -126,7 +214,7 @@ const InputData = () => {
                       rows="5"
                       placeholder="Session data: From 2025-01-20, 12:53:16 to 2025-01-20, 17:14:11\n\n..."
                       value={form.tempTextInput}
-                      onChange={handleFormChange}
+                      onChange={handleFileChange}
                       disabled={form.dataSource !== "text"}
                     ></textarea>
                   </div>
