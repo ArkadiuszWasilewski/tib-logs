@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Alert from "../ui/Alerts/Alert";
 import spawnLocations from "../../constants/spawnLocations";
 import vocations from "../../constants/vocations";
 
-const InputData = () => {
-  const [error, setError] = React.useState(null);
-  const [success, setSuccess] = React.useState(null);
+// Define the shape of the Alert component props
+interface AlertProps {
+  children: string;
+}
 
-  //state
-  const [form, setForm] = React.useState({
+// Define the shape of the form state
+interface FormState {
+  dataSource: "text" | "file";
+  selectedFile: File | null; // Fixed: Allow File or null
+  reportDescription: string;
+  characterVocation: string;
+  characterLevel: string;
+  characterGear: string;
+  currentSpawn: string;
+  tempTextInput: string;
+}
+
+// Define types for external constants (assuming they are string arrays)
+type SpawnLocation = string;
+type Vocation = string;
+
+// Define the shape of the saved report data
+interface ReportData {
+  sessionData: unknown; // Use 'unknown' for JSON data, as its shape is not specified
+  reportDescription: string;
+  characterVocation: string;
+  characterLevel: number;
+  characterGear: string;
+  currentSpawn: string;
+}
+
+const InputData: React.FC = () => {
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  // State
+  const [form, setForm] = useState<FormState>({
     dataSource: "text",
-    selectedFile: "",
+    selectedFile: null,
     reportDescription: "",
     characterVocation: "",
     characterLevel: "",
@@ -19,8 +50,10 @@ const InputData = () => {
     tempTextInput: "",
   });
 
-  //handlers
-  const handleFormChange = (e) => {
+  // Handlers
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -30,18 +63,18 @@ const InputData = () => {
     setSuccess(null);
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Get the first file
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null; // Safely access the first file
     setForm((prevForm) => ({
       ...prevForm,
-      selectedFile: file || null, // Store the File object or null if no file is selected
+      selectedFile: file,
     }));
     setError(null);
     setSuccess(null);
   };
 
-  //validation
-  const validate = () => {
+  // Validation
+  const validate = (): string | null => {
     if (form.dataSource === "file" && !form.selectedFile)
       return "No JSON file selected";
     else if (form.dataSource === "text" && !form.tempTextInput)
@@ -53,15 +86,15 @@ const InputData = () => {
     return null;
   };
 
-  //parse data and prapare to save
-  const parseData = async () => {
+  // Parse data and prepare to save
+  const parseData = async (): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (form.dataSource === "file" && form.selectedFile) {
         const reader = new FileReader();
         reader.onload = (e) => {
           try {
-            const data = JSON.parse(e.target.result);
-            const saveData = {
+            const data = JSON.parse(e.target?.result as string);
+            const saveData: ReportData = {
               sessionData: data,
               reportDescription: form.reportDescription,
               characterVocation: form.characterVocation,
@@ -69,8 +102,8 @@ const InputData = () => {
               characterGear: form.characterGear,
               currentSpawn: form.currentSpawn,
             };
-            const existingReports = localStorage.getItem("reports")
-              ? JSON.parse(localStorage.getItem("reports"))
+            const existingReports: ReportData[] = localStorage.getItem("reports")
+              ? JSON.parse(localStorage.getItem("reports")!)
               : [];
             existingReports.push(saveData);
             localStorage.setItem("reports", JSON.stringify(existingReports));
@@ -96,7 +129,7 @@ const InputData = () => {
       } else if (form.dataSource === "text" && form.tempTextInput) {
         try {
           const data = JSON.parse(form.tempTextInput);
-          const saveData = {
+          const saveData: ReportData = {
             sessionData: data,
             reportDescription: form.reportDescription,
             characterVocation: form.characterVocation,
@@ -104,8 +137,8 @@ const InputData = () => {
             characterGear: form.characterGear,
             currentSpawn: form.currentSpawn,
           };
-          const existingReports = localStorage.getItem("reports")
-            ? JSON.parse(localStorage.getItem("reports"))
+          const existingReports: ReportData[] = localStorage.getItem("reports")
+            ? JSON.parse(localStorage.getItem("reports")!)
             : [];
           existingReports.push(saveData);
           localStorage.setItem("reports", JSON.stringify(existingReports));
@@ -160,7 +193,7 @@ const InputData = () => {
                     Data Source
                   </label>
                   <div className="flex gap-4">
-                    <label className="flex items-center gap-2 text-gray-900 dark:text-white ">
+                    <label className="flex items-center gap-2 text-gray-900 dark:text-white">
                       <input
                         className="form-check-input defaultChecked"
                         type="radio"
@@ -211,12 +244,12 @@ const InputData = () => {
                     <textarea
                       className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
                       name="tempTextInput"
-                      rows="5"
+                      rows={5}
                       placeholder="Session data: From 2025-01-20, 12:53:16 to 2025-01-20, 17:14:11\n\n..."
                       value={form.tempTextInput}
-                      onChange={handleFileChange}
+                      onChange={handleFormChange} // Fixed: Changed from handleFileChange
                       disabled={form.dataSource !== "text"}
-                    ></textarea>
+                    />
                   </div>
                 )}
               </div>
@@ -234,7 +267,7 @@ const InputData = () => {
                     onChange={handleFormChange}
                   >
                     <option value="">Select a vocation</option>
-                    {vocations.map((vocation) => (
+                    {vocations.map((vocation: Vocation) => (
                       <option key={vocation} value={vocation}>
                         {vocation}
                       </option>
@@ -290,7 +323,7 @@ const InputData = () => {
                     list="spawnOptions"
                   />
                   <datalist id="spawnOptions">
-                    {spawnLocations.map((spawn) => (
+                    {spawnLocations.map((spawn: SpawnLocation) => (
                       <option key={spawn} value={spawn} />
                     ))}
                   </datalist>
@@ -303,11 +336,11 @@ const InputData = () => {
                   <textarea
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
                     name="reportDescription"
-                    rows="3"
+                    rows={3}
                     placeholder="Enter report description (optional)"
                     value={form.reportDescription}
                     onChange={handleFormChange}
-                  ></textarea>
+                  />
                 </div>
               </div>
             </div>

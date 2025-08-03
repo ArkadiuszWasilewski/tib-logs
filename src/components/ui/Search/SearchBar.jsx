@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../Button";
+import ButtonCustom from "../ButtonCustom";
 import { usePokemonContext } from "../../../context/PokemonContext";
 
 const SearchBar = () => {
@@ -30,7 +30,7 @@ const SearchBar = () => {
           Enter Pokémon name or ID
         </label>
       </div>
-      <Button onClick={handleSearchClick}> Search </Button>
+      <ButtonCustom onClick={handleSearchClick}> Search </ButtonCustom>
     </div>
   );
 };

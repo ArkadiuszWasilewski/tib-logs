@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
-import Button from "./Button";
+import ButtonCustom from "./ButtonCustom";
 import { Link } from "react-router-dom";
 import ButtonNavigation from "./ButtonNavigation";
 
@@ -94,7 +94,7 @@ export default function DropdownNavbar() {
                     </li>
                   </ul>
                   <div className="py-1">
-                    <Button onClick={handleLogout}>Log out</Button>
+                    <ButtonCustom onClick={handleLogout}>Log out</ButtonCustom>
                   </div>
                 </div>
               </li>

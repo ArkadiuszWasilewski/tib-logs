@@ -26,33 +26,35 @@ function App() {
           <UserContextProvider>
             <AuthProvider>
               <Header />
-              <Routes>
-                <Route
-                  path="/tibialogs/dashboard"
-                  element={
-                    <PrivateRoute>
-                      <Dashboard />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/tibialogs/update-profile"
-                  element={
-                    <PrivateRoute>
-                      <UpdateProfile />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="/tibialogs/" element={<MainContent />} />
-                <Route path="/tibialogs/login" element={<Login />}></Route>
-                <Route path="/tibialogs/signup" element={<Signup />}></Route>
-                <Route
-                  path="/tibialogs/forgot-password"
-                  element={<ForgotPassword />}
-                ></Route>
-                {/* Catch-all route for 404 errors */}
-                <Route path="*" element={<Navigate to="/tibialogs/" />} />
-              </Routes>
+              <main className="pt-32">
+                <Routes>
+                  <Route
+                    path="/tibialogs/dashboard"
+                    element={
+                      <PrivateRoute>
+                        <Dashboard />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/tibialogs/update-profile"
+                    element={
+                      <PrivateRoute>
+                        <UpdateProfile />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route path="/tibialogs/" element={<MainContent />} />
+                  <Route path="/tibialogs/login" element={<Login />}></Route>
+                  <Route path="/tibialogs/signup" element={<Signup />}></Route>
+                  <Route
+                    path="/tibialogs/forgot-password"
+                    element={<ForgotPassword />}
+                  ></Route>
+                  {/* Catch-all route for 404 errors */}
+                  <Route path="*" element={<Navigate to="/tibialogs/" />} />
+                </Routes>
+              </main>
               <Footer />
             </AuthProvider>
           </UserContextProvider>

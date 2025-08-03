@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "../ui/Alerts/Alert";
 import LinkSpan from "../ui/LinkSpan";
 import LabelDashboard from "../ui/LabelDashboard";
-import Button from "../ui/Button";
+import ButtonCustom from "../ui/ButtonCustom";
 
 export default function UpdateProfile() {
   const [error, setError] = useState("");
@@ -48,7 +48,7 @@ export default function UpdateProfile() {
             <Link to="/tibialogs/update-profile">
               <LinkSpan>Update your profile</LinkSpan>
             </Link>
-            <Button onClick={handleLogout}>Logout</Button>
+            <ButtonCustom onClick={handleLogout}>Logout</ButtonCustom>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Button from "./ui/Button";
+import ButtonCustom from "./ui/ButtonCustom";
 import DropdownNavbar from "./ui/DropdownNavbar";
 import ToggleDarkMode from "./ui/ToggleDarkMode";
 const Header = () => {
@@ -33,11 +33,11 @@ const Header = () => {
           <ToggleDarkMode />
           {currentUser ? (
             <Link to="/tibialogs/login">
-              <Button onClick={handleLogout}>Logout</Button>
+              <ButtonCustom onClick={handleLogout}>Logout</ButtonCustom>
             </Link>
           ) : (
             <Link to="/tibialogs/login">
-              <Button>Sign In</Button>
+              <ButtonCustom>Sign In</ButtonCustom>
             </Link>
           )}
         </div>
