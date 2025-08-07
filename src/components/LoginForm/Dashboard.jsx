@@ -18,38 +18,36 @@ export default function UpdateProfile() {
     e.preventDefault();
     try {
       await logout();
-      navigate("/tibialogs/");
+      navigate("/");
     } catch (err) {
       console.log("Error during logging out:  ", err);
       setError("Error during logging out");
     }
   };
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Profile
-            </h1>
-            {error && <Alert>{error}</Alert>}
+    <section className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            Profile
+          </h1>
+          {error && <Alert>{error}</Alert>}
 
-            <div>
-              <LabelDashboard>Email: {userData.email}</LabelDashboard>
-              {userData.name ? (
-                <LabelDashboard>Name: {userData.name}</LabelDashboard>
-              ) : (
-                ""
-              )}
-              <LabelDashboard>
-                Created at: {userData.firebaseCreationTime}
-              </LabelDashboard>
-            </div>
-            <Link to="/tibialogs/update-profile">
-              <LinkSpan>Update your profile</LinkSpan>
-            </Link>
-            <ButtonCustom onClick={handleLogout}>Logout</ButtonCustom>
+          <div>
+            <LabelDashboard>Email: {userData.email}</LabelDashboard>
+            {userData.name ? (
+              <LabelDashboard>Name: {userData.name}</LabelDashboard>
+            ) : (
+              ""
+            )}
+            <LabelDashboard>
+              Created at: {userData.firebaseCreationTime}
+            </LabelDashboard>
           </div>
+          <Link to="/update-profile">
+            <LinkSpan>Update your profile</LinkSpan>
+          </Link>
+          <ButtonCustom onClick={handleLogout}>Logout</ButtonCustom>
         </div>
       </div>
     </section>

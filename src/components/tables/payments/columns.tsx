@@ -1,12 +1,9 @@
-//thats server component what supposed to fetch data from the server
-
-import { DataTable } from "@/payments/data-table";
-import { data, User } from "@/lib/data";
 import { createColumnHelper } from "@tanstack/react-table";
 import DefaultHeader from "./default-header";
+import { User } from "@/lib/data";
 
 const columnHelper = createColumnHelper<User>();
-const columns = [
+export const columns = [
     columnHelper.display({
         id: "select",
         header: ({ table }) => (
@@ -48,12 +45,3 @@ const columns = [
     }),
 
 ]
-
-
-export default function PaymentsPage() {
-    return (
-        <div className=" mx-auto p-4">
-        <DataTable<User, any> columns={columns} data={data} />
-        </div>
-    );
-    }

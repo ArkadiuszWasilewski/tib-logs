@@ -15,7 +15,7 @@ Make sure you have the following installed:
 
 ```
 git clone https://github.com/ArkadiuszWasilewski/tibialogs
-cd pokedex-app
+cd tibialogs
 ```
 
 2. Install dependencies
@@ -33,7 +33,7 @@ npm run dev
 4. Open your browser
 
 ```
-Go to http://localhost:5173/tibialogs/ to view the application.
+Go to http://localhost:5173/ to view the application.
 - will be a blank site, because we need to set up env variable first
 
 ```

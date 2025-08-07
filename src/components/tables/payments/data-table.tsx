@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800">
+    <div className="border border-gray-300 dark:border-gray-800 bg-white dark:bg-gray-800">
       <Table className="text-gray-900 dark:text-white">
         <TableHeader className="bg-gray-50 dark:bg-gray-700">
           {table.getHeaderGroups().map((headerGroup) => (

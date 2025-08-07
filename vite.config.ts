@@ -16,7 +16,7 @@ export default defineConfig({
       ],
     },
   },
-  base: "/tibialogs/",
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

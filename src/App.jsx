@@ -16,20 +16,22 @@ import PrivateRoute from "./components/LoginForm/PrivateRoute";
 import Dashboard from "./components/LoginForm/Dashboard";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { UserContextProvider } from "./context/UserContext";
-import MainContent from "./components/MainContent";
+import Rankings from "./components/Rankings";
+import AboutPage from "./components/AboutPage";
+import NewSession from "./components/NewSession";
 
 function App() {
   return (
     <DarkModeProvider>
-      <div className="flex flex-col bg-gray-300 dark:bg-gray-600 text-white dark:text-white min-h-screen">
+      <div className="flex flex-col text-white dark:text-white min-h-screen bg-gray-100 dark:bg-gray-600">
         <Router>
           <UserContextProvider>
             <AuthProvider>
               <Header />
-              <main className="flex flex-col bg-gray-300 dark:bg-gray-600 text-white dark:text-white min-h-screen max-w-screen-xl mx-auto pt-32">
+              <main className="flex flex-col  dark:bg-gray-600 text-white dark:text-white min-h-screen max-w-screen-xl mx-auto pt-32">
                 <Routes>
                   <Route
-                    path="/tibialogs/dashboard"
+                    path="/dashboard"
                     element={
                       <PrivateRoute>
                         <Dashboard />
@@ -37,22 +39,24 @@ function App() {
                     }
                   />
                   <Route
-                    path="/tibialogs/update-profile"
+                    path="/update-profile"
                     element={
                       <PrivateRoute>
                         <UpdateProfile />
                       </PrivateRoute>
                     }
                   />
-                  <Route path="/tibialogs/" element={<MainContent />} />
-                  <Route path="/tibialogs/login" element={<Login />}></Route>
-                  <Route path="/tibialogs/signup" element={<Signup />}></Route>
+                  <Route path="/" element={<Rankings />} />
+                  <Route path="/login" element={<Login />}></Route>
+                  <Route path="/signup" element={<Signup />}></Route>
                   <Route
-                    path="/tibialogs/forgot-password"
+                    path="/forgot-password"
                     element={<ForgotPassword />}
                   ></Route>
                   {/* Catch-all route for 404 errors */}
-                  <Route path="*" element={<Navigate to="/tibialogs/" />} />
+                  <Route path="*" element={<Navigate to="/" />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/newsession" element={<NewSession />} />
                 </Routes>
               </main>
               <Footer />

@@ -16,7 +16,7 @@ const Header = () => {
 
     try {
       await logout();
-      navigate("/tibialogs/");
+      navigate("/");
     } catch (err) {
       console.log("Error during logging out from header ", err);
       setError("Error during logging out from header");
@@ -24,19 +24,18 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-600">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/tibialogs/">TIBIA LOGS</Link>
+    <nav className="navbar-nav-wrap bg-white  dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-gray-200 border-b dark:border-gray-600 dark:border-b">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 text-black dark:text-white">
+        <Link to="/">TIBIA LOGS</Link>
         <DropdownNavbar />
-
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-x-3">
           <ToggleDarkMode />
           {currentUser ? (
-            <Link to="/tibialogs/login">
+            <Link to="/login">
               <ButtonCustom onClick={handleLogout}>Logout</ButtonCustom>
             </Link>
           ) : (
-            <Link to="/tibialogs/login">
+            <Link to="/login">
               <ButtonCustom>Sign In</ButtonCustom>
             </Link>
           )}
