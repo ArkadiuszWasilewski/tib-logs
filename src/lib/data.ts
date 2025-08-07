@@ -10,6 +10,7 @@ export type User = {
     age: number;
     email: string;
     comments: string;
+    
 }
 
 const createUsers = (numUser: number) => {
@@ -26,4 +27,4 @@ const createUsers = (numUser: number) => {
     return users;
 }
 
-export const data: User[] = [...createUsers(20)];
+export const data: User[] = [...createUsers(1000)];

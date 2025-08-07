@@ -1,6 +1,6 @@
 import { HeaderContext } from "@tanstack/react-table";
 import { User } from "@/lib/data";
-import { ContextMenu, ContextMenuTrigger, ContextMenuCheckboxItem, ContextMenuContent } from "@radix-ui/react-context-menu";
+import { ContextMenu, ContextMenuTrigger, ContextMenuCheckboxItem, ContextMenuContent } from "@/components/ui/context-menu";
 
 interface DefaultHeaderProps<T> {
     info: HeaderContext<User, T>;

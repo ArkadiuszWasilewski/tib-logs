@@ -21,12 +21,12 @@ import MainContent from "./components/MainContent";
 function App() {
   return (
     <DarkModeProvider>
-      <div className="flex flex-col bg-gray-300 dark:bg-gray-700 text-white dark:text-white min-h-screen">
+      <div className="flex flex-col bg-gray-300 dark:bg-gray-600 text-white dark:text-white min-h-screen">
         <Router>
           <UserContextProvider>
             <AuthProvider>
               <Header />
-              <main className="pt-32">
+              <main className="flex flex-col bg-gray-300 dark:bg-gray-600 text-white dark:text-white min-h-screen max-w-screen-xl mx-auto pt-32">
                 <Routes>
                   <Route
                     path="/tibialogs/dashboard"
