@@ -21,7 +21,13 @@ interface FormState {
 }
 
 // Define types for external constants (assuming they are string arrays)
-type SpawnLocation = string;
+interface SpawnLocation {
+  spawnLocation: string;
+  recommendedLevel: string;
+  expectedRawXp: string;
+  expectedLoot: string;
+  linkToVideo: string;
+}
 type Vocation = string;
 
 // Define the shape of the saved report data
@@ -324,7 +330,7 @@ const InputData: React.FC = () => {
                   />
                   <datalist id="spawnOptions">
                     {spawnLocations.map((spawn: SpawnLocation) => (
-                      <option key={spawn} value={spawn} />
+                      <option key={spawn.spawnLocation} value={spawn.spawnLocation} />
                     ))}
                   </datalist>
                 </div>
