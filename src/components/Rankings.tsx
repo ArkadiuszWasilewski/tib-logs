@@ -1,11 +1,12 @@
-import RankingsPage from "@/components/tables/rankings/page";
-import RankingManubar from "./rankingMenubar/RankingMenubar";
+import RankingsPage from "@/components/Tables/rankings/page";
+import RankingMenubar from "@/components/RankingMenubar/RankingMenubar";
 
 const Rankings = () => {
   
+
   return (
     <div className="border mx-auto p-4">
-      <RankingManubar />
+      <RankingMenubar />
       <RankingsPage />
     </div>
   );

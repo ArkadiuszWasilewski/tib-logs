@@ -1,14 +1,12 @@
 "use client";
-
-import * as React from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider";
+import { FilterState, HorizontalFiltersProps } from "./types";
+import { gear, vocations, sizes, spawnLocations, sortOptions, levelRangeConfig } from "./constants/filterOptions";
+import { Slider } from "@/components/RankingMenubar/components/Slider";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Check, ChevronDown, Filter, X } from "lucide-react";
+import { Check, ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Popover,
   PopoverContent,
@@ -21,63 +19,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Modified base slider component to show end circle
-interface SliderProps
-  extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
-  showEndCircle?: boolean;
-}
-const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  SliderProps
->(({ className, showEndCircle = false, ...props }, ref) => (
-  <SliderPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex w-full touch-none select-none items-center",
-      className
-    )}
-    {...props}
-  >
-    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
-      <SliderPrimitive.Range className="absolute h-full bg-primary" />
-    </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
-    {showEndCircle && (
-      <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
-    )}
-  </SliderPrimitive.Root>
-));
-Slider.displayName = SliderPrimitive.Root.displayName;
-// End Modified base slider component to show end circle
-
-interface HorizontalFiltersProps {
-  className?: string;
-  onFilterChange?: (filters: FilterState) => void;
-}
-interface FilterState {
-  categories: string[];
-  priceRange: [number, number];
-  brands: string[];
-  colors: string[];
-  sizes: string[];
-  sortBy: string;
-}
-
 export default function RankingManubar({
   className,
   onFilterChange,
 }: HorizontalFiltersProps) {
   const [filters, setFilters] = useState<FilterState>({
-    categories: [],
-    priceRange: [0, 2500],
-    brands: [],
-    colors: [],
+    gear: [],
+    levelRange: [levelRangeConfig.min, levelRangeConfig.max],
+    spawnLocations: [],
+    vocations: [],
     sizes: [],
-    sortBy: "featured",
+    sortBy: "mostDamage",
   });
 
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
     const updated = { ...filters, ...newFilters };
@@ -85,11 +40,11 @@ export default function RankingManubar({
 
     // Count active filters
     let count = 0;
-    if (updated.categories.length) count += updated.categories.length;
-    if (updated.brands.length) count += updated.brands.length;
-    if (updated.colors.length) count += updated.colors.length;
+    if (updated.gear.length) count += updated.gear.length;
+    if (updated.spawnLocations.length) count += updated.spawnLocations.length;
+    if (updated.vocations.length) count += updated.vocations.length;
     if (updated.sizes.length) count += updated.sizes.length;
-    if (updated.priceRange[0] > 0 || updated.priceRange[1] < 2500) count += 1;
+    if (updated.levelRange[0] > 0 || updated.levelRange[1] < 500) count += 1;
 
     setActiveFiltersCount(count);
     onFilterChange?.(updated);
@@ -111,64 +66,36 @@ export default function RankingManubar({
 
   const clearFilters = () => {
     setFilters({
-      categories: [],
-      priceRange: [0,2500],
-      brands: [],
-      colors: [],
+      gear: [],
+      levelRange: [levelRangeConfig.min, levelRangeConfig.max],
+      spawnLocations: [],
+      vocations: [],
       sizes: [],
-      sortBy: "featured",
+      sortBy: "mostDamage",
     });
     setActiveFiltersCount(0);
     onFilterChange?.({
-      categories: [],
-      priceRange: [0, 2500],
-      brands: [],
-      colors: [],
+      gear: [],
+      levelRange: [levelRangeConfig.min, levelRangeConfig.max],
+      spawnLocations: [],
+      vocations: [],
       sizes: [],
-      sortBy: "featured",
+      sortBy: "mostDamage",
     });
   };
 
-  const categories = [
-    "Clothing",
-    "Shoes",
-    "Accessories",
-    "Sportswear",
-    "Outerwear",
-  ];
-
-  const brands = ["Nike", "Adidas", "Puma", "Under Armour", "New Balance"];
-
-  const colors = [
-    { name: "Black", value: "#000000" },
-    { name: "White", value: "#FFFFFF" },
-    { name: "Red", value: "#FF0000" },
-    { name: "Blue", value: "#0000FF" },
-    { name: "Green", value: "#00FF00" },
-    { name: "Yellow", value: "#FFFF00" },
-  ];
-
-  const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-
-  const sortOptions = [
-    { label: "Featured", value: "featured" },
-    { label: "Price: Low to High", value: "price-asc" },
-    { label: "Price: High to Low", value: "price-desc" },
-    { label: "Newest", value: "newest" },
-    { label: "Best Selling", value: "best-selling" },
-  ];
 
   const ActiveFilterBadges = () => {
     const activeFilters = [
-      ...filters.categories.map((cat) => ({ type: "categories", value: cat })),
-      ...filters.brands.map((brand) => ({ type: "brands", value: brand })),
-      ...filters.colors.map((color) => ({ type: "colors", value: color })),
+      ...filters.gear.map((cat) => ({ type: "gear", value: cat })),
+      ...filters.spawnLocations.map((spawnLocation) => ({ type: "spawnLocations", value: spawnLocation })),
+      ...filters.vocations.map((color) => ({ type: "vocations", value: color })),
       ...filters.sizes.map((size) => ({ type: "sizes", value: size })),
-      ...(filters.priceRange[0] > 0 || filters.priceRange[1] < 2500
+      ...(filters.levelRange[0] > levelRangeConfig.min || filters.levelRange[1] < levelRangeConfig.max
         ? [
             {
-              type: "price",
-              value: `$${filters.priceRange[0]} - $${filters.priceRange[1]}`,
+              type: "levelRange",
+              value: `lvl ${filters.levelRange[0]} - ${filters.levelRange[1]}`,
             },
           ]
         : []),
@@ -213,34 +140,33 @@ export default function RankingManubar({
 
   return (
     <>
-      {/* Height set for example purpose only */}
       <div className={cn("w-full p-6", className)}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div className="flex flex-wrap items-center gap-2">
-            {/* Category Filter */}
+            {/* Spawn Location Filter */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8">
-                  Category
+                  Spawn Location
                   <ChevronDown className="ml-1 h-3 w-3" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-56 p-3">
                 <div className="space-y-2">
-                  {categories.map((category) => (
-                    <div key={category} className="flex items-center">
+                  {spawnLocations.map((spawnLocation) => (
+                    <div key={spawnLocation} className="flex items-center">
                       <Button
                         variant="ghost"
                         size="sm"
                         className={cn(
                           "justify-start w-full font-normal",
-                          filters.categories.includes(category) && "font-medium"
+                          filters.spawnLocations.includes(spawnLocation) && "font-medium"
                         )}
-                        onClick={() => toggleFilter("categories", category)}
+                        onClick={() => toggleFilter("spawnLocations", spawnLocation)}
                       >
                         <div className="flex items-center justify-between w-full">
-                          {category}
-                          {filters.categories.includes(category) && (
+                          {spawnLocation}
+                          {filters.spawnLocations.includes(spawnLocation) && (
                             <Check className="h-4 w-4" />
                           )}
                         </div>
@@ -251,74 +177,40 @@ export default function RankingManubar({
               </PopoverContent>
             </Popover>
 
-            {/* Brand Filter */}
+            {/* Level Range Filter */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8">
-                  Brand
-                  <ChevronDown className="ml-1 h-3 w-3" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-56 p-3">
-                <div className="space-y-2">
-                  {brands.map((brand) => (
-                    <div key={brand} className="flex items-center">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className={cn(
-                          "justify-start w-full font-normal",
-                          filters.brands.includes(brand) && "font-medium"
-                        )}
-                        onClick={() => toggleFilter("brands", brand)}
-                      >
-                        <div className="flex items-center justify-between w-full">
-                          {brand}
-                          {filters.brands.includes(brand) && (
-                            <Check className="h-4 w-4" />
-                          )}
-                        </div>
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-
-            {/* Price Range Filter */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8">
-                  Price
+                  Level range
                   <ChevronDown className="ml-1 h-3 w-3" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-64 p-4">
                 <div className="space-y-4">
-                  <h4 className="font-medium text-sm">Price Range</h4>
+                  <h4 className="font-medium text-sm">Level range</h4>
                   <Slider
-                    value={filters.priceRange}
-                    min={0}
-                    max={2500}
-                    step={10}
+                    value={filters.levelRange}
+                    min={levelRangeConfig.min}
+                    max={levelRangeConfig.max}
+                    step={levelRangeConfig.step}
                     onValueChange={(value) =>
-                      updateFilters({ priceRange: value as [number, number] })
+                      updateFilters({ levelRange: value as [number, number] })
                     }
                     showEndCircle
                   />
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">
-                      ${filters.priceRange[0]}
+                      {filters.levelRange[0]}
                     </span>
                     <span className="text-sm text-muted-foreground">
-                      ${filters.priceRange[1]}
+                      {filters.levelRange[1]}{"+"}
                     </span>
                   </div>
                 </div>
               </PopoverContent>
             </Popover>
 
-            {/* Size Filter */}
+            {/* Party Size Filter */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8">
@@ -345,17 +237,17 @@ export default function RankingManubar({
               </PopoverContent>
             </Popover>
 
-            {/* Color Filter */}
+            {/* Vocation Filter */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8">
-                  Color
+                  Vocation
                   <ChevronDown className="ml-1 h-3 w-3" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-56 p-3">
                 <div className="grid grid-cols-4 gap-2">
-                  {colors.map((color) => (
+                  {vocations.map((color) => (
                     <div
                       key={color.name}
                       className="flex flex-col items-center gap-1"
@@ -363,13 +255,13 @@ export default function RankingManubar({
                       <button
                         className={cn(
                           "h-8 w-8 rounded-full border border-input flex items-center justify-center",
-                          filters.colors.includes(color.name) &&
+                          filters.vocations.includes(color.name) &&
                             "ring-2 ring-primary"
                         )}
                         style={{ backgroundColor: color.value }}
-                        onClick={() => toggleFilter("colors", color.name)}
+                        onClick={() => toggleFilter("vocations", color.name)}
                       >
-                        {filters.colors.includes(color.name) && (
+                        {filters.vocations.includes(color.name) && (
                           <Check
                             className={cn(
                               "h-4 w-4",
@@ -386,22 +278,39 @@ export default function RankingManubar({
                 </div>
               </PopoverContent>
             </Popover>
-
-            {/* Mobile All Filters Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 sm:hidden"
-              onClick={() => setShowMobileFilters(true)}
-            >
-              <Filter className="h-3 w-3 mr-1" />
-              All Filters
-              {activeFiltersCount > 0 && (
-                <Badge variant="secondary" className="ml-1">
-                  {activeFiltersCount}
-                </Badge>
-              )}
-            </Button>
+            {/* Gear Filter */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8">
+                  Gear
+                  <ChevronDown className="ml-1 h-3 w-3" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-3">
+                <div className="space-y-2">
+                  {gear.map((category) => (
+                    <div key={category} className="flex items-center">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className={cn(
+                          "justify-start w-full font-normal",
+                          filters.gear.includes(category) && "font-medium"
+                        )}
+                        onClick={() => toggleFilter("gear", category)}
+                      >
+                        <div className="flex items-center justify-between w-full">
+                          {category}
+                          {filters.gear.includes(category) && (
+                            <Check className="h-4 w-4" />
+                          )}
+                        </div>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Sort By Dropdown */}
@@ -440,178 +349,7 @@ export default function RankingManubar({
         {/* Active Filter Badges */}
         <ActiveFilterBadges />
 
-        {/* Mobile Filters Overlay */}
-        {showMobileFilters && (
-          <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
-            <div className="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-background p-6 shadow-lg">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold">Filters</h2>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowMobileFilters(false)}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-
-              <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="space-y-6 pr-4">
-                  {/* Categories */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Categories</h3>
-                    <div className="space-y-2">
-                      {categories.map((category) => (
-                        <Button
-                          key={category}
-                          variant="ghost"
-                          size="sm"
-                          className={cn(
-                            "justify-start w-full font-normal",
-                            filters.categories.includes(category) &&
-                              "font-medium"
-                          )}
-                          onClick={() => toggleFilter("categories", category)}
-                        >
-                          <div className="flex items-center justify-between w-full">
-                            {category}
-                            {filters.categories.includes(category) && (
-                              <Check className="h-4 w-4" />
-                            )}
-                          </div>
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Brands */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Brands</h3>
-                    <div className="space-y-2">
-                      {brands.map((brand) => (
-                        <Button
-                          key={brand}
-                          variant="ghost"
-                          size="sm"
-                          className={cn(
-                            "justify-start w-full font-normal",
-                            filters.brands.includes(brand) && "font-medium"
-                          )}
-                          onClick={() => toggleFilter("brands", brand)}
-                        >
-                          <div className="flex items-center justify-between w-full">
-                            {brand}
-                            {filters.brands.includes(brand) && (
-                              <Check className="h-4 w-4" />
-                            )}
-                          </div>
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Price Range */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Price Range</h3>
-                    <div className="space-y-4">
-                      <Slider
-                        value={filters.priceRange}
-                        min={0}
-                        max={2500}
-                        step={10}
-                        onValueChange={(value) =>
-                          updateFilters({
-                            priceRange: value as [number, number],
-                          })
-                        }
-                      />
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">
-                          ${filters.priceRange[0]}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          ${filters.priceRange[1]}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Sizes */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Sizes</h3>
-                    <div className="grid grid-cols-3 gap-2">
-                      {sizes.map((size) => (
-                        <Button
-                          key={size}
-                          variant={
-                            filters.sizes.includes(size) ? "default" : "outline"
-                          }
-                          size="sm"
-                          onClick={() => toggleFilter("sizes", size)}
-                          className="h-8"
-                        >
-                          {size}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Colors */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Colors</h3>
-                    <div className="grid grid-cols-4 gap-2">
-                      {colors.map((color) => (
-                        <div
-                          key={color.name}
-                          className="flex flex-col items-center gap-1"
-                        >
-                          <button
-                            className={cn(
-                              "h-8 w-8 rounded-full border border-input flex items-center justify-center",
-                              filters.colors.includes(color.name) &&
-                                "ring-2 ring-primary"
-                            )}
-                            style={{ backgroundColor: color.value }}
-                            onClick={() => toggleFilter("colors", color.name)}
-                          >
-                            {filters.colors.includes(color.name) && (
-                              <Check
-                                className={cn(
-                                  "h-4 w-4",
-                                  ["White", "Yellow"].includes(color.name)
-                                    ? "text-black"
-                                    : "text-white"
-                                )}
-                              />
-                            )}
-                          </button>
-                          <span className="text-xs">{color.name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </ScrollArea>
-
-              <div className="flex items-center justify-between mt-6 pt-4 border-t">
-                <Button variant="outline" onClick={clearFilters}>
-                  Clear all
-                </Button>
-                <Button onClick={() => setShowMobileFilters(false)}>
-                  Apply filters
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+        
       </div>
     </>
   );

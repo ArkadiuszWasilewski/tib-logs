@@ -2,7 +2,7 @@
 // | Ranking | Character Name | Level | Vocation | World | Raw XP/Hour | Damage/Hour | Hunt Duration (HH:MM) | Upload Date | Comments | Flag for exploit |
 import { createColumnHelper, ColumnDef } from "@tanstack/react-table"; 
 import { formatTimeSession } from "@/lib/utils";
-import DefaultHeader from "./default-header";
+import DefaultHeader from "./default-header"
 import { User } from "@/lib/rankingData";
 
 const columnHelper = createColumnHelper<User>();
