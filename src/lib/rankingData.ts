@@ -31,10 +31,10 @@ const createUsers = (numUser: number) => {
             dmgHour: faker.number.int({ min: 0, max: 5000 }), 
             huntDuration: faker.number.int({ min: 0, max: 600 }), //duraion in minutes
             uploadDate: faker.date.past(),
-            comments: faker.lorem.sentence(3),
+            comments: faker.lorem.words({ min: 0, max: 15 }),
         });
     }
     return users;
 }
 
-export const data: User[] = [...createUsers(10)];
+export const data: User[] = [...createUsers(100)];

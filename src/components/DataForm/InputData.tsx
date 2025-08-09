@@ -264,7 +264,26 @@ const InputData: React.FC = () => {
               <div className="space-y-4 md:space-y-6">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Character Class
+                    Spawn
+                  </label>
+                  <input
+                    type="text"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
+                    name="currentSpawn"
+                    placeholder="Enter spawn location"
+                    value={form.currentSpawn}
+                    onChange={handleFormChange}
+                    list="spawnOptions"
+                  />
+                  <datalist id="spawnOptions">
+                    {spawnLocations.map((spawn: SpawnLocation) => (
+                      <option key={spawn.spawnLocation} value={spawn.spawnLocation} />
+                    ))}
+                  </datalist>
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Vocation
                   </label>
                   <select
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
@@ -314,27 +333,6 @@ const InputData: React.FC = () => {
                     <option value="CHEAP">CHEAP</option>
                   </select>
                 </div>
-
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Spawn
-                  </label>
-                  <input
-                    type="text"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
-                    name="currentSpawn"
-                    placeholder="Enter spawn location"
-                    value={form.currentSpawn}
-                    onChange={handleFormChange}
-                    list="spawnOptions"
-                  />
-                  <datalist id="spawnOptions">
-                    {spawnLocations.map((spawn: SpawnLocation) => (
-                      <option key={spawn.spawnLocation} value={spawn.spawnLocation} />
-                    ))}
-                  </datalist>
-                </div>
-
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Report Description

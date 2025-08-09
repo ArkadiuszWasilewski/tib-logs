@@ -9,14 +9,16 @@ const columnHelper = createColumnHelper<User>();
 export const columns = [
     columnHelper.display({
     id: "Ranking",
+    header: () => "Rank",
     cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
-  }),
+    }),
     columnHelper.accessor("characterName", {
         header: (info) => <DefaultHeader info={info} name="Character Name" />,
+        id: "characterName",
         cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("characterLevel", {
-        header: () => "Level",
+        header: (info) => <DefaultHeader info={info} name="Level" />,
         cell: (info) => info.getValue(),
     }), 
     columnHelper.accessor("characterVocation", {
@@ -31,7 +33,26 @@ export const columns = [
         header: (info) => <DefaultHeader info={info} name="Raw XP/Hour" />,
         cell: (info) => info.getValue(),
     }),
-    
+    columnHelper.accessor("dmgHour", {
+        header: (info) => <DefaultHeader info={info} name="Damage/Hour" />,
+        cell: (info) => info.getValue(),
+    }), 
+    columnHelper.accessor("huntDuration", {
+        header: (info) => <DefaultHeader info={info} name="Time Session " />,
+        cell: (info) => formatTimeSession(info.getValue()),
+    }),    
+    columnHelper.accessor("uploadDate", {
+        header: (info) => <DefaultHeader info={info} name="Date" />,
+        cell: (info) => info.getValue().toLocaleDateString("en-GB" , {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+        }),
+    }),
+    columnHelper.accessor("comments", {
+        header: () => "Comments",
+        cell: (info) => info.getValue(),
+    }),
 ]
 
 

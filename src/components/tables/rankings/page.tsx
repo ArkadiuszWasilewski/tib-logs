@@ -9,7 +9,7 @@ import { columns } from "@/components/tables/rankings/columns";
 
 export default function RankingsPage() {
     return (
-        <div className=" mx-auto p-4">
+        <div className="w-full max-w-7xl mx-auto p-4">
         <DataTable<User, any> columns={columns} data={data} />
         </div>
     );
