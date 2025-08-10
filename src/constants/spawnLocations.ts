@@ -1,4 +1,4 @@
-const spawnLocations = [
+export const spawnLocations = [
   {
     spawnLocation: "Swamp Trolls Port Hope/Venore",
     recommendedLevel: "8+",

@@ -1,9 +1,10 @@
 // Structure of the table columns for rankings
 // | Ranking | Character Name | Level | Vocation | World | Raw XP/Hour | Damage/Hour | Hunt Duration (HH:MM) | Upload Date | Comments | Flag for exploit |
 import { createColumnHelper, ColumnDef } from "@tanstack/react-table"; 
-import { formatTimeSession } from "@/lib/utils";
-import DefaultHeader from "./default-header"
+import { formatTimeSession, formatDate } from "@/lib/utils";
+import DefaultHeader from "./default-header";
 import { User } from "@/lib/rankingData";
+import HoverPopover from "@/components/ui/CommentHoverPopover";
 
 const columnHelper = createColumnHelper<User>();
 export const columns = [
@@ -43,15 +44,11 @@ export const columns = [
     }),    
     columnHelper.accessor("uploadDate", {
         header: (info) => <DefaultHeader info={info} name="Date" />,
-        cell: (info) => info.getValue().toLocaleDateString("en-GB" , {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        }),
+        cell: (info) => formatDate(info.getValue()),
     }),
     columnHelper.accessor("comments", {
         header: () => "Comments",
-        cell: (info) => info.getValue(),
+        cell: (info) => info.getValue() ? <HoverPopover tooltip={info.getValue() || "No comments"}/> : "",
     }),
 ]
 

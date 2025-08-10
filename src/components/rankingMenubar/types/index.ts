@@ -21,5 +21,3 @@ export interface HorizontalFiltersProps {
   className?: string;
   onFilterChange?: (filters: FilterState) => void;
 }
-
-export const spawnLocations = ["Azzilon Castle", "Roshamuul West"]; // for now hardcoded

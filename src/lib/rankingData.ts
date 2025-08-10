@@ -30,8 +30,8 @@ const createUsers = (numUser: number) => {
             rawXpHour: faker.number.int({ min: 0, max: 32000 }), 
             dmgHour: faker.number.int({ min: 0, max: 5000 }), 
             huntDuration: faker.number.int({ min: 0, max: 600 }), //duraion in minutes
-            uploadDate: faker.date.past(),
-            comments: faker.lorem.words({ min: 0, max: 15 }),
+            uploadDate: faker.date.recent(),
+            comments: faker.lorem.words({ min: 0, max: 2 }),
         });
     }
     return users;

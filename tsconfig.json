@@ -5,6 +5,7 @@
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
@@ -18,7 +19,7 @@
       "@/components/*": ["components/*"],
       "@/lib/utils/*": ["lib/utils/*"]
     },
-    "noEmit": true
+    "noEmit": true,
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

@@ -20,7 +20,6 @@ export const levelRangeConfig = {
   step: 10,
 }
 export const sizes = ["Solo", "Duo", "Trio", "4-voc", "Other"];
-export const spawnLocations = ["Azzilon Castle", "Roshamuul West"]; // for now hardcoded
 
 
 export const sortOptions = [

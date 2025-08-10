@@ -37,8 +37,8 @@
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
     "@svgr/webpack": "^8.1.0",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.20",

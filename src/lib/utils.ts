@@ -13,3 +13,37 @@ export const formatTimeSession = (minutes: number): string => {
   return `${hours}h ${mins}m`;
 };
 
+//Convert date 
+//When less than 7 days then show "2 days ago, 2 hours ago etc"
+export const formatDate = (date: Date): string => {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return "Invalid date";
+  }
+
+  const now = new Date();
+  const diffInMs = now.getTime() - date.getTime();
+  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+  if (diffInDays < 7) {
+    const diffInSeconds = Math.floor(diffInMs / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} second${diffInSeconds === 1 ? "" : "s"} ago`;
+    } else if (diffInMinutes < 60) {
+      return `${diffInMinutes} minute${diffInMinutes === 1 ? "" : "s"} ago`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours} hour${diffInHours === 1 ? "" : "s"} ago`;
+    } else {
+      const days = Math.floor(diffInHours / 24);
+      return `${days} day${days === 1 ? "" : "s"} ago`;
+    }
+  } else {
+    return date.toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+  }
+};
