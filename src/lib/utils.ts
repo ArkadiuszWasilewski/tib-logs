@@ -47,3 +47,32 @@ export const formatDate = (date: Date): string => {
     });
   }
 };
+
+export function getFiltersFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    vocation: params.get("vocation") || "",
+    world: params.get("world") || "",
+  };
+}
+
+export function saveFiltersToUrl(filters: Record<string, string>) {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) params.set(key, value);
+  });
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  window.history.replaceState(null, "", newUrl);
+}
+
+export function getFiltersFromLocalStorage() {
+  try {
+    return JSON.parse(localStorage.getItem("rankingFilters") || "{}");
+  } catch {
+    return {};
+  }
+}
+
+export function saveFiltersToLocalStorage(filters: Record<string, string>) {
+  localStorage.setItem("rankingFilters", JSON.stringify(filters));
+}

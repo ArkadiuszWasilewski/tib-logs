@@ -37,4 +37,4 @@ const createUsers = (numUser: number) => {
     return users;
 }
 
-export const data: User[] = [...createUsers(5)];
+export const data: User[] = [...createUsers(100)];
