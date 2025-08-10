@@ -4,7 +4,7 @@ import { createColumnHelper, ColumnDef } from "@tanstack/react-table";
 import { formatTimeSession, formatDate } from "@/lib/utils";
 import DefaultHeader from "./default-header";
 import { User } from "@/lib/rankingData";
-import HoverPopover from "@/components/ui/CommentHoverPopover";
+import CommentHoverPopover from "@/components/ui/CommentHoverPopover";
 
 const columnHelper = createColumnHelper<User>();
 export const columns = [
@@ -48,7 +48,7 @@ export const columns = [
     }),
     columnHelper.accessor("comments", {
         header: () => "Comments",
-        cell: (info) => info.getValue() ? <HoverPopover tooltip={info.getValue() || "No comments"}/> : "",
+        cell: (info) => info.getValue() ? <CommentHoverPopover tooltip={info.getValue() || "No comments"}/> : "",
     }),
 ]
 

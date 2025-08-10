@@ -1,11 +1,10 @@
-
 "use client";
 import { FilterState, HorizontalFiltersProps } from "./types";
 import { gear, vocations, sizes, sortOptions, levelRangeConfig } from "./constants/filterOptions";
 import { SpawnLocation } from "@/types";
 import spawnLocations from "@/constants/spawnLocations";
 import { Slider } from "@/components/RankingMenubar/components/Slider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,39 +20,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function RankingMenubar({
   className,
   onFilterChange,
 }: HorizontalFiltersProps) {
-  // Initialize filters from localStorage or use default values
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Initialize filters prioritizing URL params, then localStorage, then defaults
   const getInitialFilters = (): FilterState => {
-    if (typeof window !== "undefined") {
-      const savedFilters = localStorage.getItem("rankingFilters");
-      if (savedFilters) {
-        try {
-          const parsed = JSON.parse(savedFilters);
-          // Validate parsed data to ensure it matches FilterState structure
-          return {
-            gear: Array.isArray(parsed.gear) ? parsed.gear : [],
-            levelRange:
-              Array.isArray(parsed.levelRange) &&
-              parsed.levelRange.length === 2 &&
-              typeof parsed.levelRange[0] === "number" &&
-              typeof parsed.levelRange[1] === "number"
-                ? [parsed.levelRange[0], parsed.levelRange[1]]
-                : [levelRangeConfig.min, levelRangeConfig.max],
-            spawnLocations: Array.isArray(parsed.spawnLocations) ? parsed.spawnLocations : [],
-            vocations: Array.isArray(parsed.vocations) ? parsed.vocations : [],
-            sizes: Array.isArray(parsed.sizes) ? parsed.sizes : [],
-            sortBy: typeof parsed.sortBy === "string" ? parsed.sortBy : "mostDamage",
-          };
-        } catch (e) {
-          console.error("Error parsing localStorage filters:", e);
-        }
-      }
-    }
-    return {
+    let initial: FilterState = {
       gear: [],
       levelRange: [levelRangeConfig.min, levelRangeConfig.max],
       spawnLocations: [],
@@ -61,16 +39,123 @@ export default function RankingMenubar({
       sizes: [],
       sortBy: "mostDamage",
     };
+
+    // Load from localStorage if available
+    if (typeof window !== "undefined") {
+      const savedFilters = localStorage.getItem("rankingFilters");
+      if (savedFilters) {
+        try {
+          const parsed = JSON.parse(savedFilters);
+          // Validate parsed data
+          initial = {
+            gear: Array.isArray(parsed.gear) ? parsed.gear : initial.gear,
+            levelRange:
+              Array.isArray(parsed.levelRange) &&
+              parsed.levelRange.length === 2 &&
+              typeof parsed.levelRange[0] === "number" &&
+              typeof parsed.levelRange[1] === "number"
+                ? [parsed.levelRange[0], parsed.levelRange[1]]
+                : initial.levelRange,
+            spawnLocations: Array.isArray(parsed.spawnLocations)
+              ? parsed.spawnLocations
+              : initial.spawnLocations,
+            vocations: Array.isArray(parsed.vocations) ? parsed.vocations : initial.vocations,
+            sizes: Array.isArray(parsed.sizes) ? parsed.sizes : initial.sizes,
+            sortBy: typeof parsed.sortBy === "string" ? parsed.sortBy : initial.sortBy,
+          };
+        } catch (e) {
+          console.error("Error parsing localStorage filters:", e);
+        }
+      }
+    }
+
+    // Override with URL search params if present
+    const params = new URLSearchParams(location.search);
+    if (params.has("gear")) {
+      initial.gear = params.get("gear")?.split(",").filter(Boolean) || [];
+    }
+    if (params.has("spawn")) {
+      initial.spawnLocations = params.get("spawn")?.split(",").filter(Boolean) || [];
+    }
+    if (params.has("vocation")) {
+      initial.vocations = params.get("vocation")?.split(",").filter(Boolean) || [];
+    }
+    if (params.has("size")) {
+      initial.sizes = params.get("size")?.split(",").filter(Boolean) || [];
+    }
+    if (params.has("sort")) {
+      const sortValue = params.get("sort");
+      initial.sortBy = sortOptions.some((opt) => opt.value === sortValue)
+        ? sortValue!
+        : initial.sortBy;
+    }
+    if (params.has("levelMin") || params.has("levelMax")) {
+      const min = parseInt(params.get("levelMin") || levelRangeConfig.min.toString(), 10);
+      const max = parseInt(params.get("levelMax") || levelRangeConfig.max.toString(), 10);
+      initial.levelRange = [
+        isNaN(min) ? levelRangeConfig.min : Math.max(levelRangeConfig.min, min),
+        isNaN(max) ? levelRangeConfig.max : Math.min(levelRangeConfig.max, max),
+      ];
+    }
+
+    return initial;
   };
 
   const [filters, setFilters] = useState<FilterState>(getInitialFilters);
+  const isFirstRender = useRef(true);
 
-  // Save filters to localStorage whenever they change
+  // Function to update URL query params based on filters (only set non-default values)
+  const updateUrl = (currentFilters: FilterState) => {
+    const params = new URLSearchParams();
+
+    if (currentFilters.gear.length > 0) {
+      params.set("gear", currentFilters.gear.join(","));
+    }
+    if (currentFilters.spawnLocations.length > 0) {
+      params.set("spawn", currentFilters.spawnLocations.join(","));
+    }
+    if (currentFilters.vocations.length > 0) {
+      params.set("vocation", currentFilters.vocations.join(","));
+    }
+    if (currentFilters.sizes.length > 0) {
+      params.set("size", currentFilters.sizes.join(","));
+    }
+    if (currentFilters.sortBy !== "mostDamage") {
+      params.set("sort", currentFilters.sortBy);
+    }
+    if (
+      currentFilters.levelRange[0] !== levelRangeConfig.min ||
+      currentFilters.levelRange[1] !== levelRangeConfig.max
+    ) {
+      params.set("levelMin", currentFilters.levelRange[0].toString());
+      params.set("levelMax", currentFilters.levelRange[1].toString());
+    }
+
+    const queryString = params.toString();
+    const newUrl = queryString ? `${location.pathname}?${queryString}` : location.pathname;
+    navigate(newUrl, { replace: true });
+  };
+
+  // Save filters to localStorage and update URL on changes (skip URL update on initial render)
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("rankingFilters", JSON.stringify(filters));
     }
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    updateUrl(filters);
   }, [filters]);
+
+  // Listen for location changes to handle browser navigation
+  useEffect(() => {
+    const newFilters = getInitialFilters();
+    setFilters(newFilters);
+    onFilterChange?.(newFilters);
+  }, [location.search]);
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
     const updated = { ...filters, ...newFilters };
@@ -108,7 +193,10 @@ export default function RankingMenubar({
   const ActiveFilterBadges = () => {
     const activeFilters = [
       ...filters.gear.map((cat) => ({ type: "gear", value: cat })),
-      ...filters.spawnLocations.map((spawnLocation) => ({ type: "spawnLocations", value: spawnLocation })),
+      ...filters.spawnLocations.map((spawnLocation) => ({
+        type: "spawnLocations",
+        value: spawnLocation,
+      })),
       ...filters.vocations.map((color) => ({ type: "vocations", value: color })),
       ...filters.sizes.map((size) => ({ type: "sizes", value: size })),
       ...(filters.levelRange[0] > levelRangeConfig.min || filters.levelRange[1] < levelRangeConfig.max
@@ -136,9 +224,15 @@ export default function RankingMenubar({
               variant="ghost"
               size="icon"
               className="h-4 w-4 p-0 ml-1"
-              onClick={() =>
-                toggleFilter(filter.type as keyof FilterState, filter.value)
-              }
+              onClick={() => {
+                if (filter.type === "levelRange") {
+                  updateFilters({
+                    levelRange: [levelRangeConfig.min, levelRangeConfig.max],
+                  });
+                } else {
+                  toggleFilter(filter.type as keyof FilterState, filter.value);
+                }
+              }}
             >
               <X className="h-3 w-3" />
             </Button>
@@ -157,6 +251,8 @@ export default function RankingMenubar({
       </div>
     );
   };
+  const [tempLevelRange, setTempLevelRange] = useState(filters.levelRange);
+
   return (
     <div className={cn("w-full p-6", className)}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -187,8 +283,8 @@ export default function RankingMenubar({
                   <ChevronDown className="ml-1 h-3 w-3" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-56 p-3">
-                <div className="space-y-2">
+              <PopoverContent className="w-full gap-2">
+                <div className="grid grid-cols-8">
                   {spawnLocations.map((spawn: SpawnLocation) => (
                     <div key={spawn.spawnLocation} className="flex items-center">
                       <Button
@@ -225,22 +321,27 @@ export default function RankingMenubar({
             <PopoverContent className="w-64 p-4">
               <div className="space-y-4">
                 <h4 className="font-medium text-sm">Level range</h4>
+              
+
                 <Slider
-                  value={filters.levelRange}
+                  value={tempLevelRange}
                   min={levelRangeConfig.min}
                   max={levelRangeConfig.max}
                   step={levelRangeConfig.step}
-                  onValueChange={(value) =>
-                    updateFilters({ levelRange: value as [number, number] })
-                  }
+                  onValueChange={(value) => setTempLevelRange(value as [number, number])} // only temp update
+                  onValueCommit={(value) => {
+                    const newRange = value as [number, number];
+                    setFilters((prev) => ({ ...prev, levelRange: newRange })); // triggers URL update
+                    onFilterChange?.({ ...filters, levelRange: newRange });
+                  }}
                   showEndCircle
                 />
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">
-                    {filters.levelRange[0]}
+                    {tempLevelRange[0]}
                   </span>
                   <span className="text-sm text-muted-foreground">
-                    {filters.levelRange[1]}{"+"}
+                    {tempLevelRange[1]}{"+"}
                   </span>
                 </div>
               </div>
@@ -260,9 +361,7 @@ export default function RankingMenubar({
                 {sizes.map((size) => (
                   <Button
                     key={size}
-                    variant={
-                      filters.sizes.includes(size) ? "default" : "outline"
-                    }
+                    variant={filters.sizes.includes(size) ? "default" : "outline"}
                     size="sm"
                     onClick={() => toggleFilter("sizes", size)}
                     className="h-8"
@@ -292,8 +391,7 @@ export default function RankingMenubar({
                     <button
                       className={cn(
                         "h-8 w-8 rounded-full border border-input flex items-center justify-center",
-                        filters.vocations.includes(color.name) &&
-                          "ring-2 ring-primary"
+                        filters.vocations.includes(color.name) && "ring-2 ring-primary"
                       )}
                       style={{ backgroundColor: color.value }}
                       onClick={() => toggleFilter("vocations", color.name)}
@@ -359,8 +457,7 @@ export default function RankingMenubar({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8">
-                {sortOptions.find((opt) => opt.value === filters.sortBy)?.label ||
-                  "Featured"}
+                {sortOptions.find((opt) => opt.value === filters.sortBy)?.label || "Featured"}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -368,9 +465,7 @@ export default function RankingMenubar({
               {sortOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  className={cn(
-                    filters.sortBy === option.value && "font-medium"
-                  )}
+                  className={cn(filters.sortBy === option.value && "font-medium")}
                   onClick={() => toggleFilter("sortBy", option.value)}
                 >
                   {option.label}
