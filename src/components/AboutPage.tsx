@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import instructionGif from '@/assets/export_instruction.gif'
 
 const AboutPage = () => {
   return (
-    <section className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <section className="flex flex-col items-center px-6 py-8 mb-10 mx-auto lg:py-0">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-4xl xl:p-10 dark:bg-gray-800 dark:border-gray-700">
         <div className="space-y-6 sm:p-8">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -26,6 +27,7 @@ const AboutPage = () => {
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               Uploading Logs to the Website
             </h2>
+            <img src={instructionGif} alt="instructionGif" className="w-64 h-auto" />
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               Simply copy reports from your Hunt Analyzer and paste the results in the{" "}
               <Link
@@ -34,7 +36,7 @@ const AboutPage = () => {
               >
                 New Session
               </Link>{" "}
-              page (or, in the case of teams, the TeamHunt Analyzer).
+              page (or HuntAnalyzer + TeamAnalyzer in case of teams).
               Another option is to export reports in <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">*.txt</code> or <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">*.JSON</code> format directly from the client. These files will save in your Tibia folders (<code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">./Tibia/packages/Tibia/log</code>).
             </p>
           </section>

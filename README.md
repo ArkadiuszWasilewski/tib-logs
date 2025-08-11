@@ -14,8 +14,8 @@ Make sure you have the following installed:
 1. Clone the repository
 
 ```
-git clone https://github.com/ArkadiuszWasilewski/tibialogs
-cd tibialogs
+git clone https://github.com/ArkadiuszWasilewski/tibialogs-client-app
+cd tibialogs-client-app
 ```
 
 2. Install dependencies

@@ -13,6 +13,8 @@ export default function UpdateProfile() {
   const { userData } = useUserContext();
   const navigate = useNavigate();
 
+  console.log(currentUser);
+
   const handleLogout = async (e) => {
     setError("");
     e.preventDefault();
@@ -34,14 +36,16 @@ export default function UpdateProfile() {
           {error && <Alert>{error}</Alert>}
 
           <div>
-            <LabelDashboard>Email: {userData.email}</LabelDashboard>
-            {userData.name ? (
-              <LabelDashboard>Name: {userData.name}</LabelDashboard>
+            <LabelDashboard>Email: {currentUser?.email}</LabelDashboard>
+            {currentUser ? (
+              <LabelDashboard>
+                Last login: {currentUser.metadata.lastSignInTime}
+              </LabelDashboard>
             ) : (
               ""
             )}
             <LabelDashboard>
-              Created at: {userData.firebaseCreationTime}
+              Created at: {currentUser?.metadata.creationTime}
             </LabelDashboard>
           </div>
           <Link to="/update-profile">

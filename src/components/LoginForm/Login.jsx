@@ -7,7 +7,7 @@ import LinkSpan from "../ui/LinkSpan";
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, sendTokenToServer } = useAuth();
+  const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ export default function Login() {
       setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      await sendTokenToServer();
       navigate("/");
     } catch (err) {
       console.error("Error signing in:", err);

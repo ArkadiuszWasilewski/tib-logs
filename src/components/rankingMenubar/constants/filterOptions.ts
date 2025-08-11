@@ -15,7 +15,7 @@ export const vocations = [
 ];
 
 export const levelRangeConfig = {
-  min: 8,
+  min: 0,
   max: 1500,
   step: 10,
 }

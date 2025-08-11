@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
@@ -8,40 +8,70 @@ import {
   signOut,
   updateEmail,
   updatePassword,
-  getAuth,
+  User,
+  Auth,
 } from "firebase/auth";
 import { useUserContext } from "./UserContext";
 
-const AuthContext = React.createContext();
-
-export function useAuth() {
-  return useContext(AuthContext);
+interface UserData {
+  uid: string;
+  email: string;
+  [key: string]: any;
 }
 
-export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
-  const [loading, setLoading] = useState(true);
-  const { setUserData } = useUserContext();
+interface AuthContextType {
+  currentUser: User | null;
+  login: (email: string, password: string) => Promise<any>;
+  signUp: (email: string, password: string) => Promise<any>;
+  logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  handleUpdateEmail: (email: string) => Promise<void>;
+  handleUpdatePassword: (password: string) => Promise<void>;
+}
 
-  function signUp(email, password) {
+// Define the shape of UserContext for setUserData
+interface UserContextType {
+  setUserData: (data: UserData | null) => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Hook to use AuthContext
+export function useAuth(): AuthContextType {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { setUserData } = useUserContext() as UserContextType;
+
+  function signUp(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
-  function login(email, password) {
+  function login(email: string, password: string) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function logout() {
-    return signOut(auth).then(() => {
-      setUserData(null); // Clear user data from context
-    });
+  async function logout() {
+    await signOut(auth);
+    setUserData(null); // Clear user data from context
   }
 
-  function resetPassword(email) {
+  function resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(auth, email);
   }
 
-  function handleUpdateEmail(email) {
+  function handleUpdateEmail(email: string): Promise<void> {
     if (auth.currentUser) {
       return updateEmail(auth.currentUser, email);
     } else {
@@ -49,7 +79,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  function handleUpdatePassword(password) {
+  function handleUpdatePassword(password: string): Promise<void> {
     if (auth.currentUser) {
       return updatePassword(auth.currentUser, password);
     } else {
@@ -57,10 +87,11 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function sendTokenToServer() {
+  // Send information about token to the server
+  const sendTokenToServer = async (): Promise<void> => {
     if (auth.currentUser) {
       try {
-        const API_URL = import.meta.env.VITE_API_URL;
+        const API_URL = import.meta.env.VITE_API_URL as string;
         const idToken = await auth.currentUser.getIdToken(true);
 
         // Send token to backend for verification and fetching user data
@@ -87,7 +118,7 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       setCurrentUser(user);
       setLoading(false);
     });
@@ -101,8 +132,7 @@ export function AuthProvider({ children }) {
     logout,
     resetPassword,
     handleUpdateEmail,
-    handleUpdatePassword,
-    sendTokenToServer,
+    handleUpdatePassword
   };
 
   return (
