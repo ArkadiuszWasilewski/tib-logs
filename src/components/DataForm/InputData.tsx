@@ -2,47 +2,13 @@ import React, { useState } from "react";
 import Alert from "../ui/Alerts/Alert";
 import spawnLocations from "../../constants/spawnLocations";
 import vocations from "../../constants/vocations";
-
-// Define the shape of the Alert component props
-interface AlertProps {
-  children: string;
-}
-
-// Define the shape of the form state
-interface FormState {
-  dataSource: "text" | "file";
-  selectedFile: File | null; // Fixed: Allow File or null
-  reportDescription: string;
-  characterVocation: string;
-  characterLevel: string;
-  characterGear: string;
-  currentSpawn: string;
-  tempTextInput: string;
-}
-
-// Define types for external constants (assuming they are string arrays)
-interface SpawnLocation {
-  spawnLocation: string;
-  recommendedLevel: string;
-  expectedRawXp: string;
-  expectedLoot: string;
-  linkToVideo: string;
-}
-type Vocation = string;
-
-// Define the shape of the saved report data
-interface ReportData {
-  sessionData: unknown; // Use 'unknown' for JSON data, as its shape is not specified
-  reportDescription: string;
-  characterVocation: string;
-  characterLevel: number;
-  characterGear: string;
-  currentSpawn: string;
-}
+import { AlertProps, FormState, SpawnLocation, Vocation, ReportData } from "./types/index"
+import { useAuth } from "@/context/AuthContext"
 
 const InputData: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const { currentUser } = useAuth();
 
   // State
   const [form, setForm] = useState<FormState>({
@@ -55,6 +21,8 @@ const InputData: React.FC = () => {
     currentSpawn: "",
     tempTextInput: "",
   });
+
+  
 
   // Handlers
   const handleFormChange = (
@@ -92,81 +60,74 @@ const InputData: React.FC = () => {
     return null;
   };
 
-  // Parse data and prepare to save
-  const parseData = async (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (form.dataSource === "file" && form.selectedFile) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          try {
-            const data = JSON.parse(e.target?.result as string);
-            const saveData: ReportData = {
-              sessionData: data,
-              reportDescription: form.reportDescription,
-              characterVocation: form.characterVocation,
-              characterLevel: parseInt(form.characterLevel),
-              characterGear: form.characterGear,
-              currentSpawn: form.currentSpawn,
-            };
-            const existingReports: ReportData[] = localStorage.getItem("reports")
-              ? JSON.parse(localStorage.getItem("reports")!)
-              : [];
-            existingReports.push(saveData);
-            localStorage.setItem("reports", JSON.stringify(existingReports));
-            setForm((prevForm) => ({
-              ...prevForm,
-              tempTextInput: "",
-            }));
-            setError(null);
-            setSuccess(
-              "Session data from JSON file and additional fields saved."
-            );
-            resolve();
-          } catch (err) {
-            setError("Error parsing JSON file.");
-            reject(err);
-          }
-        };
-        reader.onerror = () => {
-          setError("Error reading file.");
-          reject(new Error("Error reading file."));
-        };
-        reader.readAsText(form.selectedFile);
-      } else if (form.dataSource === "text" && form.tempTextInput) {
+  const sendDataToServer = async (): Promise<void> => {
+      return new Promise(async (resolve, reject) => {
         try {
-          const data = JSON.parse(form.tempTextInput);
-          const saveData: ReportData = {
-            sessionData: data,
-            reportDescription: form.reportDescription,
-            characterVocation: form.characterVocation,
-            characterLevel: parseInt(form.characterLevel),
-            characterGear: form.characterGear,
-            currentSpawn: form.currentSpawn,
-          };
-          const existingReports: ReportData[] = localStorage.getItem("reports")
-            ? JSON.parse(localStorage.getItem("reports")!)
-            : [];
-          existingReports.push(saveData);
-          localStorage.setItem("reports", JSON.stringify(existingReports));
-          setForm((prevForm) => ({
-            ...prevForm,
-            tempTextInput: "",
-          }));
-          setError(null);
-          setSuccess(
-            "Session data from text field and additional fields saved."
-          );
-          resolve();
+          let sessionData: any;
+
+          // Parse JSON based on data source
+          if (form.dataSource === "file" && form.selectedFile) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              try {
+                sessionData = JSON.parse(e.target?.result as string);
+                sendReport(sessionData, resolve, reject);
+              } catch (err) {
+                setError("Error parsing JSON file.");
+                reject(err);
+              }
+            };
+            reader.onerror = () => {
+              setError("Error reading file.");
+              reject(new Error("Error reading file."));
+            };
+            reader.readAsText(form.selectedFile);
+          } else if (form.dataSource === "text" && form.tempTextInput) {
+            sessionData = JSON.parse(form.tempTextInput);
+            sendReport(sessionData, resolve, reject);
+          } else {
+            setError("Invalid data source or missing input.");
+            reject(new Error("Invalid data source or missing input."));
+          }
         } catch (err) {
-          setError("Error parsing JSON.");
+          setError("Error processing data.");
           reject(err);
         }
-      } else {
-        setError("Invalid data source or missing input.");
-        reject(new Error("Invalid data source or missing input."));
+      });
+    };
+
+    const sendReport = async (sessionData: any, resolve: () => void, reject: (reason?: any) => void) => {
+
+      const idToken = await currentUser?.getIdToken(true);
+      const saveData: ReportData = {
+        sessionData,
+        reportDescription: form.reportDescription,
+        characterVocation: form.characterVocation,
+        characterLevel: parseInt(form.characterLevel),
+        characterGear: form.characterGear,
+        currentSpawn: form.currentSpawn,
+      };
+
+      console.log(saveData);
+
+      const API_URL = import.meta.env.VITE_API_URL as string;
+      const response = await fetch(`${API_URL}/api/test/reports`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(saveData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || "Failed to submit data to server.");
+        reject(new Error("Server error"));
+        return;
       }
-    });
-  };
+    }
+
+  
 
   const handleSubmit = async () => {
     const validationError = validate();
@@ -176,7 +137,7 @@ const InputData: React.FC = () => {
       return;
     }
     try {
-      await parseData();
+      await sendDataToServer();
     } catch (err) {
       console.error("Submission error:", err);
     }
@@ -253,7 +214,7 @@ const InputData: React.FC = () => {
                       rows={5}
                       placeholder="Session data: From 2025-01-20, 12:53:16 to 2025-01-20, 17:14:11\n\n..."
                       value={form.tempTextInput}
-                      onChange={handleFormChange} // Fixed: Changed from handleFileChange
+                      onChange={handleFormChange}
                       disabled={form.dataSource !== "text"}
                     />
                   </div>

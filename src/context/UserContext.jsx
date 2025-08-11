@@ -17,15 +17,6 @@ export const UserContextProvider = ({ children }) => {
     }
   }, []);
 
-  // update localStorage whenever userData changes
-  useEffect(() => {
-    if (userData) {
-      localStorage.setItem("userData", JSON.stringify(userData));
-    } else {
-      localStorage.removeItem("userData"); // Clean up if no user data is available
-    }
-  }, [userData]);
-
   const value = {
     userData,
     setUserData,

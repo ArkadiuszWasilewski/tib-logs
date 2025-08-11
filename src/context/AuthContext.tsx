@@ -8,10 +8,8 @@ import {
   signOut,
   updateEmail,
   updatePassword,
-  User,
-  Auth,
+  User
 } from "firebase/auth";
-import { useUserContext } from "./UserContext";
 
 interface UserData {
   uid: string;
@@ -52,7 +50,6 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { setUserData } = useUserContext() as UserContextType;
 
   function signUp(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -64,7 +61,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function logout() {
     await signOut(auth);
-    setUserData(null); // Clear user data from context
   }
 
   function resetPassword(email: string): Promise<void> {
@@ -106,7 +102,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           throw new Error("Failed to verify token with server");
         }
         const data = await response.json();
-        setUserData(data.userData); // Pass the fetched user data to UserContext
         console.log("Token successfully verified with server");
         console.log(data.userData);
       } catch (error) {
