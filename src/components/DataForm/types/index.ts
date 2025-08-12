@@ -27,7 +27,21 @@ export type Vocation = string;
 
 // Define the shape of the saved report data
 export interface ReportData {
-  sessionData: unknown; // Use 'unknown' for JSON data, as its shape is not specified
+  sessionData?: {
+    Balance: string;
+    Damage: string;
+    'Killed Monsters'?: Array<{ name: string; count: number }>;
+    Loot?: string;
+    'Looted Items'?: Array<{ name: string; quantity: number }>;
+    'Raw XP Gain'?: string;
+    'Raw XP/h'?: string;
+    'Session end'?: string;
+    'Session length'?: string;
+    'Session start'?: string;
+    Supplies?: string;
+    'XP Gain'?: string;
+    'XP/h'?: string;
+  }
   reportDescription: string;
   characterVocation: string;
   characterLevel: number;

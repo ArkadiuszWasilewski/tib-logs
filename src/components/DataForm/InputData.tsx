@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import Alert from "../ui/Alerts/Alert";
 import spawnLocations from "../../constants/spawnLocations";
 import vocations from "../../constants/vocations";
-import { AlertProps, FormState, SpawnLocation, Vocation, ReportData } from "./types/index"
+import { FormState, SpawnLocation, Vocation, ReportData } from "./types/index"
 import { useAuth } from "@/context/AuthContext"
+import { useReportValidation } from "./hooks/useInputValidation";
+import { parseTextData } from "./utils/parseTextData";
+import { formatSessionDataNumbers } from "./utils/formatData";
+
+
+
 
 const InputData: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
+  const { validate, error, setError } = useReportValidation();
   const [success, setSuccess] = useState<string | null>(null);
   const { currentUser } = useAuth();
 
@@ -47,57 +53,62 @@ const InputData: React.FC = () => {
     setSuccess(null);
   };
 
-  // Validation
-  const validate = (): string | null => {
-    if (form.dataSource === "file" && !form.selectedFile)
-      return "No JSON file selected";
-    else if (form.dataSource === "text" && !form.tempTextInput)
-      return "No session data provided";
-    else if (!form.characterVocation) return "Character vocation is required";
-    else if (!form.characterLevel) return "Character level is required";
-    else if (!form.characterGear) return "Character gear is required";
-    else if (!form.currentSpawn) return "Current spawn is required";
-    return null;
+  const sendDataToServer = async (): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let sessionData: any;
+
+        if (form.dataSource === "file" && form.selectedFile) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              if (form.selectedFile?.name.endsWith(".json")) {
+                sessionData = JSON.parse(e.target?.result as string);
+                sessionData = formatSessionDataNumbers(sessionData);
+              } else if (form.selectedFile?.name.endsWith(".txt")) {
+                sessionData = parseTextData(e.target?.result as string);
+              } else {
+                setError("Unsupported file format. Use JSON or TXT.");
+                reject(new Error("Unsupported file format."));
+                return;
+              }
+              const validationError = validate(form, sessionData);
+              if (validationError) {
+                reject(new Error(validationError));
+                return;
+              }
+              sendReport(sessionData, resolve, reject);
+            } catch (err) {
+              setError("Error parsing file.");
+              reject(err);
+            }
+          };
+          reader.onerror = () => {
+            setError("Error reading file.");
+            reject(new Error("Error reading file."));
+          };
+          reader.readAsText(form.selectedFile);
+        } else if (form.dataSource === "text" && form.tempTextInput) {
+          sessionData = parseTextData(form.tempTextInput);
+          const validationError = validate(form, sessionData);
+          if (validationError) {
+            reject(new Error(validationError));
+            return;
+          }
+          sendReport(sessionData, resolve, reject);
+        } else {
+          setError("Invalid data source or missing input.");
+          reject(new Error("Invalid data source or missing input."));
+        }
+      } catch (err) {
+        setError("Error processing data.");
+        reject(err);
+      }
+    });
   };
 
-  const sendDataToServer = async (): Promise<void> => {
-      return new Promise(async (resolve, reject) => {
-        try {
-          let sessionData: any;
-
-          // Parse JSON based on data source
-          if (form.dataSource === "file" && form.selectedFile) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              try {
-                sessionData = JSON.parse(e.target?.result as string);
-                sendReport(sessionData, resolve, reject);
-              } catch (err) {
-                setError("Error parsing JSON file.");
-                reject(err);
-              }
-            };
-            reader.onerror = () => {
-              setError("Error reading file.");
-              reject(new Error("Error reading file."));
-            };
-            reader.readAsText(form.selectedFile);
-          } else if (form.dataSource === "text" && form.tempTextInput) {
-            sessionData = JSON.parse(form.tempTextInput);
-            sendReport(sessionData, resolve, reject);
-          } else {
-            setError("Invalid data source or missing input.");
-            reject(new Error("Invalid data source or missing input."));
-          }
-        } catch (err) {
-          setError("Error processing data.");
-          reject(err);
-        }
-      });
-    };
-
-    const sendReport = async (sessionData: any, resolve: () => void, reject: (reason?: any) => void) => {
-
+  const sendReport = async (sessionData: any, resolve: () => void, reject: (reason?: any) => void) => {
+    try {
       const idToken = await currentUser?.getIdToken(true);
       const saveData: ReportData = {
         sessionData,
@@ -108,13 +119,12 @@ const InputData: React.FC = () => {
         currentSpawn: form.currentSpawn,
       };
 
-      console.log(saveData);
-
       const API_URL = import.meta.env.VITE_API_URL as string;
       const response = await fetch(`${API_URL}/api/test/reports`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
         },
         body: JSON.stringify(saveData),
       });
@@ -125,17 +135,17 @@ const InputData: React.FC = () => {
         reject(new Error("Server error"));
         return;
       }
+      setSuccess("Data submitted successfully!");
+      resolve();
+    } catch (err) {
+      setError("Error submitting data to server.");
+      reject(err);
     }
+  };
 
   
 
   const handleSubmit = async () => {
-    const validationError = validate();
-    if (validationError) {
-      setError(validationError);
-      console.log("Validation error:", validationError);
-      return;
-    }
     try {
       await sendDataToServer();
     } catch (err) {
