@@ -1,3 +1,5 @@
+import { User } from "firebase/auth"
+
 // Define the shape of the Alert component props
 export interface AlertProps {
   children: string;
@@ -27,6 +29,7 @@ export type Vocation = string;
 
 // Define the shape of the saved report data
 export interface ReportData {
+  user?: String,
   sessionData?: {
     Balance: string;
     Damage: string;

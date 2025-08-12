@@ -110,7 +110,14 @@ const InputData: React.FC = () => {
   const sendReport = async (sessionData: any, resolve: () => void, reject: (reason?: any) => void) => {
     try {
       const idToken = await currentUser?.getIdToken(true);
+      
+      let user = "Not registered"
+      if (currentUser) {
+        user = currentUser?.uid;
+      }
+      
       const saveData: ReportData = {
+        user,
         sessionData,
         reportDescription: form.reportDescription,
         characterVocation: form.characterVocation,

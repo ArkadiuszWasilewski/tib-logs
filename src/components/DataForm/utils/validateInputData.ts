@@ -98,6 +98,7 @@ export const validateForm = (form: FormState): string | null => {
   return null;
 };
 
+
 // Validation - filter out unrealistic and corrupted files
 export const validateGameLogic = (data: any, form: FormState): string | null => {
   const sessionStart = new Date(data["Session start"]);
@@ -111,6 +112,9 @@ export const validateGameLogic = (data: any, form: FormState): string | null => 
 
   // Check session length
   const sessionLengthHours = sessionLengthMs / (1000 * 60 * 60);
+  if(sessionLengthHours > 24 ) {
+    return "Unrealistic session time";
+  }
 
   // Check if the amount of monsters is realistic
   const totalMonsters = data["Killed Monsters"].reduce(
