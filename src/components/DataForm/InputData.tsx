@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import Alert from "../ui/Alerts/Alert";
 import spawnLocations from "../../constants/spawnLocations";
 import vocations from "../../constants/vocations";
-import { FormState, SpawnLocation, Vocation, ReportData } from "./types/index"
-import { useAuth } from "@/context/AuthContext"
+import { FormState, SpawnLocation, Vocation, ReportData } from "./types/index";
+import { useAuth } from "@/context/AuthContext";
 import { useReportValidation } from "./hooks/useInputValidation";
 import { parseTextData } from "./utils/parseTextData";
 import { formatSessionDataNumbers } from "./utils/formatData";
-
-
-
 
 const InputData: React.FC = () => {
   const { validate, error, setError } = useReportValidation();
@@ -28,11 +25,11 @@ const InputData: React.FC = () => {
     tempTextInput: "",
   });
 
-  
-
   // Handlers
   const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -107,15 +104,19 @@ const InputData: React.FC = () => {
     });
   };
 
-  const sendReport = async (sessionData: any, resolve: () => void, reject: (reason?: any) => void) => {
+  const sendReport = async (
+    sessionData: any,
+    resolve: () => void,
+    reject: (reason?: any) => void
+  ) => {
     try {
       const idToken = await currentUser?.getIdToken(true);
-      
-      let user = "Not registered"
+
+      let user = "Not registered";
       if (currentUser) {
         user = currentUser?.uid;
       }
-      
+
       const saveData: ReportData = {
         user,
         sessionData,
@@ -124,6 +125,7 @@ const InputData: React.FC = () => {
         characterLevel: parseInt(form.characterLevel),
         characterGear: form.characterGear,
         currentSpawn: form.currentSpawn,
+        createdAt: new Date(),
       };
 
       const API_URL = import.meta.env.VITE_API_URL as string;
@@ -149,8 +151,6 @@ const InputData: React.FC = () => {
       reject(err);
     }
   };
-
-  
 
   const handleSubmit = async () => {
     try {
@@ -255,7 +255,10 @@ const InputData: React.FC = () => {
                   />
                   <datalist id="spawnOptions">
                     {spawnLocations.map((spawn: SpawnLocation) => (
-                      <option key={spawn.spawnLocation} value={spawn.spawnLocation} />
+                      <option
+                        key={spawn.spawnLocation}
+                        value={spawn.spawnLocation}
+                      />
                     ))}
                   </datalist>
                 </div>

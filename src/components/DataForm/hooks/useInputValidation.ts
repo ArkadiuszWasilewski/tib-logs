@@ -7,14 +7,14 @@ export const useReportValidation = () => {
   const [error, setError] = useState<string | null>(null);
 
   const validate = (form: FormState, sessionData?: any): string | null => {
-    // Walidacja formularza
+    // Form validation
     const formError = validateForm(form);
     if (formError) {
       setError(formError);
       return formError;
     }
 
-    // Walidacja struktury danych
+    // Data structure validation
     let parsedData = sessionData;
     if (form.dataSource === "text" && form.tempTextInput) {
       try {
@@ -32,7 +32,7 @@ export const useReportValidation = () => {
         return dataError;
       }
 
-      // Walidacja fizycznej możliwości wyników
+      // Validation based on in-game mechanics (checking that something is possible)
       const logicError = validateGameLogic(parsedData, form);
       if (logicError) {
         setError(logicError);

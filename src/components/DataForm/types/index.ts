@@ -29,25 +29,28 @@ export type Vocation = string;
 
 // Define the shape of the saved report data
 export interface ReportData {
-  user?: String,
-  sessionData?: {
-    Balance: string;
-    Damage: string;
-    'Killed Monsters'?: Array<{ name: string; count: number }>;
-    Loot?: string;
-    'Looted Items'?: Array<{ name: string; quantity: number }>;
-    'Raw XP Gain'?: string;
-    'Raw XP/h'?: string;
-    'Session end'?: string;
-    'Session length'?: string;
-    'Session start'?: string;
-    Supplies?: string;
-    'XP Gain'?: string;
-    'XP/h'?: string;
+  user: string,
+  sessionData: {
+    Balance: number;
+    Damage: number;
+    "Damage/h": number;
+    Healing: number;
+    "Healing/h": number;
+    'Killed Monsters': Array<{ Name: string; Count: number }>;
+    'Looted Items': Array<{ Name: string; Count: number }>;
+    'Raw XP Gain': number;
+    'Raw XP/h': number;
+    'Session end': number;
+    'Session length': string;
+    'Session start': number;
+    Supplies: number;
+    'XP Gain': number;
+    'XP/h': number;
   }
   reportDescription: string;
   characterVocation: string;
   characterLevel: number;
   characterGear: string;
   currentSpawn: string;
+  createdAt: Date;
 }

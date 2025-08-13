@@ -18,7 +18,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,7 +57,10 @@ export function DataTable<TData, TValue>({
       },
     },
     onPaginationChange: (updater) => {
-      const newState = typeof updater === "function" ? updater({ pageIndex, pageSize }) : updater;
+      const newState =
+        typeof updater === "function"
+          ? updater({ pageIndex, pageSize })
+          : updater;
       setPageIndex(newState.pageIndex);
       setPageSize(newState.pageSize);
     },
@@ -73,7 +82,10 @@ export function DataTable<TData, TValue>({
                 >
                   {header.isPlaceholder
                     ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                 </TableHead>
               ))}
             </TableRow>
@@ -132,7 +144,8 @@ export function DataTable<TData, TValue>({
             </SelectContent>
           </Select>
           <span className="text-sm text-gray-900 dark:text-white">
-            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
           </span>
         </div>
         <div className="flex items-center space-x-2">

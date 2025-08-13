@@ -1,6 +1,12 @@
 "use client";
 import { FilterState, HorizontalFiltersProps } from "./types";
-import { gear, vocations, sizes, sortOptions, levelRangeConfig } from "./constants/filterOptions";
+import {
+  gear,
+  vocations,
+  sizes,
+  sortOptions,
+  levelRangeConfig,
+} from "./constants/filterOptions";
 import { SpawnLocation } from "@/types";
 import spawnLocations from "@/constants/spawnLocations";
 import { Slider } from "@/components/RankingMenubar/components/Slider";
@@ -59,9 +65,14 @@ export default function RankingMenubar({
             spawnLocations: Array.isArray(parsed.spawnLocations)
               ? parsed.spawnLocations
               : initial.spawnLocations,
-            vocations: Array.isArray(parsed.vocations) ? parsed.vocations : initial.vocations,
+            vocations: Array.isArray(parsed.vocations)
+              ? parsed.vocations
+              : initial.vocations,
             sizes: Array.isArray(parsed.sizes) ? parsed.sizes : initial.sizes,
-            sortBy: typeof parsed.sortBy === "string" ? parsed.sortBy : initial.sortBy,
+            sortBy:
+              typeof parsed.sortBy === "string"
+                ? parsed.sortBy
+                : initial.sortBy,
           };
         } catch (e) {
           console.error("Error parsing localStorage filters:", e);
@@ -75,10 +86,12 @@ export default function RankingMenubar({
       initial.gear = params.get("gear")?.split(",").filter(Boolean) || [];
     }
     if (params.has("spawn")) {
-      initial.spawnLocations = params.get("spawn")?.split(",").filter(Boolean) || [];
+      initial.spawnLocations =
+        params.get("spawn")?.split(",").filter(Boolean) || [];
     }
     if (params.has("vocation")) {
-      initial.vocations = params.get("vocation")?.split(",").filter(Boolean) || [];
+      initial.vocations =
+        params.get("vocation")?.split(",").filter(Boolean) || [];
     }
     if (params.has("size")) {
       initial.sizes = params.get("size")?.split(",").filter(Boolean) || [];
@@ -90,8 +103,14 @@ export default function RankingMenubar({
         : initial.sortBy;
     }
     if (params.has("levelMin") || params.has("levelMax")) {
-      const min = parseInt(params.get("levelMin") || levelRangeConfig.min.toString(), 10);
-      const max = parseInt(params.get("levelMax") || levelRangeConfig.max.toString(), 10);
+      const min = parseInt(
+        params.get("levelMin") || levelRangeConfig.min.toString(),
+        10
+      );
+      const max = parseInt(
+        params.get("levelMax") || levelRangeConfig.max.toString(),
+        10
+      );
       initial.levelRange = [
         isNaN(min) ? levelRangeConfig.min : Math.max(levelRangeConfig.min, min),
         isNaN(max) ? levelRangeConfig.max : Math.min(levelRangeConfig.max, max),
@@ -108,6 +127,7 @@ export default function RankingMenubar({
   const updateUrl = (currentFilters: FilterState) => {
     const params = new URLSearchParams();
 
+    // Only add non-empty arrays and non-default values
     if (currentFilters.gear.length > 0) {
       params.set("gear", currentFilters.gear.join(","));
     }
@@ -132,7 +152,9 @@ export default function RankingMenubar({
     }
 
     const queryString = params.toString();
-    const newUrl = queryString ? `${location.pathname}?${queryString}` : location.pathname;
+    const newUrl = queryString
+      ? `${location.pathname}?${queryString}`
+      : location.pathname;
     navigate(newUrl, { replace: true });
   };
 
@@ -177,6 +199,22 @@ export default function RankingMenubar({
     updateFilters({ [type]: newValues } as Partial<FilterState>);
   };
 
+  const sendFilterToServer = async () => {
+    try {
+      console.log(filters);
+      const API_URL = import.meta.env.VITE_API_URL as string;
+      const response = await fetch(`${API_URL}/api/reports/filters`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filters),
+      });
+    } catch {
+      console.log("Error duringsending filter to server");
+    }
+  };
+
   const clearFilters = () => {
     const defaultFilters: FilterState = {
       gear: [],
@@ -197,9 +235,13 @@ export default function RankingMenubar({
         type: "spawnLocations",
         value: spawnLocation,
       })),
-      ...filters.vocations.map((color) => ({ type: "vocations", value: color })),
+      ...filters.vocations.map((color) => ({
+        type: "vocations",
+        value: color,
+      })),
       ...filters.sizes.map((size) => ({ type: "sizes", value: size })),
-      ...(filters.levelRange[0] > levelRangeConfig.min || filters.levelRange[1] < levelRangeConfig.max
+      ...(filters.levelRange[0] > levelRangeConfig.min ||
+      filters.levelRange[1] < levelRangeConfig.max
         ? [
             {
               type: "levelRange",
@@ -254,33 +296,39 @@ export default function RankingMenubar({
   const [tempLevelRange, setTempLevelRange] = useState(filters.levelRange);
 
   return (
-    <div className={cn("w-full p-6", className)}>
+    <div className={cn("w-full p-4 mb-10", className)}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div className="flex flex-wrap items-center gap-2">
           {/* Spawn Location Filter */}
           <div className="flex items-center gap-2">
             <input
               type="text"
-              className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="h-8 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               name="spawnOptions"
               placeholder="Enter spawn location"
               list="spawnOptions"
               onChange={(e) => {
                 const value = e.target.value;
-                if (spawnLocations.some((spawn) => spawn.spawnLocation === value)) {
+                if (
+                  spawnLocations.some((spawn) => spawn.spawnLocation === value)
+                ) {
                   toggleFilter("spawnLocations", value);
                   e.currentTarget.value = ""; // optional: clear input after adding
                 }
               }}
               onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault(); // prevent form submission if inside a form
-                const value = e.currentTarget.value.trim();
-                if (spawnLocations.some((spawn) => spawn.spawnLocation === value)) {
-                  toggleFilter("spawnLocations", value);
-                  e.currentTarget.value = ""; // optional: clear input after adding
+                if (e.key === "Enter") {
+                  e.preventDefault(); // prevent form submission if inside a form
+                  const value = e.currentTarget.value.trim();
+                  if (
+                    spawnLocations.some(
+                      (spawn) => spawn.spawnLocation === value
+                    )
+                  ) {
+                    toggleFilter("spawnLocations", value);
+                    e.currentTarget.value = ""; // optional: clear input after adding
+                  }
                 }
-              }
               }}
             />
             <datalist id="spawnOptions">
@@ -298,21 +346,28 @@ export default function RankingMenubar({
               <PopoverContent className="w-full gap-2">
                 <div className="grid grid-cols-8">
                   {spawnLocations.map((spawn: SpawnLocation) => (
-                    <div key={spawn.spawnLocation} className="flex items-center">
+                    <div
+                      key={spawn.spawnLocation}
+                      className="flex items-center"
+                    >
                       <Button
                         variant="ghost"
                         size="sm"
                         className={cn(
                           "justify-start w-full font-normal",
-                          filters.spawnLocations.includes(spawn.spawnLocation) && "font-medium"
+                          filters.spawnLocations.includes(
+                            spawn.spawnLocation
+                          ) && "font-medium"
                         )}
-                        onClick={() => toggleFilter("spawnLocations", spawn.spawnLocation)}
+                        onClick={() =>
+                          toggleFilter("spawnLocations", spawn.spawnLocation)
+                        }
                       >
                         <div className="flex items-center justify-between w-full">
                           {spawn.spawnLocation}
-                          {filters.spawnLocations.includes(spawn.spawnLocation) && (
-                            <Check className="h-4 w-4" />
-                          )}
+                          {filters.spawnLocations.includes(
+                            spawn.spawnLocation
+                          ) && <Check className="h-4 w-4" />}
                         </div>
                       </Button>
                     </div>
@@ -333,14 +388,15 @@ export default function RankingMenubar({
             <PopoverContent className="w-64 p-4">
               <div className="space-y-4">
                 <h4 className="font-medium text-sm">Level range</h4>
-              
 
                 <Slider
                   value={tempLevelRange}
                   min={levelRangeConfig.min}
                   max={levelRangeConfig.max}
                   step={levelRangeConfig.step}
-                  onValueChange={(value) => setTempLevelRange(value as [number, number])} // only temp update
+                  onValueChange={(value) =>
+                    setTempLevelRange(value as [number, number])
+                  } // only temp update
                   onValueCommit={(value) => {
                     const newRange = value as [number, number];
                     setFilters((prev) => ({ ...prev, levelRange: newRange })); // triggers URL update
@@ -353,7 +409,8 @@ export default function RankingMenubar({
                     {tempLevelRange[0]}
                   </span>
                   <span className="text-sm text-muted-foreground">
-                    {tempLevelRange[1]}{"+"}
+                    {tempLevelRange[1]}
+                    {"+"}
                   </span>
                 </div>
               </div>
@@ -373,7 +430,9 @@ export default function RankingMenubar({
                 {sizes.map((size) => (
                   <Button
                     key={size}
-                    variant={filters.sizes.includes(size) ? "default" : "outline"}
+                    variant={
+                      filters.sizes.includes(size) ? "default" : "outline"
+                    }
                     size="sm"
                     onClick={() => toggleFilter("sizes", size)}
                     className="h-8"
@@ -403,7 +462,8 @@ export default function RankingMenubar({
                     <button
                       className={cn(
                         "h-8 w-8 rounded-full border border-input flex items-center justify-center",
-                        filters.vocations.includes(color.name) && "ring-2 ring-primary"
+                        filters.vocations.includes(color.name) &&
+                          "ring-2 ring-primary"
                       )}
                       style={{ backgroundColor: color.value }}
                       onClick={() => toggleFilter("vocations", color.name)}
@@ -469,7 +529,8 @@ export default function RankingMenubar({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8">
-                {sortOptions.find((opt) => opt.value === filters.sortBy)?.label || "Featured"}
+                {sortOptions.find((opt) => opt.value === filters.sortBy)
+                  ?.label || "Featured"}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -477,7 +538,9 @@ export default function RankingMenubar({
               {sortOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  className={cn(filters.sortBy === option.value && "font-medium")}
+                  className={cn(
+                    filters.sortBy === option.value && "font-medium"
+                  )}
                   onClick={() => toggleFilter("sortBy", option.value)}
                 >
                   {option.label}
@@ -493,6 +556,13 @@ export default function RankingMenubar({
 
       {/* Active Filter Badges */}
       <ActiveFilterBadges />
+      <Button
+        variant="outline"
+        className="h-10 text-sm text-muted-foreground float-right"
+        onClick={() => sendFilterToServer()}
+      >
+        Filter out
+      </Button>
     </div>
   );
 }

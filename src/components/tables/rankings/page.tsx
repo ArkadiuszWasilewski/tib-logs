@@ -1,13 +1,14 @@
 //thats server component what supposed to fetch data from the server
 
 import { DataTable } from "@/components/Tables/data-table";
-import { data, User } from "@/lib/rankingData";
+import { dataExample } from "@/lib/rankingData";
 import { columns } from "@/components/Tables/rankings/columns";
+import { ReportData } from "@/components/DataForm/types";
 
 export default function RankingsPage() {
-    return (
-        <div className="w-full max-w-7xl mx-auto p-4 text-center">
-            <DataTable<User, any> columns={columns} data={data} />
-        </div>
-    );
-    }
+  return (
+    <div className="w-full mx-auto p-4 text-center">
+      <DataTable<ReportData, any> columns={columns} data={dataExample} />
+    </div>
+  );
+}
