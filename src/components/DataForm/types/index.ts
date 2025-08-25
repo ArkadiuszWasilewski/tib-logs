@@ -1,4 +1,4 @@
-import { User } from "firebase/auth"
+import { User } from "firebase/auth";
 
 // Define the shape of the Alert component props
 export interface AlertProps {
@@ -14,6 +14,7 @@ export interface FormState {
   characterLevel: string;
   characterGear: string;
   currentSpawn: string;
+  teamSize: string;
   tempTextInput: string;
 }
 
@@ -27,30 +28,33 @@ export interface SpawnLocation {
 }
 export type Vocation = string;
 
+export type TeamSize = string;
+
 // Define the shape of the saved report data
 export interface ReportData {
-  user: string,
+  user: string;
   sessionData: {
     Balance: number;
     Damage: number;
     "Damage/h": number;
     Healing: number;
     "Healing/h": number;
-    'Killed Monsters': Array<{ Name: string; Count: number }>;
-    'Looted Items': Array<{ Name: string; Count: number }>;
-    'Raw XP Gain': number;
-    'Raw XP/h': number;
-    'Session end': number;
-    'Session length': string;
-    'Session start': number;
+    "Killed Monsters": Array<{ Name: string; Count: number }>;
+    "Looted Items": Array<{ Name: string; Count: number }>;
+    "Raw XP Gain": number;
+    "Raw XP/h": number;
+    "Session end": number;
+    "Session length": string;
+    "Session start": number;
     Supplies: number;
-    'XP Gain': number;
-    'XP/h': number;
-  }
+    "XP Gain": number;
+    "XP/h": number;
+  };
   reportDescription: string;
   characterVocation: string;
   characterLevel: number;
   characterGear: string;
   currentSpawn: string;
+  teamSize: string;
   createdAt: Date;
 }

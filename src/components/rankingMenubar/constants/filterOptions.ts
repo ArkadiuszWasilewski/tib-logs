@@ -1,12 +1,6 @@
-export const gear: string[] = [
-  "BIS+",
-  "BIS",
-  "MID",
-  "BUDGET",
-  "CHEAP",
-];
+export const gear: string[] = ["BIS+", "BIS", "MID", "BUDGET", "CHEAP"];
 
-export const vocations = [
+export const characterVocation = [
   { name: "Knight", value: "#000000" },
   { name: "Monk", value: "#FFFFFF" },
   { name: "Sorcerer", value: "#FF0000" },
@@ -18,9 +12,8 @@ export const levelRangeConfig = {
   min: 0,
   max: 1500,
   step: 10,
-}
-export const sizes = ["Solo", "Duo", "Trio", "4-voc", "Other"];
-
+};
+export const teamSize = ["Solo", "Duo", "Trio", "4-voc", "Other"];
 
 export const sortOptions = [
   { label: "Newest", value: "newest" },
@@ -29,5 +22,4 @@ export const sortOptions = [
   { label: "Most Experience", value: "mostExperience" },
   { label: "Most Profit", value: "mostProfit" },
   { label: "Featured", value: "featured" },
-
 ];

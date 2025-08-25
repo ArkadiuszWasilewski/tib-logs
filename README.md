@@ -70,8 +70,7 @@ VITE_FIREBASE_APP_ID=<your_firebase_app_id>
 - React - A JavaScript library for building user interfaces.
 - Vite - A fast frontend build tool and development server.
 - Tailwind CSS - A utility-first CSS framework for rapidly building custom designs.
-- Flowbite - Pre-built UI components based on Tailwind CSS.
-- PokeAPI - An external API to fetch Pokémon data.
+- Shadcn Data-tables, based on Tanstack Tables
 
 **Server:**
 

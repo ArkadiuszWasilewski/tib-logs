@@ -1,598 +1,598 @@
-export const spawnLocations = [
+export const currentSpawn = [
   {
     spawnLocation: "Werehyaenas -1",
     recommendedLevel: "90+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Ravenous Lava Lurkers",
     recommendedLevel: "100+",
     expectedRawXp: "2.1kk/h",
     expectedLoot: "-50k/h",
-    linkToVideo: "https://youtu.be/Pom_8ybPnZw"
+    linkToVideo: "https://youtu.be/Pom_8ybPnZw",
   },
   {
     spawnLocation: "Lizard Chosens",
     recommendedLevel: "100+",
     expectedRawXp: "1.25kk/h",
     expectedLoot: "80k/h",
-    linkToVideo: "https://youtu.be/7LaPIGEF4VM"
+    linkToVideo: "https://youtu.be/7LaPIGEF4VM",
   },
   {
     spawnLocation: "Mini Rosha",
     recommendedLevel: "100+",
     expectedRawXp: "1.15kk/h",
     expectedLoot: "450k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Replica Dungeon",
     recommendedLevel: "100+",
     expectedRawXp: "1.1kk/h",
     expectedLoot: "-50k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Edron Orc Cults",
     recommendedLevel: "100+",
     expectedRawXp: "1.0kk/h",
     expectedLoot: "250k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Exotic Cave",
     recommendedLevel: "100+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Barkless Elves Ab",
     recommendedLevel: "130+",
     expectedRawXp: "2.2kk/h",
     expectedLoot: "-400k/h",
-    linkToVideo: "https://youtu.be/YXDva_Orwgs"
+    linkToVideo: "https://youtu.be/YXDva_Orwgs",
   },
   {
     spawnLocation: "Elder Wyrms Drefia",
     recommendedLevel: "130+",
     expectedRawXp: "1.45kk/h",
     expectedLoot: "120k/h",
-    linkToVideo: "https://youtu.be/pv5Ro46N1qk"
+    linkToVideo: "https://youtu.be/pv5Ro46N1qk",
   },
   {
     spawnLocation: "Brimstone Bugs WOTE",
     recommendedLevel: "130+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Deeplings Library",
     recommendedLevel: "130+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Glooth Bandits",
     recommendedLevel: "130+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Otherworld (Kazo)",
     recommendedLevel: "150+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Yalahar Grim Reapers",
     recommendedLevel: "150+",
     expectedRawXp: "3.3kk/h",
     expectedLoot: "-150k/h",
-    linkToVideo: "https://youtu.be/upayVKk-XYM"
+    linkToVideo: "https://youtu.be/upayVKk-XYM",
   },
   {
     spawnLocation: "Deeper Banuta -6",
     recommendedLevel: "150+",
     expectedRawXp: "1.9kk/h",
     expectedLoot: "400k/h",
-    linkToVideo: "https://youtu.be/bP3pGqPJXCA"
+    linkToVideo: "https://youtu.be/bP3pGqPJXCA",
   },
   {
     spawnLocation: "Glooth Tower",
     recommendedLevel: "150+",
     expectedRawXp: "1.9kk/h",
     expectedLoot: "200k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Wildlife Raid (Active)",
     recommendedLevel: "200+",
     expectedRawXp: "2.8kk/h",
     expectedLoot: "600k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Werehyaenas",
     recommendedLevel: "200+",
     expectedRawXp: "2.5kk/h",
     expectedLoot: "550k/h",
-    linkToVideo: "https://youtu.be/aunNgm5-XsI"
+    linkToVideo: "https://youtu.be/aunNgm5-XsI",
   },
   {
     spawnLocation: "Medusa Tower",
     recommendedLevel: "200+",
     expectedRawXp: "2.4kk/h",
     expectedLoot: "400k/h",
-    linkToVideo: "https://youtu.be/iUp7dma4WuI"
+    linkToVideo: "https://youtu.be/iUp7dma4WuI",
   },
   {
     spawnLocation: "Seacrest Serpents",
     recommendedLevel: "200+",
     expectedRawXp: "2.4kk/h",
     expectedLoot: "500k/h",
-    linkToVideo: "https://youtu.be/MOoFHfbgltY"
+    linkToVideo: "https://youtu.be/MOoFHfbgltY",
   },
   {
     spawnLocation: "Draken Walls",
     recommendedLevel: "200+",
     expectedRawXp: "2.1kk/h",
     expectedLoot: "450k/h",
-    linkToVideo: "https://youtu.be/X2gGK2LshUQ"
+    linkToVideo: "https://youtu.be/X2gGK2LshUQ",
   },
   {
     spawnLocation: "Otherworld (Edron)",
     recommendedLevel: "200+",
     expectedRawXp: "2.1kk/h",
     expectedLoot: "250k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Hive Stage3",
     recommendedLevel: "200+",
     expectedRawXp: "2.1kk/h",
     expectedLoot: "600k/h",
-    linkToVideo: "https://youtu.be/vtzHQA05xC4"
+    linkToVideo: "https://youtu.be/vtzHQA05xC4",
   },
   {
     spawnLocation: "Book World: Chapter I/II/III/IV",
     recommendedLevel: "200+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Asura Palace",
     recommendedLevel: "250+",
     expectedRawXp: "2.9kk/h",
     expectedLoot: "400k/h",
-    linkToVideo: "https://youtu.be/exfl57YQCAA"
+    linkToVideo: "https://youtu.be/exfl57YQCAA",
   },
   {
     spawnLocation: "Candia Nibblemaws",
     recommendedLevel: "250+",
     expectedRawXp: "3.1kk/h",
     expectedLoot: "600k/h",
-    linkToVideo: "https://youtu.be/9505L-ZXtxU"
+    linkToVideo: "https://youtu.be/9505L-ZXtxU",
   },
   {
     spawnLocation: "Lower Spike",
     recommendedLevel: "250+",
     expectedRawXp: "2.5kk/h",
     expectedLoot: "200k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Deeper Banuta -8",
     recommendedLevel: "250+",
     expectedRawXp: "2.5kk/h",
     expectedLoot: "450k/h",
-    linkToVideo: "https://youtu.be/i9ecWlmgObE"
+    linkToVideo: "https://youtu.be/i9ecWlmgObE",
   },
   {
     spawnLocation: "Carnivoras",
     recommendedLevel: "250+",
     expectedRawXp: "2.0kk/h",
     expectedLoot: "1kk/h",
-    linkToVideo: "https://youtu.be/0mXEw6BijN4"
+    linkToVideo: "https://youtu.be/0mXEw6BijN4",
   },
   {
     spawnLocation: "Pirats",
     recommendedLevel: "250+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Asura Mirror",
     recommendedLevel: "270+",
     expectedRawXp: "5.2kk/h",
     expectedLoot: "500k/h",
-    linkToVideo: "https://youtu.be/UyZPXrfogSA"
+    linkToVideo: "https://youtu.be/UyZPXrfogSA",
   },
   {
     spawnLocation: "Warzone 5",
     recommendedLevel: "270+",
     expectedRawXp: "3.8kk/h",
     expectedLoot: "1kk/h",
-    linkToVideo: "https://youtu.be/jRNXHzlcAOc"
+    linkToVideo: "https://youtu.be/jRNXHzlcAOc",
   },
   {
     spawnLocation: "Oramond Fury Dungeon",
     recommendedLevel: "270+",
     expectedRawXp: "3.8kk/h",
     expectedLoot: "900k/h",
-    linkToVideo: "https://youtu.be/N_bKqXT3Xco"
+    linkToVideo: "https://youtu.be/N_bKqXT3Xco",
   },
   {
     spawnLocation: "Werelions",
     recommendedLevel: "270+",
     expectedRawXp: "3.0kk/h",
     expectedLoot: "900k/h",
-    linkToVideo: "https://youtu.be/TcyeTVUn_Lg"
+    linkToVideo: "https://youtu.be/TcyeTVUn_Lg",
   },
   {
     spawnLocation: "Marapur Nagas",
     recommendedLevel: "300+",
     expectedRawXp: "5.3kk/h",
     expectedLoot: "400k/h",
-    linkToVideo: "https://youtu.be/JErJMHqu9dc"
+    linkToVideo: "https://youtu.be/JErJMHqu9dc",
   },
   {
     spawnLocation: "Roshamuul Mines",
     recommendedLevel: "300+",
     expectedRawXp: "4.8kk/h",
     expectedLoot: "750k/h",
-    linkToVideo: "https://youtu.be/PiIH9VhMiEc"
+    linkToVideo: "https://youtu.be/PiIH9VhMiEc",
   },
   {
     spawnLocation: "Winter Court",
     recommendedLevel: "300+",
     expectedRawXp: "4.6kk/h",
     expectedLoot: "750k/h",
-    linkToVideo: "https://youtu.be/lky2cG7w8j8"
+    linkToVideo: "https://youtu.be/lky2cG7w8j8",
   },
   {
     spawnLocation: "Summer Court",
     recommendedLevel: "300+",
     expectedRawXp: "4.5kk/h",
     expectedLoot: "650k/h",
-    linkToVideo: "https://youtu.be/DTabKIwv04E"
+    linkToVideo: "https://youtu.be/DTabKIwv04E",
   },
   {
     spawnLocation: "Oskayaat Weretigers",
     recommendedLevel: "300+",
     expectedRawXp: "4.1kk/h",
     expectedLoot: "700k/h",
-    linkToVideo: "https://youtu.be/0TKdpEhssk0"
+    linkToVideo: "https://youtu.be/0TKdpEhssk0",
   },
   {
     spawnLocation: "Burster Spectres",
     recommendedLevel: "300+",
     expectedRawXp: "4.0kk/h",
     expectedLoot: "200k/h",
-    linkToVideo: "https://youtu.be/ClbgZRc7_Po"
+    linkToVideo: "https://youtu.be/ClbgZRc7_Po",
   },
   {
     spawnLocation: "Oskayaat Werecrocodiles",
     recommendedLevel: "300+",
     expectedRawXp: "3.6kk/h",
     expectedLoot: "750k/h",
-    linkToVideo: "https://youtu.be/gFjDuUjVUdE"
+    linkToVideo: "https://youtu.be/gFjDuUjVUdE",
   },
   {
     spawnLocation: "Warzone 4",
     recommendedLevel: "300+",
     expectedRawXp: "3.3kk/h",
     expectedLoot: "750k/h",
-    linkToVideo: "https://youtu.be/MQxUHFAYPOM"
+    linkToVideo: "https://youtu.be/MQxUHFAYPOM",
   },
   {
     spawnLocation: "Warzone 6",
     recommendedLevel: "300+",
     expectedRawXp: "3.2kk/h",
     expectedLoot: "1.0kk/h",
-    linkToVideo: "https://youtu.be/3KuBpC4i8DU"
+    linkToVideo: "https://youtu.be/3KuBpC4i8DU",
   },
   {
     spawnLocation: "Lower Rosh",
     recommendedLevel: "300+",
     expectedRawXp: "3.1kk/h",
     expectedLoot: "600k/h",
-    linkToVideo: "https://youtu.be/QI49YMtE7go"
+    linkToVideo: "https://youtu.be/QI49YMtE7go",
   },
   {
     spawnLocation: "Gazer Spectre",
     recommendedLevel: "300+",
     expectedRawXp: "3.0kk/h",
     expectedLoot: "600k/h",
-    linkToVideo: "https://youtu.be/JpKuYWJnjdc"
+    linkToVideo: "https://youtu.be/JpKuYWJnjdc",
   },
   {
     spawnLocation: "Marapur Turtles",
     recommendedLevel: "300+",
     expectedRawXp: "2.6kk/h",
     expectedLoot: "1.15kk/h",
-    linkToVideo: "https://youtu.be/7ruc0mkSfI4"
+    linkToVideo: "https://youtu.be/7ruc0mkSfI4",
   },
   {
     spawnLocation: "Otherworld",
     recommendedLevel: "300+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Iksupan Occupied Sanctuary",
     recommendedLevel: "350+",
     expectedRawXp: "5.1kk/h",
     expectedLoot: "750k/h",
-    linkToVideo: "https://youtu.be/KdSJTasIm0U"
+    linkToVideo: "https://youtu.be/KdSJTasIm0U",
   },
   {
     spawnLocation: "Buried Cathedral",
     recommendedLevel: "350+",
     expectedRawXp: "4.9kk/h",
     expectedLoot: "300k/h",
-    linkToVideo: "https://youtu.be/KrVEDJUBnVA"
+    linkToVideo: "https://youtu.be/KrVEDJUBnVA",
   },
   {
     spawnLocation: "Iksupan Last Stand (Entrance)",
     recommendedLevel: "350+",
     expectedRawXp: "4.3kk/h",
     expectedLoot: "700k/h",
-    linkToVideo: "https://youtu.be/2QHcDnyOU7c"
+    linkToVideo: "https://youtu.be/2QHcDnyOU7c",
   },
   {
     spawnLocation: "Marapur Nagas (Soulkamas)",
     recommendedLevel: "400+",
     expectedRawXp: "6.6kk/h",
     expectedLoot: "750k/h",
-    linkToVideo: "https://youtu.be/JErJMHqu9dc"
+    linkToVideo: "https://youtu.be/JErJMHqu9dc",
   },
   {
     spawnLocation: "Cobra Bastion -1 (Basement)",
     recommendedLevel: "400+",
     expectedRawXp: "6.3kk/h",
     expectedLoot: "700k/h",
-    linkToVideo: "https://youtu.be/r1l04SEiFpo"
+    linkToVideo: "https://youtu.be/r1l04SEiFpo",
   },
   {
     spawnLocation: "Crypt Warriors",
     recommendedLevel: "400+",
     expectedRawXp: "5.9kk/h",
     expectedLoot: "700k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Upper Roshamuul",
     recommendedLevel: "400+",
     expectedRawXp: "5.8kk/h",
     expectedLoot: "1.15kk/h",
-    linkToVideo: "https://youtu.be/gCNQ8G6hI7E"
+    linkToVideo: "https://youtu.be/gCNQ8G6hI7E",
   },
   {
     spawnLocation: "Falcons",
     recommendedLevel: "400+",
     expectedRawXp: "5.6kk/h",
     expectedLoot: "1.3kk/h",
-    linkToVideo: "https://youtu.be/UBCXn-gEA6o"
+    linkToVideo: "https://youtu.be/UBCXn-gEA6o",
   },
   {
     spawnLocation: "Deathlings",
     recommendedLevel: "400+",
     expectedRawXp: "5.3kk/h",
     expectedLoot: "800k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Azzilon Walls",
     recommendedLevel: "400+",
     expectedRawXp: "5.3kk/h",
     expectedLoot: "500k/h",
-    linkToVideo: "https://youtu.be/J_9p5NWlcPU"
+    linkToVideo: "https://youtu.be/J_9p5NWlcPU",
   },
   {
     spawnLocation: "Sphinx/Crypt Warden Issavi",
     recommendedLevel: "400+",
     expectedRawXp: "5.2kk/h",
     expectedLoot: "700k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Rosha West",
     recommendedLevel: "400+",
     expectedRawXp: "4.8kk/h",
     expectedLoot: "1.1kk/h",
-    linkToVideo: "https://youtu.be/t6iReSRaWfA"
+    linkToVideo: "https://youtu.be/t6iReSRaWfA",
   },
   {
     spawnLocation: "Oramond Catacombs",
     recommendedLevel: "400+",
     expectedRawXp: "4.7kk/h",
     expectedLoot: "800k/h",
-    linkToVideo: "https://youtu.be/uf4aFM9IxeY"
+    linkToVideo: "https://youtu.be/uf4aFM9IxeY",
   },
   {
     spawnLocation: "Warzone 3",
     recommendedLevel: "400+",
     expectedRawXp: "4.7kk/h",
     expectedLoot: "800k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Floating Savants MoTA",
     recommendedLevel: "400+",
     expectedRawXp: "4.0kk/h",
     expectedLoot: "1.0kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Oramond Hideout -1",
     recommendedLevel: "400+",
     expectedRawXp: "3.8kk/h",
     expectedLoot: "1.0kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Azzilon Castle",
     recommendedLevel: "450+",
     expectedRawXp: "6.3kk/h",
     expectedLoot: "600k/h",
-    linkToVideo: "https://youtu.be/w4gaxOlvFf8"
+    linkToVideo: "https://youtu.be/w4gaxOlvFf8",
   },
   {
     spawnLocation: "Flimsy Port Hope",
     recommendedLevel: "450+",
     expectedRawXp: "5.1kk/h",
     expectedLoot: "350k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Cobra Bastion",
     recommendedLevel: "500+",
     expectedRawXp: "7.0kk/h",
     expectedLoot: "700k/h",
-    linkToVideo: "https://youtu.be/cOtyvzz1Htk"
+    linkToVideo: "https://youtu.be/cOtyvzz1Htk",
   },
   {
     spawnLocation: "Issavi Goannas - Central Steppe",
     recommendedLevel: "500+",
     expectedRawXp: "5.6kk/h",
     expectedLoot: "500k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Plague Feru Seal",
     recommendedLevel: "500+",
     expectedRawXp: "5.4kk/h",
     expectedLoot: "1.4kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Pumin Feru Seal",
     recommendedLevel: "500+",
     expectedRawXp: "5.0kk/h",
     expectedLoot: "1.5kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Girtablilu",
     recommendedLevel: "500+",
     expectedRawXp: "4.2kk/h",
     expectedLoot: "1.6kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Bashmu",
     recommendedLevel: "500+",
     expectedRawXp: "3.5kk/h",
     expectedLoot: "1.8kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Warzone 7",
     recommendedLevel: "500+",
     expectedRawXp: "3.5kk/h",
     expectedLoot: "1.5kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Norcferatu Castle",
     recommendedLevel: "500+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "True Asuras",
     recommendedLevel: "600+",
     expectedRawXp: "5.5kk/h",
     expectedLoot: "1.3kk/h",
-    linkToVideo: "https://youtu.be/M7-OckvO6hY"
+    linkToVideo: "https://youtu.be/M7-OckvO6hY",
   },
   {
     spawnLocation: "Undead Dragon Feru Seal",
     recommendedLevel: "600+",
     expectedRawXp: "5.6kk/h",
     expectedLoot: "1.2kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Infernatil Feru Seal",
     recommendedLevel: "600+",
     expectedRawXp: "5.3kk/h",
     expectedLoot: "1kk/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Juggernaut Feru Seal",
     recommendedLevel: "600+",
     expectedRawXp: "5.0kk/h",
     expectedLoot: "800k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Norcferatu Dungeons West",
     recommendedLevel: "600+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Norcferatu Dungeons East",
     recommendedLevel: "600+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Issavi Sewers",
     recommendedLevel: "600+",
     expectedRawXp: "5.0kk/h",
     expectedLoot: "900k/h",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Otherworld (Sanguine Claws)",
     recommendedLevel: "600+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Warzone 8",
     recommendedLevel: "600+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Wardragons",
     recommendedLevel: "600+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Darashia Skeletons",
     recommendedLevel: "600+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
+    linkToVideo: "No video available",
   },
   {
     spawnLocation: "Warzone 9",
     recommendedLevel: "800+",
     expectedRawXp: "Unknown",
     expectedLoot: "Unknown",
-    linkToVideo: "No video available"
-  }
+    linkToVideo: "No video available",
+  },
 ];
-export default spawnLocations;
+export default currentSpawn;

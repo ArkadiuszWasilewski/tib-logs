@@ -2,13 +2,13 @@
 import { FilterState, HorizontalFiltersProps } from "./types";
 import {
   gear,
-  vocations,
-  sizes,
+  characterVocation,
+  teamSize,
   sortOptions,
   levelRangeConfig,
 } from "./constants/filterOptions";
 import { SpawnLocation } from "@/types";
-import spawnLocations from "@/constants/spawnLocations";
+import currentSpawn from "@/constants/currentSpawn";
 import { Slider } from "@/components/RankingMenubar/components/Slider";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
@@ -40,9 +40,9 @@ export default function RankingMenubar({
     let initial: FilterState = {
       gear: [],
       levelRange: [levelRangeConfig.min, levelRangeConfig.max],
-      spawnLocations: [],
-      vocations: [],
-      sizes: [],
+      currentSpawn: [],
+      characterVocation: [],
+      teamSize: [],
       sortBy: "mostDamage",
     };
 
@@ -62,13 +62,15 @@ export default function RankingMenubar({
               typeof parsed.levelRange[1] === "number"
                 ? [parsed.levelRange[0], parsed.levelRange[1]]
                 : initial.levelRange,
-            spawnLocations: Array.isArray(parsed.spawnLocations)
-              ? parsed.spawnLocations
-              : initial.spawnLocations,
-            vocations: Array.isArray(parsed.vocations)
-              ? parsed.vocations
-              : initial.vocations,
-            sizes: Array.isArray(parsed.sizes) ? parsed.sizes : initial.sizes,
+            currentSpawn: Array.isArray(parsed.currentSpawn)
+              ? parsed.currentSpawn
+              : initial.currentSpawn,
+            characterVocation: Array.isArray(parsed.characterVocation)
+              ? parsed.characterVocation
+              : initial.characterVocation,
+            teamSize: Array.isArray(parsed.teamSize)
+              ? parsed.teamSize
+              : initial.teamSize,
             sortBy:
               typeof parsed.sortBy === "string"
                 ? parsed.sortBy
@@ -86,15 +88,15 @@ export default function RankingMenubar({
       initial.gear = params.get("gear")?.split(",").filter(Boolean) || [];
     }
     if (params.has("spawn")) {
-      initial.spawnLocations =
+      initial.currentSpawn =
         params.get("spawn")?.split(",").filter(Boolean) || [];
     }
-    if (params.has("vocation")) {
-      initial.vocations =
-        params.get("vocation")?.split(",").filter(Boolean) || [];
+    if (params.has("characterVocation")) {
+      initial.characterVocation =
+        params.get("characterVocation")?.split(",").filter(Boolean) || [];
     }
     if (params.has("size")) {
-      initial.sizes = params.get("size")?.split(",").filter(Boolean) || [];
+      initial.teamSize = params.get("size")?.split(",").filter(Boolean) || [];
     }
     if (params.has("sort")) {
       const sortValue = params.get("sort");
@@ -127,18 +129,20 @@ export default function RankingMenubar({
   const updateUrl = (currentFilters: FilterState) => {
     const params = new URLSearchParams();
 
-    // Only add non-empty arrays and non-default values
     if (currentFilters.gear.length > 0) {
       params.set("gear", currentFilters.gear.join(","));
     }
-    if (currentFilters.spawnLocations.length > 0) {
-      params.set("spawn", currentFilters.spawnLocations.join(","));
+    if (currentFilters.currentSpawn.length > 0) {
+      params.set("spawn", currentFilters.currentSpawn.join(","));
     }
-    if (currentFilters.vocations.length > 0) {
-      params.set("vocation", currentFilters.vocations.join(","));
+    if (currentFilters.characterVocation.length > 0) {
+      params.set(
+        "characterVocation",
+        currentFilters.characterVocation.join(",")
+      );
     }
-    if (currentFilters.sizes.length > 0) {
-      params.set("size", currentFilters.sizes.join(","));
+    if (currentFilters.teamSize.length > 0) {
+      params.set("size", currentFilters.teamSize.join(","));
     }
     if (currentFilters.sortBy !== "mostDamage") {
       params.set("sort", currentFilters.sortBy);
@@ -219,9 +223,9 @@ export default function RankingMenubar({
     const defaultFilters: FilterState = {
       gear: [],
       levelRange: [levelRangeConfig.min, levelRangeConfig.max],
-      spawnLocations: [],
-      vocations: [],
-      sizes: [],
+      currentSpawn: [],
+      characterVocation: [],
+      teamSize: [],
       sortBy: "mostDamage",
     };
     setFilters(defaultFilters);
@@ -231,15 +235,15 @@ export default function RankingMenubar({
   const ActiveFilterBadges = () => {
     const activeFilters = [
       ...filters.gear.map((cat) => ({ type: "gear", value: cat })),
-      ...filters.spawnLocations.map((spawnLocation) => ({
-        type: "spawnLocations",
+      ...filters.currentSpawn.map((spawnLocation) => ({
+        type: "currentSpawn",
         value: spawnLocation,
       })),
-      ...filters.vocations.map((color) => ({
-        type: "vocations",
+      ...filters.characterVocation.map((color) => ({
+        type: "characterVocation",
         value: color,
       })),
-      ...filters.sizes.map((size) => ({ type: "sizes", value: size })),
+      ...filters.teamSize.map((size) => ({ type: "teamSize", value: size })),
       ...(filters.levelRange[0] > levelRangeConfig.min ||
       filters.levelRange[1] < levelRangeConfig.max
         ? [
@@ -310,9 +314,9 @@ export default function RankingMenubar({
               onChange={(e) => {
                 const value = e.target.value;
                 if (
-                  spawnLocations.some((spawn) => spawn.spawnLocation === value)
+                  currentSpawn.some((spawn) => spawn.spawnLocation === value)
                 ) {
-                  toggleFilter("spawnLocations", value);
+                  toggleFilter("currentSpawn", value);
                   e.currentTarget.value = ""; // optional: clear input after adding
                 }
               }}
@@ -321,18 +325,16 @@ export default function RankingMenubar({
                   e.preventDefault(); // prevent form submission if inside a form
                   const value = e.currentTarget.value.trim();
                   if (
-                    spawnLocations.some(
-                      (spawn) => spawn.spawnLocation === value
-                    )
+                    currentSpawn.some((spawn) => spawn.spawnLocation === value)
                   ) {
-                    toggleFilter("spawnLocations", value);
+                    toggleFilter("currentSpawn", value);
                     e.currentTarget.value = ""; // optional: clear input after adding
                   }
                 }
               }}
             />
             <datalist id="spawnOptions">
-              {spawnLocations.map((spawn: SpawnLocation) => (
+              {currentSpawn.map((spawn: SpawnLocation) => (
                 <option key={spawn.spawnLocation} value={spawn.spawnLocation} />
               ))}
             </datalist>
@@ -345,7 +347,7 @@ export default function RankingMenubar({
               </PopoverTrigger>
               <PopoverContent className="w-full gap-2">
                 <div className="grid grid-cols-8">
-                  {spawnLocations.map((spawn: SpawnLocation) => (
+                  {currentSpawn.map((spawn: SpawnLocation) => (
                     <div
                       key={spawn.spawnLocation}
                       className="flex items-center"
@@ -355,17 +357,16 @@ export default function RankingMenubar({
                         size="sm"
                         className={cn(
                           "justify-start w-full font-normal",
-                          filters.spawnLocations.includes(
-                            spawn.spawnLocation
-                          ) && "font-medium"
+                          filters.currentSpawn.includes(spawn.spawnLocation) &&
+                            "font-medium"
                         )}
                         onClick={() =>
-                          toggleFilter("spawnLocations", spawn.spawnLocation)
+                          toggleFilter("currentSpawn", spawn.spawnLocation)
                         }
                       >
                         <div className="flex items-center justify-between w-full">
                           {spawn.spawnLocation}
-                          {filters.spawnLocations.includes(
+                          {filters.currentSpawn.includes(
                             spawn.spawnLocation
                           ) && <Check className="h-4 w-4" />}
                         </div>
@@ -427,14 +428,14 @@ export default function RankingMenubar({
             </PopoverTrigger>
             <PopoverContent className="w-56 p-3">
               <div className="grid grid-cols-3 gap-2">
-                {sizes.map((size) => (
+                {teamSize.map((size) => (
                   <Button
                     key={size}
                     variant={
-                      filters.sizes.includes(size) ? "default" : "outline"
+                      filters.teamSize.includes(size) ? "default" : "outline"
                     }
                     size="sm"
-                    onClick={() => toggleFilter("sizes", size)}
+                    onClick={() => toggleFilter("teamSize", size)}
                     className="h-8"
                   >
                     {size}
@@ -454,7 +455,7 @@ export default function RankingMenubar({
             </PopoverTrigger>
             <PopoverContent className="w-56 p-3">
               <div className="grid grid-cols-4 gap-2">
-                {vocations.map((color) => (
+                {characterVocation.map((color) => (
                   <div
                     key={color.name}
                     className="flex flex-col items-center gap-1"
@@ -462,13 +463,15 @@ export default function RankingMenubar({
                     <button
                       className={cn(
                         "h-8 w-8 rounded-full border border-input flex items-center justify-center",
-                        filters.vocations.includes(color.name) &&
+                        filters.characterVocation.includes(color.name) &&
                           "ring-2 ring-primary"
                       )}
                       style={{ backgroundColor: color.value }}
-                      onClick={() => toggleFilter("vocations", color.name)}
+                      onClick={() =>
+                        toggleFilter("characterVocation", color.name)
+                      }
                     >
-                      {filters.vocations.includes(color.name) && (
+                      {filters.characterVocation.includes(color.name) && (
                         <Check
                           className={cn(
                             "h-4 w-4",

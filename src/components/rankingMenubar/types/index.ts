@@ -1,9 +1,9 @@
 export interface FilterState {
   gear: string[];
   levelRange: [number, number];
-  spawnLocations: string[];
-  vocations: string[];
-  sizes: string[];
+  currentSpawn: string[];
+  characterVocation: string[];
+  teamSize: string[];
   sortBy: string;
 }
 

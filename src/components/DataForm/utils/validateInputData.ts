@@ -1,10 +1,10 @@
 import { FormState } from "../types";
-import spawnLocations from "@/constants/spawnLocations"
+import currentSpawn from "@/constants/currentSpawn";
 import vocations from "@/constants/vocations";
 
 // Validate data structere of uploaded JSON
 export const validateDataStructure = (data: any): string | null => {
-    const requiredFields = [
+  const requiredFields = [
     "Balance",
     "Damage",
     "Damage/h",
@@ -47,9 +47,15 @@ export const validateDataStructure = (data: any): string | null => {
     return "Raw XP Gain must be a valid number";
   if (typeof data["Raw XP/h"] !== "number" || isNaN(data["Raw XP/h"]))
     return "Raw XP/h must be a valid number";
-  if (typeof data["Session end"] !== "string" || isNaN(Date.parse(data["Session end"])))
+  if (
+    typeof data["Session end"] !== "string" ||
+    isNaN(Date.parse(data["Session end"]))
+  )
     return "Session end must be a valid date";
-  if (typeof data["Session start"] !== "string" || isNaN(Date.parse(data["Session start"])))
+  if (
+    typeof data["Session start"] !== "string" ||
+    isNaN(Date.parse(data["Session start"]))
+  )
     return "Session start must be a valid date";
   if (typeof data["Session length"] !== "string")
     return "Session length must be a valid string";
@@ -74,7 +80,6 @@ export const validateDataStructure = (data: any): string | null => {
   return null;
 };
 
-
 // Form fields validation
 export const validateForm = (form: FormState): string | null => {
   if (form.dataSource === "file" && !form.selectedFile) {
@@ -86,21 +91,30 @@ export const validateForm = (form: FormState): string | null => {
   if (!form.characterVocation || !vocations.includes(form.characterVocation)) {
     return "Valid character vocation is required";
   }
-  if (!form.characterLevel || isNaN(parseInt(form.characterLevel)) || parseInt(form.characterLevel) < 1) {
+  if (
+    !form.characterLevel ||
+    isNaN(parseInt(form.characterLevel)) ||
+    parseInt(form.characterLevel) < 1
+  ) {
     return "Valid character level (positive number) is required";
   }
   if (!form.characterGear) {
     return "Character gear is required";
   }
-  if (!form.currentSpawn || !spawnLocations.some((spawn) => spawn.spawnLocation === form.currentSpawn)) {
+  if (
+    !form.currentSpawn ||
+    !currentSpawn.some((spawn) => spawn.spawnLocation === form.currentSpawn)
+  ) {
     return "Valid spawn location is required";
   }
   return null;
 };
 
-
 // Validation - filter out unrealistic and corrupted files
-export const validateGameLogic = (data: any, form: FormState): string | null => {
+export const validateGameLogic = (
+  data: any,
+  form: FormState
+): string | null => {
   const sessionStart = new Date(data["Session start"]);
   const sessionEnd = new Date(data["Session end"]);
   const sessionLengthMs = sessionEnd.getTime() - sessionStart.getTime();
@@ -112,7 +126,7 @@ export const validateGameLogic = (data: any, form: FormState): string | null => 
 
   // Check session length
   const sessionLengthHours = sessionLengthMs / (1000 * 60 * 60);
-  if(sessionLengthHours > 24 ) {
+  if (sessionLengthHours > 24) {
     return "Unrealistic session time";
   }
 

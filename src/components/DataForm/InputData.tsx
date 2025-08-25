@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import Alert from "../ui/Alerts/Alert";
-import spawnLocations from "../../constants/spawnLocations";
-import vocations from "../../constants/vocations";
-import { FormState, SpawnLocation, Vocation, ReportData } from "./types/index";
+import currentSpawn from "@/constants/currentSpawn";
+import vocations from "@/constants/vocations";
+import teamSizes from "@/constants/teamSizes";
+import {
+  FormState,
+  SpawnLocation,
+  Vocation,
+  ReportData,
+  TeamSize,
+} from "./types/index";
 import { useAuth } from "@/context/AuthContext";
 import { useReportValidation } from "./hooks/useInputValidation";
 import { parseTextData } from "./utils/parseTextData";
@@ -22,6 +29,7 @@ const InputData: React.FC = () => {
     characterLevel: "",
     characterGear: "",
     currentSpawn: "",
+    teamSize: "Solo",
     tempTextInput: "",
   });
 
@@ -125,6 +133,7 @@ const InputData: React.FC = () => {
         characterLevel: parseInt(form.characterLevel),
         characterGear: form.characterGear,
         currentSpawn: form.currentSpawn,
+        teamSize: form.teamSize,
         createdAt: new Date(),
       };
 
@@ -254,7 +263,7 @@ const InputData: React.FC = () => {
                     list="spawnOptions"
                   />
                   <datalist id="spawnOptions">
-                    {spawnLocations.map((spawn: SpawnLocation) => (
+                    {currentSpawn.map((spawn: SpawnLocation) => (
                       <option
                         key={spawn.spawnLocation}
                         value={spawn.spawnLocation}
@@ -294,6 +303,25 @@ const InputData: React.FC = () => {
                     onChange={handleFormChange}
                     min="1"
                   />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Team Size
+                  </label>
+                  <select
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
+                    name="teamSize"
+                    value={form.teamSize}
+                    onChange={handleFormChange}
+                  >
+                    <option value="">Select a team size</option>
+                    {teamSizes.map((teamSizes: TeamSize) => (
+                      <option key={teamSizes} value={teamSizes}>
+                        {teamSizes}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
